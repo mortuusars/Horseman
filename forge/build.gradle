@@ -66,6 +66,8 @@ dependencies {
     // Exposure does not depend on Architectury API:
     // modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
+    modRuntimeOnly(implementation(annotationProcessor("io.github.llamalad7:mixinextras-forge:0.4.0")))
+
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") { transitive = false }
 
@@ -76,6 +78,7 @@ dependencies {
     // modRuntimeOnly("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     // modRuntimeOnly("curse.maven:probejs-585406:${probejs_forge_id}")
 
+
     modCompileOnlyApi("curse.maven:jade-324717:${jade_forge_id}")
     modRuntimeOnly("curse.maven:jade-324717:${jade_forge_id}") { transitive = false }
 
@@ -83,7 +86,8 @@ dependencies {
     modCompileOnly("com.jozufozu.flywheel:flywheel-forge-${flywheel_forge_version}")
     modCompileOnly("com.tterrag.registrate:Registrate:${registrate_forge_version}")
 
-    modRuntimeOnly("curse.maven:callable-horses-331746:4730035")
+//    modRuntimeOnly("curse.maven:callable-horses-331746:4730035")
+
 
 //    modRuntimeOnly("curse.maven:real-camera-851574:5328994")
 
@@ -122,7 +126,9 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
+    relocate("com.llamalad7.mixinextras", "io.github.mortuusars.horse_please.forge.shadow.mixinextras")
     archiveClassifier = "dev-shadow"
+    mergeServiceFiles()
 }
 
 remapJar {

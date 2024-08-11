@@ -10,13 +10,18 @@ public class Config {
         public static final ForgeConfigSpec SPEC;
 
         public static final ForgeConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
+        public static final ForgeConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
             ROTATE_HORSE_INSTEAD_OF_PLAYER = builder
                     .comment("When mounting a horse, rotate it to match player looking direction, instead of rotating the player to match horse direction. Default: true")
-                    .define("RotateHorseInsteadOfPlayer", true);
+                    .define("rotate_horse_instead_of_player", true);
+
+            FIX_HORSE_MOVED_WRONGLY = builder
+                    .comment("Fix horse jittering and resetting back when riding up blocks (especially stairs). Default: true")
+                    .define("fix_horse_moved_wrongly", true);
 
             SPEC = builder.build();
         }

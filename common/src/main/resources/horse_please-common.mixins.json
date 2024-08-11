@@ -7,7 +7,8 @@
   "client": [
   ],
   "mixins": [
-    "AbstractHorseMixin"
+    "AbstractHorseMixin",
+    "ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1

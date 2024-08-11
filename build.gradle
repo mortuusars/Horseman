@@ -28,6 +28,8 @@ subprojects {
             parchment("org.parchmentmc.data:parchment-${parchment_version}@zip")
         }
 
+        modCompileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
+
         modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
         modCompileOnlyApi("curse.maven:jade-324717:${jade_forge_id}")
         modCompileOnly "dev.emi:emi-xplat-intermediary:${emi_version}:api"

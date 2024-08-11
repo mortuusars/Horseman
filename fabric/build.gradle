@@ -42,6 +42,7 @@ dependencies {
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
+    modRuntimeOnly(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.0")))
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_version}"
 
     modCompileOnlyApi("dev.latvian.mods:kubejs-fabric:${kubejs_version}")
