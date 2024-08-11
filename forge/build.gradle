@@ -83,6 +83,8 @@ dependencies {
     modCompileOnly("com.jozufozu.flywheel:flywheel-forge-${flywheel_forge_version}")
     modCompileOnly("com.tterrag.registrate:Registrate:${registrate_forge_version}")
 
+    modRuntimeOnly("curse.maven:callable-horses-331746:4730035")
+
 //    modRuntimeOnly("curse.maven:real-camera-851574:5328994")
 
 //    modRuntimeOnly("com.simibubi.create:create-${create_forge_version}") { transitive = false }
