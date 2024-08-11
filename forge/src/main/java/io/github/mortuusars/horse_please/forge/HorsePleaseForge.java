@@ -4,6 +4,7 @@ import io.github.mortuusars.horse_please.Config;
 import io.github.mortuusars.horse_please.HorsePlease;
 import io.github.mortuusars.horse_please.forge.event.ClientEvents;
 import io.github.mortuusars.horse_please.forge.event.CommonEvents;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

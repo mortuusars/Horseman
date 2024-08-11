@@ -2,11 +2,14 @@ package io.github.mortuusars.horse_please;
 
 import com.google.common.base.Preconditions;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -29,6 +32,18 @@ public class HorsePlease {
         ArgumentTypes.init();
     }
 
+    public static boolean shouldHorseStepDown(AbstractHorse horse) {
+        Level level = horse.level();
+        BlockPos pos = horse.blockPosition();
+        return !horse.onGround()
+                && !horse.isJumping()
+                && horse.fallDistance > 0f
+                && horse.fallDistance < 0.2f
+                && !level.getBlockState(pos.below()).getCollisionShape(level, pos.below()).isEmpty()
+                || (Config.Common.HORSE_FAST_STEP_DOWN_TWO_BLOCKS.get()
+                && !level.getBlockState(pos.below(2)).getCollisionShape(level, pos.below(2)).isEmpty());
+    }
+
     /**
      * Creates resource location in the mod namespace with the given path.
      */
@@ -37,7 +52,6 @@ public class HorsePlease {
     }
 
     public static class Blocks {
-
         static void init() {
         }
     }
@@ -63,7 +77,7 @@ public class HorsePlease {
     }
 
     public static class RecipeSerializers {
-       static void init() {
+        static void init() {
         }
     }
 
@@ -109,6 +123,7 @@ public class HorsePlease {
     }
 
     public static class ArgumentTypes {
-        public static void init() { }
+        public static void init() {
+        }
     }
 }
