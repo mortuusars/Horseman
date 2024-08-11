@@ -15,8 +15,8 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
-        mixinConfig "horse_please-common.mixins.json"
-        mixinConfig "horse_please.mixins.json"
+        mixinConfig "horseman-common.mixins.json"
+        mixinConfig "horseman.mixins.json"
     }
 
     runs {
@@ -126,7 +126,7 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    relocate("com.llamalad7.mixinextras", "io.github.mortuusars.horse_please.forge.shadow.mixinextras")
+    relocate("com.llamalad7.mixinextras", "io.github.mortuusars.horseman.forge.shadow.mixinextras")
     archiveClassifier = "dev-shadow"
     mergeServiceFiles()
 }

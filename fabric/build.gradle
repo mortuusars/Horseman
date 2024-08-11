@@ -37,7 +37,7 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
-    // HorsePlease does not depend on the Architectury API:
+    // Horseman does not depend on the Architectury API:
     // modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
