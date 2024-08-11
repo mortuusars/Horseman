@@ -6,6 +6,8 @@ import io.github.mortuusars.horse_please.HorsePlease;
 import io.github.mortuusars.horse_please.network.fabric.PacketsImpl;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.config.ModConfig;
 
 public class HorsePleaseFabric implements ModInitializer {

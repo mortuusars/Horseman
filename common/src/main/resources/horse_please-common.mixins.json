@@ -8,7 +8,10 @@
   ],
   "mixins": [
     "AbstractHorseMixin",
+    "PersistentDataHolderLivingEntityMixin",
+    "FenceBlockMixin",
     "LivingEntityMixin",
+    "MobMixin",
     "ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
