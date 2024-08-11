@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "exposure",
+  "id": "${mod_id}",
   "version": "${mod_version}",
   "name": "${mod_name}",
   "description": "${mod_description}",

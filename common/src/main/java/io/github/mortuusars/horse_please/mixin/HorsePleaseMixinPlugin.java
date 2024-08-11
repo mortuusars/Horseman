@@ -1,4 +1,4 @@
-package io.github.mortuusars.horse_please.fabric;
+package io.github.mortuusars.horse_please.mixin;
 
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.loader.api.FabricLoader;
@@ -27,7 +27,7 @@ public class HorsePleaseMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-
+        boolean a = true;
     }
 
     @Override
