@@ -1,0 +1,1 @@
+io.github.mortuusars.horse_please.integration.kubejs.HorsePleaseJSPlugin

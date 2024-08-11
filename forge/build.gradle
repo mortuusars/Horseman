@@ -1,0 +1,198 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "me.shedaniel.unified-publishing"
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    forge {
+        convertAccessWideners = true
+        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+
+        mixinConfig "horse_please-common.mixins.json"
+        mixinConfig "horse_please.mixins.json"
+    }
+
+    runs {
+        create("client2") {
+            inherit(getByName("client"))
+
+            name("Second Client")
+            programArgs("--username", "AnotherDev")
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+            client()
+        }
+    }
+}
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
+
+repositories {
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    maven {
+        // Location of the maven for mixed mappings, Registrate, and Flywheel
+        name 'tterrag maven'
+        url 'https://maven.tterrag.com'
+    }
+    maven {
+        url 'https://www.cursemaven.com'
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${forge_version}"
+    // Exposure does not depend on Architectury API:
+    // modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") { transitive = false }
+
+//    modRuntimeOnly("dev.emi:emi-forge:${emi_version}")
+
+    modCompileOnlyApi("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    // Not working in dev env:
+    // modRuntimeOnly("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    // modRuntimeOnly("curse.maven:probejs-585406:${probejs_forge_id}")
+
+    modCompileOnlyApi("curse.maven:jade-324717:${jade_forge_id}")
+    modRuntimeOnly("curse.maven:jade-324717:${jade_forge_id}") { transitive = false }
+
+    modCompileOnly("com.simibubi.create:create-${create_forge_version}") { transitive = false }
+    modCompileOnly("com.jozufozu.flywheel:flywheel-forge-${flywheel_forge_version}")
+    modCompileOnly("com.tterrag.registrate:Registrate:${registrate_forge_version}")
+
+//    modRuntimeOnly("curse.maven:real-camera-851574:5328994")
+
+//    modRuntimeOnly("com.simibubi.create:create-${create_forge_version}") { transitive = false }
+//    modRuntimeOnly("com.jozufozu.flywheel:flywheel-forge-${flywheel_forge_version}")
+//    modRuntimeOnly("com.tterrag.registrate:Registrate:${registrate_forge_version}")
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+}
+
+processResources {
+    // input variables of this task:
+    var replaceProperties = [
+            minecraft_version    : minecraft_version,
+
+            mod_id               : mod_id,
+            mod_name             : mod_name,
+            mod_version          : mod_version,
+            mod_license          : mod_license,
+            mod_authors          : mod_authors,
+            mod_description      : mod_description,
+            mod_homepage         : mod_homepage,
+            mod_github           : mod_github,
+    ]
+    // setting them as input
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta', 'update.json']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = "dev-shadow"
+}
+
+remapJar {
+    archiveClassifier = "forge"
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifactId = mod_id + "-" + project.name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        var path = System.getenv("LOCAL_MAVEN")
+        if (path != null) {
+            maven {
+                name = 'local'
+                url = uri(path + "/maven")
+            }
+        }
+    }
+}
+
+// https://github.com/shedaniel/unified-publishing
+unifiedPublishing {
+    project {
+        displayName = "${mod_name} - Forge ${minecraft_version} - ${mod_version}" // Optional, name of the file
+        version = mod_version // Optional, Inferred from project by default
+        changelog = rootProject.ext.changelog
+        releaseType = mod_release_type // Optional, use "release", "beta" or "alpha"
+        gameVersions = [minecraft_version]
+        gameLoaders = ["forge", "neoforge"]
+
+        mainPublication tasks.remapJar // Declares the publicated jar
+
+        curseforge {
+            token = System.getenv("CURSEFORGE_TOKEN")
+            id = mod_curseforge_project_id // Required, must be a string, ID of CurseForge project
+
+            relations {
+                optional "jei"
+                optional "create"
+            }
+        }
+
+        modrinth {
+            token = System.getenv("MODRINTH_TOKEN")
+            id = mod_modrinth_project_id // Required, must be a string, ID of Modrinth project
+
+            displayName = "${mod_name} - ${mod_version}" // Optional, name of the file
+
+            relations {
+                optional "jei"
+                optional "create"
+            }
+        }
+    }
+}
