@@ -3,8 +3,12 @@ package io.github.mortuusars.horseman.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Hitching;
+import io.github.mortuusars.horseman.Horseman;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -12,17 +16,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec2;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractHorse.class)
 public abstract class AbstractHorseMixin extends Animal {
     @Shadow protected abstract int getInventorySize();
     @Shadow public SimpleContainer inventory;
+
+    @Shadow public abstract boolean hurt(DamageSource source, float amount);
 
     protected AbstractHorseMixin(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -76,6 +84,30 @@ public abstract class AbstractHorseMixin extends Animal {
                     inventory.setItem(2, lastItem);
                 }
             }
+        }
+    }
+
+    @Inject(method = "getRiddenRotation", at = @At(value = "HEAD"), cancellable = true)
+    private void onGetRiddenRotation(LivingEntity entity, CallbackInfoReturnable<Vec2> cir) {
+        AbstractHorse horse = (AbstractHorse)(Object)this;
+        if (!Config.Common.HORSE_FREE_CAMERA.get() || !(entity instanceof Player player) || player.xxa != 0 || player.zza != 0) {
+            return;
+        }
+
+//        if (horse.getDeltaMovement().x != 0 && horse.getDeltaMovement().z != 0) {
+//            return;
+//        }
+
+        float threshold = Config.Common.HORSE_FREE_CAMERA_ANGLE_THRESHOLD.get().floatValue();
+
+        float rotationDifference = (player.getYRot() - horse.getYRot() + 540) % 360 - 180;
+
+        if (Math.abs(rotationDifference) > threshold) {
+            // Rotate the horse following player's rotation, with offset
+            cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, player.getYRot() - Math.signum(rotationDifference) * threshold));
+        }
+        else {
+            cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, horse.getYRot()));
         }
     }
 }

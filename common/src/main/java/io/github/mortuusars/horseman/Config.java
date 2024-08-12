@@ -17,9 +17,13 @@ public class Config {
         public static final ForgeConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
         public static final ForgeConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
 
-        // Fast Lead
+        // Hitching
         public static final ForgeConfigSpec.BooleanValue HORSE_HITCH;
         public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
+
+        // Camera
+        public static final ForgeConfigSpec.BooleanValue HORSE_FREE_CAMERA;
+        public static final ForgeConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -31,7 +35,7 @@ public class Config {
                     .define("rotate_horse_instead_of_player", true);
 
             FIX_HORSE_MOVED_WRONGLY = builder
-                    .comment("Fix horse jitter and reset back when riding up blocks (especially stairs). Default: true")
+                    .comment("Fix horse jitter and reset back when riding up blocks (especially stairs) Mojang bug: MC-100830. Default: true")
                     .define("fix_horse_moved_wrongly", true);
 
             HORSE_FAST_STEP_DOWN = builder
@@ -68,6 +72,18 @@ public class Config {
             HORSE_HITCH_INVENTORY_SLOT = builder
                     .comment("Slot for a lead will be added to horse inventory menu. If disabled, horses can be hitched while riding without a lead. Default: true")
                     .define("horse_hitch_lead_slot", true);
+
+            builder.pop();
+
+            builder.push("free_camera");
+
+            HORSE_FREE_CAMERA = builder
+                    .comment("While horse is stationary - allow moving camera freely, without rotating the horse. Default: true")
+                    .define("horse_stationary_free_camera", true);
+
+            HORSE_FREE_CAMERA_ANGLE_THRESHOLD = builder
+                    .comment("Threshold in degrees after which horse will follow player rotation. Default: 65")
+                    .defineInRange("horse_stationary_free_camera_angle_threshold", 65.0, 0.0, 180.0);
 
             builder.pop();
 

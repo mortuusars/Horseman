@@ -6,13 +6,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec2;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -52,6 +57,24 @@ public class Horseman {
      */
     public static ResourceLocation resource(String path) {
         return new ResourceLocation(ID, path);
+    }
+
+    public static Vec2 handleRiddenRotation(AbstractHorse horse, LivingEntity rider) {
+        if (!Config.Common.HORSE_FREE_CAMERA.get() || !(rider instanceof Player player) || player.xxa != 0 || player.zza != 0) {
+            return null;
+        }
+
+        float threshold = Config.Common.HORSE_FREE_CAMERA_ANGLE_THRESHOLD.get().floatValue();
+
+        float rotationDifference = (player.getYRot() - horse.getYRot() + 540) % 360 - 180;
+
+        if (Math.abs(rotationDifference) > threshold) {
+            // Rotate the horse towards the player
+            return new Vec2(player.getXRot() * 0.5f, player.getYRot() - Math.signum(rotationDifference) * threshold);
+        }
+        else {
+            return new Vec2(player.getXRot() * 0.5f, horse.getYRot());
+        }
     }
 
     public static class Blocks {
