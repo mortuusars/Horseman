@@ -9,12 +9,17 @@ public class Config {
     public static class Common {
         public static final ForgeConfigSpec SPEC;
 
+        // Movement
         public static final ForgeConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
         public static final ForgeConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
         public static final ForgeConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN;
         public static final ForgeConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
         public static final ForgeConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
         public static final ForgeConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
+
+        // Fast Lead
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH;
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -26,7 +31,7 @@ public class Config {
                     .define("rotate_horse_instead_of_player", true);
 
             FIX_HORSE_MOVED_WRONGLY = builder
-                    .comment("Fix horse jittering and resetting back when riding up blocks (especially stairs). Default: true")
+                    .comment("Fix horse jitter and reset back when riding up blocks (especially stairs). Default: true")
                     .define("fix_horse_moved_wrongly", true);
 
             HORSE_FAST_STEP_DOWN = builder
@@ -53,13 +58,25 @@ public class Config {
 
             builder.pop();
 
+
+            builder.push("hitching");
+
+            HORSE_HITCH = builder
+                    .comment("Right clicking a fence while riding will leash the horse to it. Default: true")
+                    .define("horse_hitch", true);
+
+            HORSE_HITCH_INVENTORY_SLOT = builder
+                    .comment("Slot for a lead will be added to horse inventory menu. If disabled, horses can be hitched while riding without a lead. Default: true")
+                    .define("horse_hitch_lead_slot", true);
+
+            builder.pop();
+
             SPEC = builder.build();
         }
     }
 
     public static class Client {
         public static final ForgeConfigSpec SPEC;
-
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();

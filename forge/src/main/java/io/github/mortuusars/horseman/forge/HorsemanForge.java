@@ -4,6 +4,7 @@ import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.forge.event.ClientEvents;
 import io.github.mortuusars.horseman.forge.event.CommonEvents;
+import net.minecraft.world.inventory.HorseInventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

@@ -5,13 +5,16 @@
   "plugin": "io.github.mortuusars.horseman.mixin.HorsemanMixinPlugin",
   "minVersion": "0.8",
   "client": [
+    "HorseInventoryScreenMixin"
   ],
   "mixins": [
+    "AbstractChestedHorseMixin",
     "AbstractHorseMixin",
-    "PersistentDataLivingEntityMixin",
     "FenceBlockMixin",
+    "HorseInventoryMenuMixin",
     "LivingEntityMixin",
     "MobMixin",
+    "PersistentDataLivingEntityMixin",
     "ServerGamePacketListenerImplMixin"
   ],
   "injectors": {

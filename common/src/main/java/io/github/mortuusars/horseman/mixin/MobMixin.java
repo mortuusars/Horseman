@@ -1,5 +1,6 @@
 package io.github.mortuusars.horseman.mixin;
 
+import io.github.mortuusars.horseman.Hitching;
 import io.github.mortuusars.horseman.data.IPersistentDataHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,10 +21,8 @@ public abstract class MobMixin extends LivingEntity {
 
     @ModifyVariable(method = "dropLeash", at = @At("HEAD"), ordinal = 1, argsOnly = true)
     private boolean shouldDropLeash(boolean value) {
-        //noinspection ConstantValue
-        if (((Object)this) instanceof AbstractHorse horse && horse instanceof IPersistentDataHolder dataHolder) {
-            if (dataHolder.horseman$getPersistentData().getBoolean("NoLead"))
-                return false;
+        if (((Object)this) instanceof AbstractHorse horse) {
+            return Hitching.shouldDropLeash(horse);
         }
 
         return value;
@@ -31,9 +30,8 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "dropLeash", at = @At("RETURN"))
     private void onDropLeash(boolean broadcastPacket, boolean dropLeash, CallbackInfo ci) {
-        //noinspection ConstantValue
-        if (((Object)this) instanceof AbstractHorse horse && horse instanceof IPersistentDataHolder dataHolder) {
-            dataHolder.horseman$getPersistentData().remove(("NoLead"));
+        if (((Object)this) instanceof AbstractHorse horse) {
+            Hitching.setDropsLeash(horse, true);
         }
     }
 }
