@@ -94,10 +94,6 @@ public abstract class AbstractHorseMixin extends Animal {
             return;
         }
 
-//        if (horse.getDeltaMovement().x != 0 && horse.getDeltaMovement().z != 0) {
-//            return;
-//        }
-
         float threshold = Config.Common.HORSE_FREE_CAMERA_ANGLE_THRESHOLD.get().floatValue();
 
         float rotationDifference = (player.getYRot() - horse.getYRot() + 540) % 360 - 180;
