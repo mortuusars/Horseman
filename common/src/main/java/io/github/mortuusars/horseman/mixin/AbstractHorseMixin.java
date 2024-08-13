@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Hitching;
 import io.github.mortuusars.horseman.Horseman;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -52,6 +51,7 @@ public abstract class AbstractHorseMixin extends Animal {
     @ModifyReturnValue(method = "getInventorySize", at = @At("RETURN"))
     private int onGetInventorySize(int original) {
         AbstractHorse horse = (AbstractHorse)(Object)this;
+        Horseman.LOGGER.info("CALLED");
         return Hitching.shouldHaveLeadSlot(horse) ? original + 1 : original;
     }
 

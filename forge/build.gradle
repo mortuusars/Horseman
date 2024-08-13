@@ -63,37 +63,20 @@ repositories {
 
 dependencies {
     forge "net.minecraftforge:forge:${forge_version}"
-    // Exposure does not depend on Architectury API:
+    // Horseman does not depend on Architectury API:
     // modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    modRuntimeOnly(implementation(annotationProcessor("io.github.llamalad7:mixinextras-forge:0.4.0")))
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    implementation(include("io.github.llamalad7:mixinextras-forge:0.4.1"))
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") { transitive = false }
 
-//    modRuntimeOnly("dev.emi:emi-forge:${emi_version}")
-
     modCompileOnlyApi("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    // Not working in dev env:
-    // modRuntimeOnly("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    // modRuntimeOnly("curse.maven:probejs-585406:${probejs_forge_id}")
 
 
     modCompileOnlyApi("curse.maven:jade-324717:${jade_forge_id}")
     modRuntimeOnly("curse.maven:jade-324717:${jade_forge_id}") { transitive = false }
-
-    modCompileOnly("com.simibubi.create:create-${create_forge_version}") { transitive = false }
-    modCompileOnly("com.jozufozu.flywheel:flywheel-forge-${flywheel_forge_version}")
-    modCompileOnly("com.tterrag.registrate:Registrate:${registrate_forge_version}")
-
-//    modRuntimeOnly("curse.maven:callable-horses-331746:4730035")
-
-
-//    modRuntimeOnly("curse.maven:real-camera-851574:5328994")
-
-//    modRuntimeOnly("com.simibubi.create:create-${create_forge_version}") { transitive = false }
-//    modRuntimeOnly("com.jozufozu.flywheel:flywheel-forge-${flywheel_forge_version}")
-//    modRuntimeOnly("com.tterrag.registrate:Registrate:${registrate_forge_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -126,9 +109,10 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    relocate("com.llamalad7.mixinextras", "io.github.mortuusars.horseman.forge.shadow.mixinextras")
     archiveClassifier = "dev-shadow"
-    mergeServiceFiles()
+
+//    relocate("com.llamalad7.mixinextras", "io.github.mortuusars.horseman.mixinextras")
+//    mergeServiceFiles()
 }
 
 remapJar {
@@ -184,11 +168,6 @@ unifiedPublishing {
         curseforge {
             token = System.getenv("CURSEFORGE_TOKEN")
             id = mod_curseforge_project_id // Required, must be a string, ID of CurseForge project
-
-            relations {
-                optional "jei"
-                optional "create"
-            }
         }
 
         modrinth {
@@ -196,11 +175,6 @@ unifiedPublishing {
             id = mod_modrinth_project_id // Required, must be a string, ID of Modrinth project
 
             displayName = "${mod_name} - ${mod_version}" // Optional, name of the file
-
-            relations {
-                optional "jei"
-                optional "create"
-            }
         }
     }
 }

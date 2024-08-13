@@ -42,29 +42,18 @@ dependencies {
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
-    modRuntimeOnly(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.0")))
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+    implementation(include("io.github.llamalad7:mixinextras-forge:0.4.1"))
+
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_version}"
 
     modCompileOnlyApi("dev.latvian.mods:kubejs-fabric:${kubejs_version}")
-//    modRuntimeOnly("dev.latvian.mods:kubejs-fabric:${kubejs_version}")
-//    modRuntimeOnly("curse.maven:probejs-585406:${probejs_fabric_id}")
 
     modCompileOnlyApi("curse.maven:jade-324717:${jade_fabric_id}")
     modRuntimeOnly("curse.maven:jade-324717:${jade_fabric_id}") { transitive = false }
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
-
-    // modRuntimeOnly("dev.emi:emi-fabric:${emi_version}")
-
-//    modRuntimeOnly("curse.maven:real-camera-851574:5328995")
-
-    // Create
-//    modCompileOnly("com.simibubi.create:create-fabric-${minecraft_version}:${create_fabric_version}")
-    // modRuntimeOnly("com.simibubi.create:create-fabric-${minecraft_version}:${create_fabric_version}")
-
-    // C2ME
-    // modImplementation("maven.modrinth:VSNURh3q:0.2.0+alpha.11.0+1.20.1")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -156,8 +145,6 @@ unifiedPublishing {
             relations {
                 depends "fabric-api"
                 depends "forge-config-api-port-fabric"
-                optional "jei"
-                optional "create-fabric"
             }
         }
 
@@ -170,8 +157,6 @@ unifiedPublishing {
             relations {
                 depends "fabric-api"
                 depends "forge-config-api-port"
-                optional "jei"
-                optional "create-fabric"
             }
         }
     }
