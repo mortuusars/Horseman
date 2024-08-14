@@ -51,7 +51,6 @@ public abstract class AbstractHorseMixin extends Animal {
     @ModifyReturnValue(method = "getInventorySize", at = @At("RETURN"))
     private int onGetInventorySize(int original) {
         AbstractHorse horse = (AbstractHorse)(Object)this;
-        Horseman.LOGGER.info("CALLED");
         return Hitching.shouldHaveLeadSlot(horse) ? original + 1 : original;
     }
 
