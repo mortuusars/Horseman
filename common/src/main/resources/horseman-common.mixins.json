@@ -12,6 +12,7 @@
     "AbstractHorseMixin",
     "FenceBlockMixin",
     "HorseInventoryMenuMixin",
+    "LeashKnotEntityMixin",
     "LivingEntityMixin",
     "MobMixin",
     "PersistentDataLivingEntityMixin",

@@ -20,10 +20,20 @@ public class Hitching {
         return Config.Common.HORSE_HITCH_INVENTORY_SLOT.get();
     }
 
+    /**
+     * Basically every horse that is saddleable supports hitching. In vanilla the only exception is LLama.
+     * Technically we can also use horse#isSaddleable here, but that would hard-limit it.
+     * Maybe some mod adds non-saddleable horse that would benefit from hitching.
+     */
     public static boolean supportsHitching(AbstractHorse horse) {
         return !horse.getType().is(Horseman.Tags.EntityTypes.CANNOT_BE_HITCHED);
     }
 
+    /**
+     * This method cannot really be used client-side because we don't have access to horse inventory on the client.
+     * It will always return 'false' if Lead slot is enabled.
+     * Safe to use when lead slot is disabled.
+     */
     public static boolean canHitch(AbstractHorse horse) {
         if (!isEnabled() || !supportsHitching(horse) || horse.isLeashed()) {
             return false;
@@ -96,10 +106,6 @@ public class Hitching {
 
     public static boolean mayPlaceInLeadSlot(AbstractHorse horse, ItemStack stack) {
         return stack.is(Items.LEAD);
-    }
-
-    public static boolean mayRemoveFromLeadSlot(AbstractHorse horse, Player player) {
-        return !isHitched(horse);
     }
 
     public static boolean isLeadSlotActive(AbstractHorse horse) {
