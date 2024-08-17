@@ -2,7 +2,8 @@
 
 ## 1.1.0 - 2024-08-17
 - Added ability to remove chests from Mules, Donkeys and Llamas by using shears.
-- Horses can now be Quick Hitched when clicked on an existing leash knot. Previously the knot would've been removed. 
+- Horses can now be Quick Hitched when clicked on an existing leash knot. Previously the knot would've been removed.
+- Quick Hitching horses when holding a block in hand will no longer show a client-only ghost block for a split second. 
 
 ## 1.0.2 - 2024-08-14
 - Removed leftover debug message in log 

@@ -24,16 +24,26 @@ public class FenceBlockMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void onUse(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                        BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
-        double distanceToFence = Vec3.atCenterOf(pos).distanceTo(player.position());
+        if (player.getRootVehicle() instanceof AbstractHorse horse) {
+            /*
+             Cannot properly check 'canHitch' on client because we don't have access to horse inventory.
+             Returning InteractionResult.SUCCESS prevents placing ghost block for a split second (if player holds a block).
+             This can potentially interfere with other item/block logic when hitching wasn't done.
+             But it still shouldn't be a problem because it's only when player is on a horse and important logic is done server-side anyway.
+             Worst case scenario some particles or other client effect would be missing. (If hitching wasn't done)
+            */
+            if (level.isClientSide) {
+                // Some of the checks from Hitching#canHitch to reduce interference.
+                if (Hitching.isEnabled() && Hitching.supportsHitching(horse) && !horse.isLeashed()) {
+                    cir.setReturnValue(InteractionResult.SUCCESS);
+                }
+                return;
+            }
 
-        if (distanceToFence < 5 && player.getRootVehicle() instanceof AbstractHorse horse && Hitching.canHitch(horse)) {
-            if (!level.isClientSide) {
+            if (Hitching.canHitch(horse)) {
                 horse.setLeashedTo(player, true);
                 Hitching.setDropsLeash(horse, false);
                 cir.setReturnValue(LeadItem.bindPlayerMobs(player, level, pos));
-            }
-            else {
-                cir.setReturnValue(InteractionResult.SUCCESS);
             }
         }
     }
