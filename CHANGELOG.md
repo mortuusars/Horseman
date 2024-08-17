@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1 - 2024-08-18
+- [Fabric] Fixed startup crash with `Horse Buff` mod. 
+
 ## 1.1.0 - 2024-08-17
 - Added ability to remove chests from Mules, Donkeys and Llamas by using shears.
 - Horses can now be Quick Hitched when clicked on an existing leash knot. Previously the knot would've been removed.
