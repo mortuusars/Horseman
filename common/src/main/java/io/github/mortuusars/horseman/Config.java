@@ -21,6 +21,8 @@ public class Config {
         public static final ForgeConfigSpec.BooleanValue HORSE_HITCH;
         public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
+        public static final ForgeConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
+
         // Camera
         public static final ForgeConfigSpec.BooleanValue HORSE_FREE_CAMERA;
         public static final ForgeConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
@@ -72,6 +74,14 @@ public class Config {
             HORSE_HITCH_INVENTORY_SLOT = builder
                     .comment("Slot for a lead will be added to horse inventory menu. If disabled, horses can be hitched while riding without a lead. Default: true")
                     .define("horse_hitch_lead_slot", true);
+
+            builder.pop();
+
+            builder.push("misc");
+
+            HORSE_SHEARS_REMOVE_CHEST = builder
+                    .comment("Right clicking a Mule, Donkey or Llama that has chest with shears will remove the chest and drop its items. Default: true")
+                    .define("shears_remove_chest", true);
 
             builder.pop();
 
