@@ -15,7 +15,8 @@ import java.util.function.Supplier;
 public class HorsemanMixinPlugin implements IMixinConfigPlugin {
 
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "io.github.mortuusars.horseman.mixin.ServerGamePacketListenerImplMixin", () -> !PlatformHelper.isModLoaded("horsebuff")
+            "io.github.mortuusars.horseman.mixin.ServerGamePacketListenerImplMixin",
+                () -> !PlatformHelper.isModLoading("horsebuff")
     );
 
     @Override

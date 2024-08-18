@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2 - 2024-08-18
+- [Forge] Fixed startup crash caused by checking if other mod is loaded too early.
+
 ## 1.1.1 - 2024-08-18
 - [Fabric] Fixed startup crash with `Horse Buff` mod. 
 
