@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3 - 2024-08-31
+- Horse head while riding will be slightly lower now (both in rotation and position) to reduce view blocking.
+
 ## 1.1.2 - 2024-08-18
 - [Forge] Fixed startup crash caused by checking if other mod is loaded too early.
 

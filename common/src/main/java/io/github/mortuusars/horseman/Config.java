@@ -104,8 +104,19 @@ public class Config {
     public static class Client {
         public static final ForgeConfigSpec SPEC;
 
+        public static final ForgeConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
+        public static final ForgeConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
+
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+
+            HORSE_HEAD_PITCH_OFFSET = builder
+                    .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view. Default: 20")
+                    .defineInRange("HorseModelHeadOffset", 20, 0, 45);
+
+            HORSE_HEAD_Y_OFFSET = builder
+                    .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view. Default: true")
+                    .defineInRange("HorseModelYOffset", 2, 0, 4);
 
             SPEC = builder.build();
         }

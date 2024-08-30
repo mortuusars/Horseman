@@ -5,7 +5,8 @@
   "plugin": "io.github.mortuusars.horseman.mixin.HorsemanMixinPlugin",
   "minVersion": "0.8",
   "client": [
-    "HorseInventoryScreenMixin"
+    "HorseInventoryScreenMixin",
+    "HorseModelMixin"
   ],
   "mixins": [
     "AbstractChestedHorseMixin",
