@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.4 - 2024-08-31
+- [Forge] Added some compatibility with Realistic Horse Genetics. 
+  - Hitching Lead slot background is now rendering in their inventories.
+  - Shearing to remove chests now works.
+  - Other features seem to work fine out of the box.
+
 ## 1.1.3 - 2024-08-31
 - Horse head while riding will be slightly lower now (both in rotation and position) to reduce view blocking.
 

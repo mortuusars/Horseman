@@ -3,9 +3,12 @@
   "package": "io.github.mortuusars.horseman.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
+  "plugin": "io.github.mortuusars.horseman.forge.HorsemanForgeMixinPlugin",
   "client": [
+    "realistic_horse_genetics.HorseGUIMixin"
   ],
   "mixins": [
+    "realistic_horse_genetics.AbstractHorseGeneticMixin"
   ],
   "injectors": {
     "defaultRequire": 1

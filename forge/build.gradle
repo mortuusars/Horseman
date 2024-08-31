@@ -74,9 +74,11 @@ dependencies {
 
     modCompileOnlyApi("dev.latvian.mods:kubejs-forge:${kubejs_version}")
 
-
     modCompileOnlyApi("curse.maven:jade-324717:${jade_forge_id}")
     modRuntimeOnly("curse.maven:jade-324717:${jade_forge_id}") { transitive = false }
+
+    modCompileOnly("curse.maven:realistic-horse-genetics-339184:${realistic_horse_genetics_file_id}")
+//    modRuntimeOnly("curse.maven:realistic-horse-genetics-339184:${realistic_horse_genetics_file_id}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
