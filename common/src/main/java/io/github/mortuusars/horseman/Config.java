@@ -19,6 +19,7 @@ public class Config {
 
         // Hitching
         public static final ForgeConfigSpec.BooleanValue HORSE_HITCH;
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_REQUIRES_LEAD;
         public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
         public static final ForgeConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
@@ -68,11 +69,16 @@ public class Config {
             builder.push("hitching");
 
             HORSE_HITCH = builder
-                    .comment("Right clicking a fence while riding will leash the horse to it. Default: true")
+                    .comment("Right-clicking a fence while riding will leash the horse to it. Default: true")
                     .define("horse_hitch", true);
 
+            HORSE_HITCH_REQUIRES_LEAD = builder
+                    .comment("Hitching requires Lead item to be present on a horse. If disabled, 'horse_hitch_lead_slot' will be disabled as well. Default: true")
+                    .define("horse_hitch_lead_required", true);
+
             HORSE_HITCH_INVENTORY_SLOT = builder
-                    .comment("Slot for a lead will be added to horse inventory menu. If disabled, horses can be hitched while riding without a lead. Default: true")
+                    .comment("Slot for a lead will be added to horse inventory menu. Default: true",
+                            "If disabled, Lead should be added by Sneak+Right-Clicking a Horse with an item. Default: true")
                     .define("horse_hitch_lead_slot", true);
 
             builder.pop();
@@ -80,7 +86,7 @@ public class Config {
             builder.push("misc");
 
             HORSE_SHEARS_REMOVE_CHEST = builder
-                    .comment("Right clicking a Mule, Donkey or Llama that has chest with shears will remove the chest and drop its items. Default: true")
+                    .comment("Right-clicking a Mule, Donkey or Llama that has chest with shears will remove the chest and drop its items. Default: true")
                     .define("shears_remove_chest", true);
 
             builder.pop();
@@ -107,6 +113,8 @@ public class Config {
         public static final ForgeConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
         public static final ForgeConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
 
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
+
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
@@ -117,6 +125,10 @@ public class Config {
             HORSE_HEAD_Y_OFFSET = builder
                     .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view. Default: true")
                     .defineInRange("HorseModelYOffset", 2, 0, 4);
+
+            HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT = builder
+                    .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen. Default: true")
+                    .define("render_lead_indication_without_slot", true);
 
             SPEC = builder.build();
         }

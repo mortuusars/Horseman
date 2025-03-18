@@ -2,6 +2,7 @@ package io.github.mortuusars.horseman.network.fabric;
 
 import io.github.mortuusars.horseman.network.PacketDirection;
 import io.github.mortuusars.horseman.network.packet.IPacket;
+import io.github.mortuusars.horseman.network.packet.client.SyncHorseDataS2CP;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -13,6 +14,7 @@ import java.util.function.Function;
 
 public class ClientPackets {
     public static void registerS2CPackets() {
+        ClientPlayNetworking.registerGlobalReceiver(SyncHorseDataS2CP.ID, new ClientHandler(SyncHorseDataS2CP::fromBuffer));
     }
 
     public static void sendToServer(IPacket packet) {

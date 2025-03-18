@@ -24,8 +24,11 @@ public class CommonEvents {
 
     public static class ForgeBus {
 //        @SubscribeEvent
-//        public static void serverStarting(ServerStartingEvent event) {
-//
+//        public static void serverStarting(PlayerEvent.StartTracking event) {
+//            if (event.getTarget() instanceof LeadHolder leadHolder
+//                    && leadHolder.horseman$hasLead() && event.getEntity() instanceof ServerPlayer serverPlayer) {
+//                Packets.sendToClient(new SyncStoredLeadS2CP(event.getTarget().getId(), leadHolder.horseman$getLead()), serverPlayer);
+//            }
 //        }
     }
 }

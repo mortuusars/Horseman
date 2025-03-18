@@ -1,7 +1,6 @@
 package io.github.mortuusars.horseman.mixin;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.AgeableListModel;

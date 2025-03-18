@@ -11,13 +11,13 @@
   "mixins": [
     "AbstractChestedHorseMixin",
     "AbstractHorseMixin",
-    "FenceBlockMixin",
+    "Hitching_FenceBlockMixin",
     "HorseInventoryMenuMixin",
     "LeashKnotEntityMixin",
-    "LivingEntityMixin",
+    "HorseMomentum_LivingEntityMixin",
     "MobMixin",
-    "PersistentDataLivingEntityMixin",
-    "ServerGamePacketListenerImplMixin"
+    "SyncInitialHorseData_ServerEntityMixin",
+    "FixMovedWrongly_ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1

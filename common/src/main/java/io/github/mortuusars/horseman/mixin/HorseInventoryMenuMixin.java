@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.mixin;
 
-import io.github.mortuusars.horseman.Hitching;
+import io.github.mortuusars.horseman.data.HitchableHorse;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
@@ -38,32 +38,35 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
      */
     @Inject(method = "hasChest", at = @At(value = "HEAD"))
     private void onHasChest(AbstractHorse horse, CallbackInfoReturnable<Boolean> cir) {
-        if (!horseman$leadSlotAdded && Hitching.shouldHaveLeadSlot(horse)) {
-            int leadSlotIndex = Hitching.getLeadSlotIndex(horse);
-            addSlot(new Slot(this.horseContainer, leadSlotIndex, 8, 54) {
-                @Override
-                public boolean mayPlace(ItemStack stack) {
-                    return Hitching.mayPlaceInLeadSlot(horse, stack);
-                }
+        if (horseman$leadSlotAdded) return;
+        if (!(horse instanceof HitchableHorse hitchableHorse)) return;
+        if (!HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) return;
 
-                @Override
-                public boolean mayPickup(Player player) {
-                    ItemStack stack = this.getItem();
-                    return !stack.is(Items.LEAD) || stack.getTag() == null || !stack.getTag().getBoolean(Hitching.PREVENT_LEAD_DROP_TAG);
-                }
+        int leadSlotIndex = HitchableHorse.getLeadSlotIndex(hitchableHorse);
+        addSlot(new Slot(this.horseContainer, leadSlotIndex, 8, 54) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return HitchableHorse.mayPlaceInLeadSlot(hitchableHorse, stack);
+            }
 
-                @Override
-                public int getMaxStackSize() {
-                    return 1;
-                }
+            @Override
+            public boolean mayPickup(Player player) {
+                ItemStack stack = this.getItem();
+                return !stack.is(Items.LEAD) || !HitchableHorse.isHitched(hitchableHorse);
+            }
 
-                @Override
-                public boolean isActive() {
-                    return Hitching.isLeadSlotActive(horse);
-                }
-            });
-            horseman$leadSlotAdded = true;
-        }
+            @Override
+            public int getMaxStackSize() {
+                return 1;
+            }
+
+            @Override
+            public boolean isActive() {
+                // Making it active on client to keep rendering the slot.
+                return horse.level().isClientSide || HitchableHorse.isLeadSlotActive(hitchableHorse);
+            }
+        });
+        horseman$leadSlotAdded = true;
     }
 
     /**
@@ -74,9 +77,9 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
      */
     @Inject(method = "quickMoveStack", at = @At(value = "HEAD"), cancellable = true)
     private void onQuickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
-        if (!Hitching.shouldHaveLeadSlot(this.horse) || index < this.horseContainer.getContainerSize()) {
-            return;
-        }
+        if (!(this.horse instanceof HitchableHorse hitchableHorse)) return;
+        if (!HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) return;
+        if (index < this.horseContainer.getContainerSize()) return;
 
         Slot slot = this.slots.get(index);
         if (!slot.hasItem()) {
@@ -102,23 +105,22 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
                 cir.setReturnValue(ItemStack.EMPTY);
                 return;
             }
-            else {
-                if (clickedStack.isEmpty()) {
-                    slot.setByPlayer(ItemStack.EMPTY);
-                } else {
-                    slot.setChanged();
-                }
 
-                if (clickedStack.getCount() == clickedStackCopy.getCount()) {
-                    cir.setReturnValue(ItemStack.EMPTY);
-                    return;
-                }
+            if (clickedStack.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
 
-                slot.onTake(player, clickedStack);
-
+            if (clickedStack.getCount() == clickedStackCopy.getCount()) {
                 cir.setReturnValue(ItemStack.EMPTY);
                 return;
             }
+
+            slot.onTake(player, clickedStack);
+
+            cir.setReturnValue(ItemStack.EMPTY);
+            return;
         }
 
         clickedStack.shrink(1);

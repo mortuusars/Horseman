@@ -1,17 +1,24 @@
 package io.github.mortuusars.horseman.mixin;
 
-import io.github.mortuusars.horseman.Hitching;
-import io.github.mortuusars.horseman.data.IPersistentDataHolder;
+import io.github.mortuusars.horseman.data.HitchableHorse;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.LeadItem;
+import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
 public abstract class MobMixin extends LivingEntity {
@@ -20,18 +27,56 @@ public abstract class MobMixin extends LivingEntity {
     }
 
     @ModifyVariable(method = "dropLeash", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-    private boolean shouldDropLeash(boolean value) {
-        if (((Object)this) instanceof AbstractHorse horse) {
-            return Hitching.shouldDropLeash(horse);
-        }
-
-        return value;
+    private boolean shouldDropLeash(boolean dropLeash) {
+        return dropLeash && this instanceof HitchableHorse horse ? !HitchableHorse.isHitched(horse) : dropLeash;
     }
 
-    @Inject(method = "dropLeash", at = @At("RETURN"))
+    @Inject(method = "dropLeash", at = @At(value = "RETURN"))
     private void onDropLeash(boolean broadcastPacket, boolean dropLeash, CallbackInfo ci) {
-        if (((Object)this) instanceof AbstractHorse horse) {
-            Hitching.setDropsLeash(horse, true);
+        if (this instanceof HitchableHorse horse) {
+            HitchableHorse.setHitched(horse, false);
+            if (!horse.horseman$asHorse().level().isClientSide()) {
+                HitchableHorse.syncHorseDataToTrackingClients(horse);
+            }
+        }
+    }
+
+    @Inject(method = "checkAndHandleImportantInteractions", at = @At(value = "HEAD"), cancellable = true)
+    private void onCheckAndHandleImportantInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+        if (!(this instanceof HitchableHorse horse)
+                || !horse.horseman$asHorse().isTamed()
+                || horse.horseman$asHorse().isBaby()
+                || !HitchableHorse.isEnabled()) {
+            return;
+        }
+
+        ItemStack itemInHand = player.getItemInHand(hand);
+
+        if (itemInHand.getItem() instanceof ShearsItem && !player.isSecondaryUseActive() && HitchableHorse.hasLead(horse)) {
+            if (HitchableHorse.isHitched(horse)) {
+                horse.horseman$asHorse().dropLeash(true, false);
+            }
+            if (!level().isClientSide) {
+                ItemStack leadStack = HitchableHorse.getLead(horse);
+                spawnAtLocation(leadStack);
+            }
+            level().playSound(player, player, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 0.8f, 1f);
+            HitchableHorse.setLead(horse, ItemStack.EMPTY);
+            if (!level().isClientSide) {
+                HitchableHorse.syncHorseDataToTrackingClients(horse);
+            }
+            cir.setReturnValue(InteractionResult.sidedSuccess(level().isClientSide));
+            return;
+        }
+
+        if (itemInHand.getItem() instanceof LeadItem && player.isSecondaryUseActive()
+                && HitchableHorse.isHitchable(horse) && !HitchableHorse.hasLead(horse)) {
+            ItemStack leadStack = itemInHand.split(1);
+            HitchableHorse.setLead(horse, leadStack);
+            player.swing(hand);
+            cir.setReturnValue(InteractionResult.sidedSuccess(level().isClientSide));
+            level().playSound(player, player, SoundEvents.LEASH_KNOT_PLACE, SoundSource.PLAYERS, 0.8f, 1f);
+            return;
         }
     }
 }

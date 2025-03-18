@@ -1,10 +1,11 @@
 package io.github.mortuusars.horseman.network.forge;
 
-
 import io.github.mortuusars.horseman.network.PacketDirection;
 import io.github.mortuusars.horseman.network.packet.IPacket;
+import io.github.mortuusars.horseman.network.packet.client.SyncHorseDataS2CP;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -24,7 +25,11 @@ public class PacketsImpl {
             PROTOCOL_VERSION::equals);
 
     public static void register() {
-
+        CHANNEL.messageBuilder(SyncHorseDataS2CP.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncHorseDataS2CP::toBuffer)
+                .decoder(SyncHorseDataS2CP::fromBuffer)
+                .consumerMainThread(PacketsImpl::handlePacket)
+                .add();
     }
 
     public static void sendToServer(IPacket packet) {
@@ -37,6 +42,10 @@ public class PacketsImpl {
 
     public static void sendToAllClients(IPacket packet) {
         CHANNEL.send(PacketDistributor.ALL.noArg(), packet);
+    }
+
+    public static void sendToPlayersTrackingEntity(Entity entity, IPacket packet) {
+        CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), packet);
     }
 
     private static <T extends IPacket> void handlePacket(T packet, Supplier<NetworkEvent.Context> contextSupplier) {

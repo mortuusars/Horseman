@@ -18,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity {
+public abstract class HorseMomentum_LivingEntityMixin extends Entity {
     @Shadow
     public abstract float getSpeed();
 
-    public LivingEntityMixin(EntityType<?> entityType, Level level) {
+    public HorseMomentum_LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
 

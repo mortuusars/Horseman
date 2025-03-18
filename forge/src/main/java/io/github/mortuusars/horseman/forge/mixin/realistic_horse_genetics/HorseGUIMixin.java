@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.forge.mixin.realistic_horse_genetics;
 
-import io.github.mortuusars.horseman.Hitching;
 import io.github.mortuusars.horseman.Horseman;
+import io.github.mortuusars.horseman.data.HitchableHorse;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +30,9 @@ public abstract class HorseGUIMixin extends HorseInventoryScreen {
 
     @Inject(method = "renderBg", at = @At(value = "RETURN"))
     private void onRenderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY, CallbackInfo ci) {
-        if (Hitching.shouldHaveLeadSlot(this.horseGenetic)) {
+        if (!(this.horseGenetic instanceof HitchableHorse horse)) return;
+
+        if (HitchableHorse.shouldHaveLeadSlot(horse)) {
             int leftPos = (this.width - this.imageWidth) / 2;
             int topPos = (this.height - this.imageHeight) / 2;
             guiGraphics.blit(LEAD_SLOT_TEXTURE, leftPos + 7, topPos + 53, 0, 0, 18, 18);

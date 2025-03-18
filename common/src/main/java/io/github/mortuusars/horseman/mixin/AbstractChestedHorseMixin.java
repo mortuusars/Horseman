@@ -2,15 +2,14 @@ package io.github.mortuusars.horseman.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.Hitching;
 import io.github.mortuusars.horseman.PlatformHelper;
+import io.github.mortuusars.horseman.data.HitchableHorse;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractChestedHorse.class)
-public abstract class AbstractChestedHorseMixin extends AbstractHorse {
+public abstract class AbstractChestedHorseMixin extends AbstractHorse implements HitchableHorse {
     @Shadow public abstract boolean hasChest();
 
     @Shadow public abstract int getInventoryColumns();
@@ -41,7 +40,7 @@ public abstract class AbstractChestedHorseMixin extends AbstractHorse {
      */
     @ModifyReturnValue(method = "getInventorySize", at = @At("RETURN"))
     private int onGetInventorySize(int original) {
-        return Hitching.shouldHaveLeadSlot(this) && hasChest() ? original + 1 : original;
+        return HitchableHorse.shouldHaveLeadSlot(this) && hasChest() ? original + 1 : original;
     }
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
@@ -70,8 +69,8 @@ public abstract class AbstractChestedHorseMixin extends AbstractHorse {
             Containers.dropItemStack(level(), this.getX(), this.getY(), this.getZ(), new ItemStack(Items.CHEST));
 
             // Move lead to a correct slot (always last). Same as in AbstractHorseMixin#createInventory but in reverse.
-            if (Hitching.shouldHaveLeadSlot(this)) {
-                int leadSlot = Hitching.getLeadSlotIndex(this);
+            if (HitchableHorse.shouldHaveLeadSlot(this)) {
+                int leadSlot = HitchableHorse.getLeadSlotIndex(this);
                 ItemStack leadStack = inventory.getItem(leadSlot);
                 if (!leadStack.isEmpty()) {
                     inventory.setItem(2, leadStack);

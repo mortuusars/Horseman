@@ -2,7 +2,8 @@ package io.github.mortuusars.horseman.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.Hitching;
+import io.github.mortuusars.horseman.client.LeadOnHorse;
+import io.github.mortuusars.horseman.data.HitchableHorse;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
@@ -12,7 +13,6 @@ import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.HorseInventoryMenu;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,26 +35,33 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
     }
 
     @Inject(method = "render", at = @At(value = "RETURN"))
-    private void onRenderBg(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (Hitching.shouldHaveLeadSlot(this.horse)) {
-            for (Slot slot : getMenu().slots) {
-                ItemStack stack = slot.getItem();
-                if (stack.is(Items.LEAD) && stack.getTag() != null && stack.getTag().getBoolean(Hitching.PREVENT_LEAD_DROP_TAG)) {
-                    int leftPos = (this.width - this.imageWidth) / 2;
-                    int topPos = (this.height - this.imageHeight) / 2;
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                    guiGraphics.blit(LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1, 350, 0, 18, 18, 18, 256, 256);
-                    RenderSystem.disableBlend();
-                    break;
-                }
+    private void onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+        if (!(this.horse instanceof HitchableHorse hitchableHorse)) return;
+
+        if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
+            if (!HitchableHorse.isHitched(hitchableHorse)) return;
+
+            int slotIndex = HitchableHorse.getLeadSlotIndex(hitchableHorse);
+            Slot slot = getMenu().slots.get(slotIndex);
+            if (slot.getItem().is(Items.LEAD)) {
+                // Darken the slot
+                int leftPos = (this.width - this.imageWidth) / 2;
+                int topPos = (this.height - this.imageHeight) / 2;
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+                guiGraphics.blit(LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1, 350, 0, 18, 18, 18, 256, 256);
+                RenderSystem.disableBlend();
             }
+        } else if (HitchableHorse.requiresLead() && HitchableHorse.hasLead(hitchableHorse)) {
+            LeadOnHorse.renderInventory(guiGraphics, mouseX, mouseY, partialTick, leftPos, topPos, this.horse);
         }
     }
 
     @Inject(method = "renderBg", at = @At(value = "RETURN"))
     private void onRenderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY, CallbackInfo ci) {
-        if (Hitching.shouldHaveLeadSlot(this.horse)) {
+        if (!(this.horse instanceof HitchableHorse hitchableHorse)) return;
+
+        if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
             int leftPos = (this.width - this.imageWidth) / 2;
             int topPos = (this.height - this.imageHeight) / 2;
             guiGraphics.blit(LEAD_SLOT_TEXTURE, leftPos + 7, topPos + 53, 0, 0, 18, 18);

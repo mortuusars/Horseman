@@ -6,6 +6,7 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import io.github.mortuusars.horseman.network.packet.IPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -23,6 +24,11 @@ public class Packets {
 
     @ExpectPlatform
     public static void sendToAllClients(IPacket packet) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void sendToPlayersTrackingEntity(Entity entity, IPacket packet) {
         throw new AssertionError();
     }
 

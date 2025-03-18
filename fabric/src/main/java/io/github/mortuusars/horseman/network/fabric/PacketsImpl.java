@@ -10,6 +10,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -45,6 +46,12 @@ public class PacketsImpl {
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             ServerPlayNetworking.send(player, packet.getId(), packetBuffer);
         }
+    }
+
+    public static void sendToPlayersTrackingEntity(Entity entity, IPacket packet) {
+        // I haven't found alternative to forge TRACKING_ENTITY target,
+        // but it should not be a big deal anyway, client will not update the entity it does not have.
+        sendToAllClients(packet);
     }
 
     public static void onServerStarting(MinecraftServer server) {

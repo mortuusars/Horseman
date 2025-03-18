@@ -24,6 +24,12 @@ public class HorsemanFabric implements ModInitializer {
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(PacketsImpl::onServerStopped);
 
+//        EntityTrackingEvents.START_TRACKING.register((trackedEntity, player) -> {
+//            if (trackedEntity instanceof LeadHolder leadHolder && leadHolder.horseman$hasLead()) {
+//                Packets.sendToClient(new SyncStoredLeadS2CP(trackedEntity.getId(), leadHolder.horseman$getLead()), player);
+//            }
+//        });
+
         PacketsImpl.registerC2SPackets();
     }
 }
