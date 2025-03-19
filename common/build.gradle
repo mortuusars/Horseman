@@ -6,27 +6,28 @@ loom {
     accessWidenerPath = file("src/main/resources/horseman.accesswidener")
 }
 
-repositories {
-    maven {
-        name = "Fuzs Mod Resources"
-        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
-    }
+configurations {
+    create("junit")
 }
 
 dependencies {
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
-    // Do NOT use other classes from fabric loader
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
+    // which get remapped to the correct annotations on each platform.
+    // Do NOT use other classes from Fabric Loader.
+    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${forge_config_api_port_version}"
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 
-    modCompileOnlyApi("dev.latvian.mods:kubejs:${kubejs_version}")
+    testImplementation(platform("org.junit:junit-bom:${project.property("jupiterVersion")}"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    "junit"(platform("org.junit:junit-bom:${project.property("jupiterVersion")}"))
+    "junit"("org.junit.jupiter:junit-jupiter")
+}
 
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
-        exclude group: 'net.fabricmc.fabric-api'
+tasks {
+    test {
+        useJUnitPlatform()
     }
-
-    modCompileOnly("curse.maven:architectury-${architectury_cf_version}")
-
-    api "fuzs.forgeconfigapiport:forgeconfigapiport-common:${forge_config_api_version}"
 }

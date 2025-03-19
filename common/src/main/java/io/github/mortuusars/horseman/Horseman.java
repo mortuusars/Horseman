@@ -56,7 +56,7 @@ public class Horseman {
      * Creates resource location in the mod namespace with the given path.
      */
     public static ResourceLocation resource(String path) {
-        return new ResourceLocation(ID, path);
+        return ResourceLocation.fromNamespaceAndPath(ID, path);
     }
 
     public static Vec2 handleRiddenRotation(AbstractHorse horse, LivingEntity rider) {

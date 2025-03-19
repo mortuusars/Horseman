@@ -1,7 +1,7 @@
-package io.github.mortuusars.horseman.forge.event;
+package io.github.mortuusars.horseman.neoforge.event;
 
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.network.forge.PacketsImpl;
+import io.github.mortuusars.horseman.network.neoforge.PacketsImpl;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 

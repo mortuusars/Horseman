@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.forge.event;
+package io.github.mortuusars.horseman.neoforge.event;
 
 public class ClientEvents {
     public static class ModBus {

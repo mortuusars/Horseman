@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.21.1 - 1.2.0 - 2025-03-20
+- Ported to 1.21.
+
 ## 1.2.0 - 2025-03-19
 **This update changes some internal structure of horse hitching. Serious bugs should not happen, 
 but if you want to be extra safe - remove Leads from horses before the update.**

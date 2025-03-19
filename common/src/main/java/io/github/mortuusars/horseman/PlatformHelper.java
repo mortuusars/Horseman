@@ -15,11 +15,6 @@ public class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static boolean canStrip(ItemStack stack) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static void openMenu(ServerPlayer serverPlayer, MenuProvider menuProvider, Consumer<FriendlyByteBuf> extraDataWriter) {
         throw new AssertionError();
     }

@@ -1,73 +1,67 @@
 package io.github.mortuusars.horseman.network.fabric;
 
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.network.PacketDirection;
-import io.github.mortuusars.horseman.network.packet.IPacket;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import io.github.mortuusars.horseman.fabric.HorsemanFabric;
+import io.github.mortuusars.horseman.network.packet.Packet;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class PacketsImpl {
-    
-    @Nullable
-    private static MinecraftServer server;
-
-    public static void registerC2SPackets() {
-
+    public static void sendToServer(Packet packet) {
+        FabricC2SPackets.sendToServer(packet);
     }
 
-    public static void registerS2CPackets() {
-        ClientPackets.registerS2CPackets();
+    public static void sendToClient(Packet packet, ServerPlayer player) {
+        ServerPlayNetworking.send(player, packet);
     }
 
-    public static void sendToServer(IPacket packet) {
-        ClientPackets.sendToServer(packet);
-    }
-
-    public static void sendToClient(IPacket packet, ServerPlayer player) {
-        ServerPlayNetworking.send(player, packet.getId(), packet.toBuffer(PacketByteBufs.create()));
-    }
-
-    public static void sendToAllClients(IPacket packet) {
-        if (server == null) {
-            Horseman.LOGGER.error("Cannot send a packet to all players. Server is not present.");
+    public static void sendToClients(Packet packet, Predicate<ServerPlayer> filter) {
+        if (HorsemanFabric.server == null) {
+            Horseman.LOGGER.error("Cannot send a packet to players. Server is not available.");
             return;
         }
 
-        FriendlyByteBuf packetBuffer = packet.toBuffer(PacketByteBufs.create());
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            ServerPlayNetworking.send(player, packet.getId(), packetBuffer);
+        for (ServerPlayer player : HorsemanFabric.server.getPlayerList().getPlayers()) {
+            if (filter.test(player)) {
+                sendToClient(packet, player);
+            }
         }
     }
 
-    public static void sendToPlayersTrackingEntity(Entity entity, IPacket packet) {
+    public static void sendToAllClients(Packet packet) {
+        if (HorsemanFabric.server == null) {
+            Horseman.LOGGER.error("Cannot send a packet to all players. Server is not available.");
+            return;
+        }
+
+        for (ServerPlayer player : HorsemanFabric.server.getPlayerList().getPlayers()) {
+            sendToClient(packet, player);
+        }
+    }
+
+    public static void sendToPlayersNear(Packet packet, @NotNull ServerLevel level, @Nullable ServerPlayer excludedPlayer,
+                                         double x, double y, double z, double radius) {
+        sendToClients(packet, player -> {
+            if (player != excludedPlayer && player.level().dimension() == level.dimension()) {
+                double d0 = x - player.getX();
+                double d1 = y - player.getY();
+                double d2 = z - player.getZ();
+                return d0 * d0 + d1 * d1 + d2 * d2 < radius * radius;
+            }
+
+            return false;
+        });
+    }
+
+    public static void sendToPlayersTrackingEntity(Entity entity, Packet packet) {
         // I haven't found alternative to forge TRACKING_ENTITY target,
         // but it should not be a big deal anyway, client will not update the entity it does not have.
         sendToAllClients(packet);
-    }
-
-    public static void onServerStarting(MinecraftServer server) {
-        // Store server to access from static context:
-        PacketsImpl.server = server;
-    }
-
-    public static void onServerStopped(MinecraftServer server) {
-        PacketsImpl.server = null;
-    }
-
-    private record ServerHandler(Function<FriendlyByteBuf, IPacket> decodeFunction) implements ServerPlayNetworking.PlayChannelHandler {
-        @Override
-        public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
-            IPacket packet = decodeFunction.apply(buf);
-            packet.handle(PacketDirection.TO_SERVER, player);
-        }
     }
 }

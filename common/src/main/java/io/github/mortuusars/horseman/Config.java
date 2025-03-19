@@ -1,35 +1,35 @@
 package io.github.mortuusars.horseman;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
  * Using ForgeConfigApiPort on fabric allows using forge config in both environments and without extra dependencies on forge.
  */
 public class Config {
     public static class Common {
-        public static final ForgeConfigSpec SPEC;
+        public static final ModConfigSpec SPEC;
 
         // Movement
-        public static final ForgeConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
-        public static final ForgeConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
-        public static final ForgeConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN;
-        public static final ForgeConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
-        public static final ForgeConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
-        public static final ForgeConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
+        public static final ModConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
+        public static final ModConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
+        public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN;
+        public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
+        public static final ModConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
+        public static final ModConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
 
         // Hitching
-        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH;
-        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_REQUIRES_LEAD;
-        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
+        public static final ModConfigSpec.BooleanValue HORSE_HITCH;
+        public static final ModConfigSpec.BooleanValue HORSE_HITCH_REQUIRES_LEAD;
+        public static final ModConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
-        public static final ForgeConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
+        public static final ModConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
 
         // Camera
-        public static final ForgeConfigSpec.BooleanValue HORSE_FREE_CAMERA;
-        public static final ForgeConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
+        public static final ModConfigSpec.BooleanValue HORSE_FREE_CAMERA;
+        public static final ModConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
 
         static {
-            ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
             builder.push("movement");
 
@@ -108,23 +108,23 @@ public class Config {
     }
 
     public static class Client {
-        public static final ForgeConfigSpec SPEC;
+        public static final ModConfigSpec SPEC;
 
-        public static final ForgeConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
-        public static final ForgeConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
+        public static final ModConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
+        public static final ModConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
 
-        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
+        public static final ModConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
 
         static {
-            ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
             HORSE_HEAD_PITCH_OFFSET = builder
                     .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view. Default: 20")
-                    .defineInRange("HorseModelHeadOffset", 20, 0, 45);
+                    .defineInRange("horse_model_head_offset", 20, 0, 45);
 
             HORSE_HEAD_Y_OFFSET = builder
                     .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view. Default: true")
-                    .defineInRange("HorseModelYOffset", 2, 0, 4);
+                    .defineInRange("horse_model_y_offset", 2, 0, 4);
 
             HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT = builder
                     .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen. Default: true")

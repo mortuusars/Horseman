@@ -1,11 +1,11 @@
 package io.github.mortuusars.horseman.fabric;
 
-import io.github.mortuusars.horseman.network.fabric.PacketsImpl;
+import io.github.mortuusars.horseman.network.fabric.FabricS2CPacketHandler;
 import net.fabricmc.api.ClientModInitializer;
 
 public class HorsemanFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        PacketsImpl.registerS2CPackets();
+        FabricS2CPacketHandler.register();
     }
 }

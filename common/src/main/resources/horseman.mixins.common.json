@@ -17,7 +17,8 @@
     "HorseMomentum_LivingEntityMixin",
     "MobMixin",
     "SyncInitialHorseData_ServerEntityMixin",
-    "FixMovedWrongly_ServerGamePacketListenerImplMixin"
+    "FixMovedWrongly_ServerGamePacketListenerImplMixin",
+    "LeashableMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.client;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -16,7 +16,7 @@ public class LeadOnHorse {
             guiGraphics.pose().popPose();
 
             if (mouseX >= leftPos + 62 && mouseX < leftPos + 62 + 16 && mouseY >= topPos + 18 && mouseY < topPos + 18 + 16) {
-                guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("Has Hitching Lead"), mouseX, mouseY);
+                guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.translatable("gui.horseman.has_lead"), mouseX, mouseY);
             }
         }
     }

@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.mixin;
 
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +17,7 @@ public class SyncInitialHorseData_ServerEntityMixin {
 
     @Inject(method = "addPairing", at = @At("RETURN"))
     private void onSendPairingData(ServerPlayer player, CallbackInfo ci) {
-        if (this.entity instanceof HitchableHorse horse && HitchableHorse.isEnabled()) {
+        if (this.entity instanceof HitchableHorse horse && HitchableHorse.isEnabled() && HitchableHorse.isHitchable(horse)) {
             HitchableHorse.syncHorseDataToClient(horse, player);
         }
     }

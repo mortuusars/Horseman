@@ -1,8 +1,7 @@
 package io.github.mortuusars.horseman.mixin;
 
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FenceBlock.class)
 public class Hitching_FenceBlockMixin {
-    @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void onUse(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
-                       BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
+    @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
+    private void onUse(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult,
+                       CallbackInfoReturnable<InteractionResult> cir) {
         if (player.getRootVehicle() instanceof AbstractHorse horse
                 && horse instanceof HitchableHorse hitchableHorse
                 && HitchableHorse.canHitch(hitchableHorse)) {

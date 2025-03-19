@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.network.forge;
+package io.github.mortuusars.horseman.network.neoforge;
 
 import io.github.mortuusars.horseman.network.PacketDirection;
 import io.github.mortuusars.horseman.network.packet.IPacket;

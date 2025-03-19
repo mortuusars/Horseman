@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.mixin;
 
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -14,10 +14,7 @@ import net.minecraft.world.item.LeadItem;
 import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
@@ -26,20 +23,20 @@ public abstract class MobMixin extends LivingEntity {
         super(entityType, level);
     }
 
-    @ModifyVariable(method = "dropLeash", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-    private boolean shouldDropLeash(boolean dropLeash) {
-        return dropLeash && this instanceof HitchableHorse horse ? !HitchableHorse.isHitched(horse) : dropLeash;
-    }
-
-    @Inject(method = "dropLeash", at = @At(value = "RETURN"))
-    private void onDropLeash(boolean broadcastPacket, boolean dropLeash, CallbackInfo ci) {
-        if (this instanceof HitchableHorse horse) {
-            HitchableHorse.setHitched(horse, false);
-            if (!horse.horseman$asHorse().level().isClientSide()) {
-                HitchableHorse.syncHorseDataToTrackingClients(horse);
-            }
-        }
-    }
+//    @ModifyVariable(method = "dropLeash", at = @At("HEAD"), ordinal = 1, argsOnly = true)
+//    private boolean shouldDropLeash(boolean dropItem) {
+//        return dropItem && this instanceof HitchableHorse horse ? !HitchableHorse.isHitched(horse) : dropItem;
+//    }
+//
+//    @Inject(method = "dropLeash", at = @At(value = "RETURN"))
+//    private void onDropLeash(boolean broadcastPacket, boolean dropItem, CallbackInfo ci) {
+//        if (this instanceof HitchableHorse horse) {
+//            HitchableHorse.setHitched(horse, false);
+//            if (!horse.horseman$asHorse().level().isClientSide()) {
+//                HitchableHorse.syncHorseDataToTrackingClients(horse);
+//            }
+//        }
+//    }
 
     @Inject(method = "checkAndHandleImportantInteractions", at = @At(value = "HEAD"), cancellable = true)
     private void onCheckAndHandleImportantInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {

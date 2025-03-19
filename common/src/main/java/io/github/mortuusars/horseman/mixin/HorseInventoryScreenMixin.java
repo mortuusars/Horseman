@@ -3,7 +3,8 @@ package io.github.mortuusars.horseman.mixin;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.client.LeadOnHorse;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.world.HitchableHorse;
+import io.github.mortuusars.horseman.world.menu.LeadSlot;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
@@ -41,16 +42,16 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
         if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
             if (!HitchableHorse.isHitched(hitchableHorse)) return;
 
-            int slotIndex = HitchableHorse.getLeadSlotIndex(hitchableHorse);
-            Slot slot = getMenu().slots.get(slotIndex);
-            if (slot.getItem().is(Items.LEAD)) {
-                // Darken the slot
-                int leftPos = (this.width - this.imageWidth) / 2;
-                int topPos = (this.height - this.imageHeight) / 2;
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                guiGraphics.blit(LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1, 350, 0, 18, 18, 18, 256, 256);
-                RenderSystem.disableBlend();
+            for (Slot slot : getMenu().slots) {
+                if (slot instanceof LeadSlot && slot.getItem().is(Items.LEAD)) {
+                    // Darken the slot
+                    int leftPos = (this.width - this.imageWidth) / 2;
+                    int topPos = (this.height - this.imageHeight) / 2;
+                    RenderSystem.enableBlend();
+                    RenderSystem.defaultBlendFunc();
+                    guiGraphics.blit(LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1, 350, 0, 18, 18, 18, 256, 256);
+                    RenderSystem.disableBlend();
+                }
             }
         } else if (HitchableHorse.requiresLead() && HitchableHorse.hasLead(hitchableHorse)) {
             LeadOnHorse.renderInventory(guiGraphics, mouseX, mouseY, partialTick, leftPos, topPos, this.horse);

@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.forge.mixin.realistic_horse_genetics;
+package io.github.mortuusars.horseman.neoforge.mixin.realistic_horse_genetics;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.PlatformHelper;

@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.forge;
+package io.github.mortuusars.horseman.neoforge;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.github.mortuusars.horseman.Horseman;

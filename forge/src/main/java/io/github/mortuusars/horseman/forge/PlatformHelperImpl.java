@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.forge;
+package io.github.mortuusars.horseman.neoforge;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

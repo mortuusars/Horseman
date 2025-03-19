@@ -1,35 +1,38 @@
 package io.github.mortuusars.horseman.fabric;
 
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.network.fabric.PacketsImpl;
+import io.github.mortuusars.horseman.network.fabric.FabricC2SPackets;
+import io.github.mortuusars.horseman.network.fabric.FabricS2CPackets;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraft.server.MinecraftServer;
+import net.neoforged.fml.config.ModConfig;
+import org.jetbrains.annotations.Nullable;
 
 public class HorsemanFabric implements ModInitializer {
+    // Server field to access when no other objects are available to get it from.
+    public static @Nullable MinecraftServer server = null;
+
     @Override
     public void onInitialize() {
         Horseman.init();
 
-        ForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.COMMON, Config.Common.SPEC);
-        ForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.CLIENT, Config.Client.SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, net.neoforged.fml.config.ModConfig.Type.COMMON, Config.Common.SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.CLIENT, Config.Client.SPEC);
 
         Horseman.Advancements.register();
         Horseman.Stats.register();
 
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            PacketsImpl.onServerStarting(server);
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            HorsemanFabric.server = server;
         });
-        ServerLifecycleEvents.SERVER_STOPPED.register(PacketsImpl::onServerStopped);
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            HorsemanFabric.server = null;
+        });
 
-//        EntityTrackingEvents.START_TRACKING.register((trackedEntity, player) -> {
-//            if (trackedEntity instanceof LeadHolder leadHolder && leadHolder.horseman$hasLead()) {
-//                Packets.sendToClient(new SyncStoredLeadS2CP(trackedEntity.getId(), leadHolder.horseman$getLead()), player);
-//            }
-//        });
-
-        PacketsImpl.registerC2SPackets();
+        FabricC2SPackets.register();
+        FabricS2CPackets.register();
     }
 }

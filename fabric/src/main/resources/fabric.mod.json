@@ -8,7 +8,7 @@
     "${mod_authors}"
   ],
   "contact": {
-    "homepage": "${mod_homepage}",
+    "homepage": "${mod_page}",
     "sources": "${mod_github}"
   },
   "license": "${mod_license}",
@@ -23,13 +23,13 @@
     ]
   },
   "mixins": [
-    "horseman.mixins.json",
-    "horseman-common.mixins.json"
+    "horseman.mixins.fabric.json",
+    "horseman.mixins.common.json"
   ],
   "depends": {
-    "minecraft": "=1.20.1",
-    "fabric-api": ">=0.88.1",
+    "minecraft": ">=1.21.0",
     "fabric": "*",
-    "forgeconfigapiport": ">=8.0.0"
+    "fabric-api": ">=0.88.1",
+    "forgeconfigapiport": ">=21.0.0"
   }
 }

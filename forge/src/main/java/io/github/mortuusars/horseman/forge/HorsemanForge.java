@@ -1,9 +1,9 @@
-package io.github.mortuusars.horseman.forge;
+package io.github.mortuusars.horseman.neoforge;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.forge.event.ClientEvents;
-import io.github.mortuusars.horseman.forge.event.CommonEvents;
+import io.github.mortuusars.horseman.neoforge.event.ClientEvents;
+import io.github.mortuusars.horseman.neoforge.event.CommonEvents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.HorseInventoryMenu;
 import net.minecraftforge.api.distmarker.Dist;

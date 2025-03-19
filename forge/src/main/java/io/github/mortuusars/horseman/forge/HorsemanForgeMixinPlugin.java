@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.forge;
+package io.github.mortuusars.horseman.neoforge;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraftforge.fml.loading.LoadingModList;
