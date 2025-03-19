@@ -1,11 +1,14 @@
 # Changelog
 
-## UNRELEASED
+## 1.2.0 - 2025-03-19
+**This update changes some internal structure of horse hitching. Serious bugs should not happen, 
+but if you want to be extra safe - remove Leads from horses before the update.**
+
 - Lead can now be attached by Sneak+Using Lead item on a horse.
-- Using shears on a horse with lead attached will remove the Lead.
+- Using shears on a horse with Lead attached will remove the Lead.
 - Added `horse_hitch_lead_required` config option. Enabled by default.
   - Allows turning off Lead slot (for compatibility with some mods), but still require Lead to be attached.
-  - When `horse_hitch_lead_slot` is turned off, only way to attach a Lead is to Sneak+Use. Icon will be shown in horse UI when horse has Lead attached. 
+  - When `horse_hitch_lead_slot` is turned off, the only way to attach a Lead is to Sneak+Use. Icon will be shown in horse UI when horse has Lead attached. 
 
 ## 1.1.4 - 2024-08-31
 - [Forge] Added some compatibility with Realistic Horse Genetics. 
