@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1 - 2025-04-10
+- Fixed loading crash with Horse Buff.
+
 ## 1.2.0 - 2025-03-19
 **This update changes some internal structure of horse hitching. Serious bugs should not happen, 
 but if you want to be extra safe - remove Leads from horses before the update.**
