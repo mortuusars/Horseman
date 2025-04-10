@@ -11,16 +11,21 @@
   "mixins": [
     "AbstractChestedHorseMixin",
     "AbstractHorseMixin",
-    "horse_fits_in_boat.BoatMixin",
-    "horse_fits_in_boat.EntityMixin",
-    "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
     "Hitching_FenceBlockMixin",
     "HorseInventoryMenuMixin",
     "HorseMomentum_LivingEntityMixin",
     "LeashableMixin",
     "LeashKnotEntityMixin",
     "MobMixin",
-    "SyncInitialHorseData_ServerEntityMixin"
+    "SyncInitialHorseData_ServerEntityMixin",
+    "creative_taming.AbstractChestedHorseMixin",
+    "creative_taming.HorseMixin",
+    "fits_in_boat.BoatMixin",
+    "fits_in_boat.EntityMixin",
+    "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
+    "less_wander.AbstractHorseMixin",
+    "less_wander.ServerPlayerMixin",
+    "less_wander.WaterAvoidingRandomStrollGoalMixin"
   ],
   "injectors": {
     "defaultRequire": 1

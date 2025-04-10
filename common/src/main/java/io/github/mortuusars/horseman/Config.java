@@ -9,14 +9,24 @@ public class Config {
     public static class Server {
         public static final ModConfigSpec SPEC;
 
+        public static final ModConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
         public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
+        public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
+            HORSE_CREATIVE_TAMING = builder
+                    .comment("Using Saddle on untamed horse-type mob while in creative mode tames it instantly. Default: true.")
+                    .define("horse_creative_taming", true);
+
             HORSE_IN_BOAT = builder
-                    .comment("Horses are able to fit in boats. Default: true.")
+                    .comment("Horse-type mobs are able to fit in boats. Default: true.")
                     .define("horse_in_boat", true);
+
+            SADDLED_HORSE_WANDER_RADIUS = builder
+                    .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 to disable. Default: 8")
+                    .defineInRange("saddled_horse_wander_radius", 8, -1, 64);
 
             SPEC = builder.build();
         }
@@ -64,7 +74,7 @@ public class Config {
 
             HORSE_FAST_STEP_DOWN_TWO_BLOCKS = builder
                     .comment("Makes 'horse_fast_step_down' work when stepping down two blocks.",
-                             "Makes fast step down work properly for steep staircases. Default: false")
+                            "Makes fast step down work properly for steep staircases. Default: false")
                     .define("horse_fast_step_down_two_blocks", false);
 
             INCREASE_HORSE_AIRBORNE_SPEED = builder
