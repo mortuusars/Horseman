@@ -1,5 +1,10 @@
 # Changelog
 
+## UNRELEASED - 2025-04-10
+Features from Horse Buff
+- Horses fit in boats.
+- 
+
 ## 1.21.1 - 1.2.0 - 2025-03-20
 - Ported to 1.21.
 

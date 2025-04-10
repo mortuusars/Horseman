@@ -6,6 +6,22 @@ import net.neoforged.neoforge.common.ModConfigSpec;
  * Using ForgeConfigApiPort on fabric allows using forge config in both environments and without extra dependencies on forge.
  */
 public class Config {
+    public static class Server {
+        public static final ModConfigSpec SPEC;
+
+        public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
+
+        static {
+            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+
+            HORSE_IN_BOAT = builder
+                    .comment("Horses are able to fit in boats. Default: true.")
+                    .define("horse_in_boat", true);
+
+            SPEC = builder.build();
+        }
+    }
+
     public static class Common {
         public static final ModConfigSpec SPEC;
 
