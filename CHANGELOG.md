@@ -1,8 +1,13 @@
 # Changelog
 
 ## UNRELEASED - 2025-04-10
-Features from Horse Buff:
-- Horses fit in boats.
+- Using saddle in creative mode on an untamed horse instantly tames it.
+
+**Due to an agreement with Horse Buff mod author, Horseman will not include Horse Buff's features.**
+
+Features ported/adapted from Horse Buff:
+- Horses now fit in boats. Their hitbox gets a bit smaller to make breaking the boat easier. 
+- Saddled horse will stay near the position where player left it.
 
 ## 1.2.1 - 2025-04-10
 - Fixed loading crash with Horse Buff.
