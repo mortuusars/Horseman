@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.fix_moved_wrongly;
 
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(ServerGamePacketListenerImpl.class)
-public abstract class FixMovedWrongly_ServerGamePacketListenerImplMixin {
+public abstract class ServerGamePacketListenerImplMixin {
     @Shadow public ServerPlayer player;
 
     @ModifyConstant(method = "handleMoveVehicle", constant = @Constant(doubleValue = 0.0625))
