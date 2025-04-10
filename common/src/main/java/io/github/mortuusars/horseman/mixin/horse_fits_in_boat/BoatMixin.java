@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin.horse_in_boat;
+package io.github.mortuusars.horseman.mixin.horse_fits_in_boat;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
