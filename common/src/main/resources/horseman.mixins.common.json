@@ -11,6 +11,8 @@
   "mixins": [
     "AbstractChestedHorseMixin",
     "AbstractHorseMixin",
+    "horse_fits_in_boat.BoatMixin",
+    "horse_fits_in_boat.EntityMixin",
     "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
     "Hitching_FenceBlockMixin",
     "HorseInventoryMenuMixin",
