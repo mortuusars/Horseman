@@ -1,18 +1,15 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.hitching;
 
-import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +17,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractHorse.class)
 public abstract class AbstractHorseMixin extends Animal implements HitchableHorse {
@@ -68,38 +64,6 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
         if (HitchableHorse.hasLead(this)) {
             spawnAtLocation(HitchableHorse.getLead(this));
             HitchableHorse.setLead(this, ItemStack.EMPTY);
-        }
-    }
-
-    // --
-
-    @Inject(method = "doPlayerRide", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setYRot(F)V"), cancellable = true)
-    private void onDoPlayerRide(Player player, CallbackInfo ci) {
-        if (Config.Common.ROTATE_HORSE_INSTEAD_OF_PLAYER.get()) {
-            this.setYRot(player.getYRot());
-            this.setXRot(player.getXRot());
-            player.startRiding(this);
-            ci.cancel();
-        }
-    }
-
-    @Inject(method = "getRiddenRotation", at = @At(value = "HEAD"), cancellable = true)
-    private void onGetRiddenRotation(LivingEntity entity, CallbackInfoReturnable<Vec2> cir) {
-        AbstractHorse horse = (AbstractHorse)(Object)this;
-        if (!Config.Common.HORSE_FREE_CAMERA.get() || !(entity instanceof Player player) || player.xxa != 0 || player.zza != 0) {
-            return;
-        }
-
-        float threshold = Config.Common.HORSE_FREE_CAMERA_ANGLE_THRESHOLD.get().floatValue();
-
-        float rotationDifference = (player.getYRot() - horse.getYRot() + 540) % 360 - 180;
-
-        if (Math.abs(rotationDifference) > threshold) {
-            // Rotate the horse following player's rotation, with offset
-            cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, player.getYRot() - Math.signum(rotationDifference) * threshold));
-        }
-        else {
-            cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, horse.getYRot()));
         }
     }
 

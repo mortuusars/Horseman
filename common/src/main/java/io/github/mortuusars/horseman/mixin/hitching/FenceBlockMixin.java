@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.hitching;
 
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.core.BlockPos;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FenceBlock.class)
-public class Hitching_FenceBlockMixin {
+public class FenceBlockMixin {
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
     private void onUse(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult,
                        CallbackInfoReturnable<InteractionResult> cir) {

@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.momentum;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
@@ -18,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class HorseMomentum_LivingEntityMixin extends Entity {
+public abstract class LivingEntityMixin extends Entity {
     @Shadow
     public abstract float getSpeed();
 
-    public HorseMomentum_LivingEntityMixin(EntityType<?> entityType, Level level) {
+    public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
 

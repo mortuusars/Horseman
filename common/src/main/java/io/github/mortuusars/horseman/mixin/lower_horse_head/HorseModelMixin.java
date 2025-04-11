@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.lower_horse_head;
 
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.CameraType;

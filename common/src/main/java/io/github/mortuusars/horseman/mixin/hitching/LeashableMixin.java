@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.hitching;
 
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;

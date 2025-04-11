@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.hitching;
 
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.sounds.SoundEvents;
@@ -22,21 +22,6 @@ public abstract class MobMixin extends LivingEntity {
     protected MobMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
     }
-
-//    @ModifyVariable(method = "dropLeash", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-//    private boolean shouldDropLeash(boolean dropItem) {
-//        return dropItem && this instanceof HitchableHorse horse ? !HitchableHorse.isHitched(horse) : dropItem;
-//    }
-//
-//    @Inject(method = "dropLeash", at = @At(value = "RETURN"))
-//    private void onDropLeash(boolean broadcastPacket, boolean dropItem, CallbackInfo ci) {
-//        if (this instanceof HitchableHorse horse) {
-//            HitchableHorse.setHitched(horse, false);
-//            if (!horse.horseman$asHorse().level().isClientSide()) {
-//                HitchableHorse.syncHorseDataToTrackingClients(horse);
-//            }
-//        }
-//    }
 
     @Inject(method = "checkAndHandleImportantInteractions", at = @At(value = "HEAD"), cancellable = true)
     private void onCheckAndHandleImportantInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {

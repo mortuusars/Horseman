@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.shears_remove_chest;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.PlatformHelper;
