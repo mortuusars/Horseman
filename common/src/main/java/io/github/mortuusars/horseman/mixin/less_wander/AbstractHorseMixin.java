@@ -40,15 +40,17 @@ public abstract class AbstractHorseMixin extends Animal implements LessWandering
     // --
 
     @Inject(method = "equipSaddle", at = @At("RETURN"))
-    protected void addAdditionalSaveData(ItemStack stack, SoundSource soundSource, CallbackInfo ci) {
-        horseman$wanderAnchor = this.position();
+    protected void equipSaddle(ItemStack stack, SoundSource soundSource, CallbackInfo ci) {
+        if (LessWanderingHorse.isEnabled()) {
+            horseman$wanderAnchor = this.position();
+        }
     }
 
     // --
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
     protected void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        if (horseman$wanderAnchor != null) {
+        if (horseman$wanderAnchor != null && LessWanderingHorse.isEnabled()) {
             tag.putDouble("HorsemanWanderAnchorX", horseman$wanderAnchor.x);
             tag.putDouble("HorsemanWanderAnchorY", horseman$wanderAnchor.y);
             tag.putDouble("HorsemanWanderAnchorZ", horseman$wanderAnchor.z);
@@ -56,7 +58,9 @@ public abstract class AbstractHorseMixin extends Animal implements LessWandering
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    protected void onReadAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+    protected void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        if (!LessWanderingHorse.isEnabled()) return;
+
         @Nullable Double x = null;
         @Nullable Double y = null;
         @Nullable Double z = null;

@@ -19,6 +19,7 @@ public abstract class WaterAvoidingRandomStrollGoalMixin extends RandomStrollGoa
     @ModifyReturnValue(method = "getPosition", at = @At("RETURN"))
     private Vec3 onGetPosition(Vec3 original) {
         if (original != null
+                && LessWanderingHorse.isEnabled()
                 && mob instanceof AbstractHorse horse
                 && horse.isSaddled()
                 && !mob.isInWaterOrBubble() // Allow horse to escape water. But this does not seem to be working in vanilla.

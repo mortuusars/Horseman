@@ -151,6 +151,12 @@ public class Config {
 
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
 
+        public static final ModConfigSpec.BooleanValue INVENTORY_TOGGLE_ENABLED;
+        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_X;
+        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_Y;
+        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_X;
+        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
+
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
@@ -165,6 +171,30 @@ public class Config {
             HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT = builder
                     .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen. Default: true")
                     .define("render_lead_indication_without_slot", true);
+
+            {
+                builder.push("horse_inventory_toggle");
+
+                INVENTORY_TOGGLE_ENABLED = builder
+                        .comment("Adds button and hotkey to switch between player and horse inventory. Default: true")
+                        .define("toggle_enabled", true);
+
+                INVENTORY_TOGGLE_PLAYER_BUTTON_X = builder
+                        .comment("X position of the button in player's inventory. Default: -14.")
+                        .defineInRange("player_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                INVENTORY_TOGGLE_PLAYER_BUTTON_Y = builder
+                        .comment("Y position of the button in player's inventory. Default: 9.")
+                        .defineInRange("player_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+                INVENTORY_TOGGLE_HORSE_BUTTON_X = builder
+                        .comment("X position of the button in mount's inventory. Default: -14.")
+                        .defineInRange("horse_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                INVENTORY_TOGGLE_HORSE_BUTTON_Y = builder
+                        .comment("Y position of the button in mount's inventory. Default: 9.")
+                        .defineInRange("horse_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+                builder.pop();
+            }
 
             SPEC = builder.build();
         }

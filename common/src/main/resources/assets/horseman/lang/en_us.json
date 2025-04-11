@@ -1,3 +1,6 @@
 {
-  "gui.horseman.has_lead": "Has Hitching Lead"
+  "gui.horseman.has_lead": "Has Hitching Lead",
+  "gui.horseman.switch_inventory.button.from_horse.tooltip": "Player Inventory §8[§7CTRL+%s§8]",
+  "gui.horseman.switch_inventory.button.from_inventory.tooltip": "%s Inventory §8[§7CTRL+%s§8]",
+  "gui.horseman.switch_inventory.button.from_inventory..tooltip.mount": "Mount"
 }
