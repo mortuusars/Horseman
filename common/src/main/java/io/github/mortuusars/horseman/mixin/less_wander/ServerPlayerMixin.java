@@ -19,7 +19,7 @@ public abstract class ServerPlayerMixin extends Player {
 
     @Inject(method = "stopRiding", at = @At("HEAD"))
     private void onStopRiding(CallbackInfo ci) {
-        if (getVehicle() instanceof LessWanderingHorse horse) {
+        if (LessWanderingHorse.isEnabled() && getVehicle() instanceof LessWanderingHorse horse) {
             horse.horseman$setWanderAnchor(getVehicle().position());
         }
     }

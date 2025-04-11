@@ -11,6 +11,7 @@ Features ported/adapted from Horse Buff:
 - Saddled horse now have a limit on how far they can wander when player dismounts it.
 - Prevent rearing when riding (no bucking).
 - Horses now have some buoyancy when ridden. Allows crossing rivers and lakes on horse. 
+- Added button and hotkey to switch between horse and player inventory. 
 
 ## 1.2.1 - 2025-04-10
 - Fixed loading crash with Horse Buff.

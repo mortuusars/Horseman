@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface LessWanderingHorse {
+    static boolean isEnabled() {
+        return Config.Server.SADDLED_HORSE_WANDER_RADIUS.get() >= 0;
+    }
+
     @Nullable Vec3 horseman$getWanderAnchor();
     void horseman$setWanderAnchor(@Nullable Vec3 pos);
 
