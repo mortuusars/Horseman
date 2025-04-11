@@ -10,7 +10,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,6 +37,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
                 && Screen.hasControlDown()) {
             SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this));
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
         }
 
@@ -42,6 +45,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
                 && Screen.hasControlDown()) {
             SwitchInventory.switchFromInventory((AbstractContainerScreen<?>)(Object) this);
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
         }
     }
