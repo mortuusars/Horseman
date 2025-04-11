@@ -6,7 +6,8 @@
   "minVersion": "0.8",
   "client": [
     "HorseInventoryScreenMixin",
-    "HorseModelMixin"
+    "HorseModelMixin",
+    "swim.Swim"
   ],
   "mixins": [
     "AbstractChestedHorseMixin",
@@ -29,7 +30,7 @@
     "less_wander.AbstractHorseMixin",
     "less_wander.ServerPlayerMixin",
     "less_wander.WaterAvoidingRandomStrollGoalMixin",
-    "no_rearing.AbstractHorseMixin",
+    "no_rearing.AbstractHorseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

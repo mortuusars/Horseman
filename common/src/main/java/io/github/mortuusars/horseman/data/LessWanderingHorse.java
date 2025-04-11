@@ -23,7 +23,7 @@ public interface LessWanderingHorse {
         // This will prevent it from staying completely still when brought outside of it's wander radius.
         if (distance > maxWanderDistance + getAnchorUpdateThreshold()) {
             horseman$setWanderAnchor(((Entity)this).position());
-            return horseman$isOutsideWanderingLimit(pos);
+            return false;
         }
 
         return distance > maxWanderDistance;
