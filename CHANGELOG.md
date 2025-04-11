@@ -3,6 +3,7 @@
 ## UNRELEASED - 2025-04-10
 - Using saddle in creative mode on an untamed horse instantly tames it.
 - Fixed `#horseman:cannot_be_hitched` tag not working.
+- Fixed hitching with block in hand playing block place sound and briefly showing block placed on client.
 
 **Due to archiving of Horse Buff mod and an agreement with its author, Horseman will now include Horse Buff's features.**
 
