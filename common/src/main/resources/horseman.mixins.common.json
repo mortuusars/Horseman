@@ -25,7 +25,8 @@
     "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
     "less_wander.AbstractHorseMixin",
     "less_wander.ServerPlayerMixin",
-    "less_wander.WaterAvoidingRandomStrollGoalMixin"
+    "less_wander.WaterAvoidingRandomStrollGoalMixin",
+    "no_rearing.AbstractHorseMixin",
   ],
   "injectors": {
     "defaultRequire": 1

@@ -12,6 +12,7 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
         public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
         public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
+        public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -27,6 +28,10 @@ public class Config {
             SADDLED_HORSE_WANDER_RADIUS = builder
                     .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 to disable. Default: 8")
                     .defineInRange("saddled_horse_wander_radius", 8, -1, 64);
+
+            HORSE_PREVENT_REARING_WHEN_RIDING = builder
+                    .comment("Prevents rearing (horse stopping and standing up) when it's being ridden. Default: true.")
+                    .define("ridden_horse_prevent_rearing", true);
 
             SPEC = builder.build();
         }
