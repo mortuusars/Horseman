@@ -3,11 +3,12 @@
 ## UNRELEASED - 2025-04-10
 - Using saddle in creative mode on an untamed horse instantly tames it.
 
-**Due to an agreement with Horse Buff mod author, Horseman will not include Horse Buff's features.**
+**Due to archiving of Horse Buff mod and an agreement with its author, Horseman will now include Horse Buff's features.**
 
 Features ported/adapted from Horse Buff:
 - Horses now fit in boats. Their hitbox gets a bit smaller to make breaking the boat easier. 
 - Saddled horse will stay near the position where player left it.
+- Prevent rearing when riding (no bucking).
 
 ## 1.2.1 - 2025-04-10
 - Fixed loading crash with Horse Buff.
