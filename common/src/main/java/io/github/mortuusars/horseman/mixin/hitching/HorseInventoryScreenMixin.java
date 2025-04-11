@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.mixin;
+package io.github.mortuusars.horseman.mixin.hitching;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.mortuusars.horseman.Horseman;
