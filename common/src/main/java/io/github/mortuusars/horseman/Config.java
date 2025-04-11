@@ -14,6 +14,8 @@ public class Config {
         public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
         public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
         public static final ModConfigSpec.BooleanValue HORSE_SWIM_WHEN_RIDDEN;
+        public static final ModConfigSpec.DoubleValue HORSE_STEP_HEIGHT_MODIFIER;
+        public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -27,7 +29,7 @@ public class Config {
                     .define("horse_in_boat", true);
 
             SADDLED_HORSE_WANDER_RADIUS = builder
-                    .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 to disable. Default: 8")
+                    .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 for vanilla behavior. Default: 16")
                     .defineInRange("saddled_horse_wander_radius", 16, -1, 64);
 
             HORSE_PREVENT_REARING_WHEN_RIDING = builder
@@ -37,6 +39,14 @@ public class Config {
             HORSE_SWIM_WHEN_RIDDEN = builder
                     .comment("Horse-type mobs are able to swim when ridden. Specific types that can swim are controlled by '#horseman:can_swim_when_ridden' entity tag. Default: true.")
                     .define("horse_swim_when_ridden", true);
+
+            HORSE_STEP_HEIGHT_MODIFIER = builder
+                    .comment("Additional step height added to horses. If set to 1 - horse will be able to step up two blocks. Set to 0 for vanilla behavior. Default 0.1.")
+                    .defineInRange("horse_step_height_modifier", 0.1, -1.0, 10);
+
+            MOUNTED_BLOCK_BREAK_SPEED_MODIFIER = builder
+                    .comment("Additional block breaking speed added when mounted. Set to 0 for vanilla behavior. Default 5 (regular breaking speed).")
+                    .defineInRange("mounted_block_break_speed_modifier", 5.0, 0.0, 5.0);
 
             SPEC = builder.build();
         }

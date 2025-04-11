@@ -7,10 +7,11 @@
   "client": [
     "hitching.HorseInventoryScreenMixin",
     "lower_horse_head.HorseModelMixin",
-    "switch_inventory.AbstractContainerScreenMixin",
-    "swim.Swim"
+    "swim.Swim",
+    "switch_inventory.AbstractContainerScreenMixin"
   ],
   "mixins": [
+    "attribute_modifiers.EntityMixin",
     "creative_taming.AbstractChestedHorseMixin",
     "creative_taming.HorseMixin",
     "fits_in_boat.BoatMixin",

@@ -12,6 +12,8 @@ Features ported/adapted from Horse Buff:
 - Prevent rearing when riding (no bucking).
 - Horses now have some buoyancy when ridden. Allows crossing rivers and lakes on horse. 
 - Added button and hotkey to switch between horse and player inventory. 
+- Add 10% to horse step-up height to not get stuck on paths.
+- Remove block break speed slowdown when mounted.
 
 ## 1.2.1 - 2025-04-10
 - Fixed loading crash with Horse Buff.

@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +56,11 @@ public class Horseman {
      */
     public static ResourceLocation resource(String path) {
         return new ResourceLocation(ID, path);
+    }
+
+    public static class EntityAttributes {
+        public static final ResourceLocation MOUNTED_STEP_HEIGHT = Horseman.resource("mounted-step-height");
+        public static final ResourceLocation MOUNTED_BREAK_SPEED = Horseman.resource("mounted-break-speed");
     }
 
     public static class Blocks {
