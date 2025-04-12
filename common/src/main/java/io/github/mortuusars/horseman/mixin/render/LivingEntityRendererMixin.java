@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.mortuusars.horseman.client.HorseRenderUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,7 +15,9 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.item.DyeColor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,16 +30,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     protected LivingEntityRendererMixin(EntityRendererProvider.Context context) {
         super(context);
     }
-
-//    @Inject(method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V",
-//            at = @At("TAIL"))
-//    void setPlayerPassenger(CallbackInfo ci, @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState, @Local(argsOnly = true) LivingEntity livingEntity) {
-//        if (isRideableEntityRenderState(livingEntityRenderState)) {
-//            boolean playerPassenger = livingEntity.hasPassenger(MinecraftClient.getInstance().player);
-//            ((ExtendedRideableEntityRenderState) livingEntityRenderState).horsebuff$setId(livingEntity.getId());
-//            ((ExtendedRideableEntityRenderState) livingEntityRenderState).horsebuff$setPlayerPassenger(playerPassenger);
-//        }
-//    }
 
     @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("HEAD") )
@@ -51,17 +44,21 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             index = 4)
     int setOpacityAndChromaForRender(int color, @Local(argsOnly = true) LivingEntity entity, @Share("alpha") LocalIntRef alpha) {
         if (entity instanceof AbstractHorse) {
-//            if (isJeb(livingEntityRenderState) && livingEntityRenderState instanceof ExtendedRideableEntityRenderState extendedRideableEntityRenderState) {
-//                // see net/minecraft/client/render/entity/feature/SheepWoolFeatureRenderer
-//                int dyeIndex = MathHelper.floor(livingEntityRenderState.age) / 25 + extendedRideableEntityRenderState.horsebuff$getId();
-//                int numDyes = DyeColor.values().length;
-//                int currentDye = SheepEntity.getRgbColor(DyeColor.byId(dyeIndex % numDyes));
-//                int nextDye = SheepEntity.getRgbColor(DyeColor.byId((dyeIndex + 1) % numDyes));
-//                float dyeTransitionProgress = ((float) (MathHelper.floor(livingEntityRenderState.age) % 25) + MathHelper.fractionalPart(livingEntityRenderState.age)) / 25.0F;
-//                color = ColorHelper.lerp(dyeTransitionProgress, currentDye, nextDye);
-//                // increase brightness by a bit because the horse texture is a bit dark
-//                color = ColorHelper.getArgb(Math.min(ColorHelper.getRed(color) * 2, 255), Math.min(ColorHelper.getGreen(color) * 2, 255), Math.min(ColorHelper.getBlue(color) * 2, 255));
-//            }
+            if (HorseRenderUtils.isJeb(entity)) {
+                int index = entity.tickCount / 25 + entity.getId();
+                int dyesCount = DyeColor.values().length;
+                int currentIndex = index % dyesCount;
+                int nextIndex = (index + 1) % dyesCount;
+                float transition = ((float)(entity.tickCount % 25) + Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true)) / 25.0F;
+                int currentColor = Sheep.getColor(DyeColor.byId(currentIndex));
+                int nextColor = Sheep.getColor(DyeColor.byId(nextIndex));
+                color = FastColor.ARGB32.lerp(transition, currentColor, nextColor);
+                // increase brightness because the horse texture is a bit dark
+                color = FastColor.ARGB32.color(
+                        Math.min(FastColor.ARGB32.red(color) * 2, 255),
+                        Math.min(FastColor.ARGB32.green(color) * 2, 255),
+                        Math.min(FastColor.ARGB32.blue(color) * 2, 255));
+            }
 
             int a = FastColor.ARGB32.alpha(color);
             a = Mth.clamp((int)(a * (alpha.get() / 255f)), 0, 255);
