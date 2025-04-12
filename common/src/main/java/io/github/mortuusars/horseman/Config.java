@@ -73,7 +73,7 @@ public class Config {
                         .defineInRange("increase_horse_airborne_speed_amount", 0.5, 0.0, 1.0);
 
                 HORSE_SWIM_WHEN_RIDDEN = builder
-                        .comment("Horse-type mobs are able to swim when ridden. Specific types that can swim are controlled by '#horseman:can_swim_when_ridden' entity tag. Default: true.")
+                        .comment("Horse-type mobs are able to swim when ridden by holding a jump key. Default: true.")
                         .define("horse_swim_when_ridden", true);
 
                 ROTATE_HORSE_INSTEAD_OF_PLAYER = builder
@@ -153,6 +153,8 @@ public class Config {
     public static class Client {
         public static final ModConfigSpec SPEC;
 
+        public static final ModConfigSpec.BooleanValue PREVENT_JUMPING_IN_WATER;
+
         public static final ModConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
         public static final ModConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
 
@@ -173,6 +175,10 @@ public class Config {
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+
+            PREVENT_JUMPING_IN_WATER = builder
+                    .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
+                    .define("prevent_jumping_in_water", true);
 
             HORSE_HEAD_PITCH_OFFSET = builder
                     .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view. Default: 20")
@@ -222,11 +228,11 @@ public class Config {
                         .defineInRange("max_transparency", 20, 0, 255);
 
                 TRANSPARENT_HORSE_START_ANGLE = builder
-                        .comment("Angle at which the horse will start to become transparent. Default: 20.")
-                        .defineInRange("start_angle", 20, -90, 90);
+                        .comment("Angle at which the horse will start to become transparent. Default: 30.")
+                        .defineInRange("start_angle", 30, -90, 90);
                 TRANSPARENT_HORSE_END_ANGLE = builder
-                        .comment("Angle at which the horse will reach maximum transparency. Default: 50.")
-                        .defineInRange("end_angle", 50, -90, 90);
+                        .comment("Angle at which the horse will reach maximum transparency. Default: 70.")
+                        .defineInRange("end_angle", 70, -90, 90);
 
                 builder.pop();
             }

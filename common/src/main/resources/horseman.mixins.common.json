@@ -11,7 +11,8 @@
     "render.HorseMarkingLayerMixin",
     "render.LivingEntityRendererMixin",
     "render.LlamaDecorLayerMixin",
-    "swim.Swim",
+    "swim.AbstractHorseMixin",
+    "fix_water_jump_meter.LocalPlayerMixin",
     "switch_inventory.AbstractContainerScreenMixin"
   ],
   "mixins": [
