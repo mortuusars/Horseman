@@ -15,6 +15,8 @@ Features ported/adapted from Horse Buff:
 - Added button and hotkey to switch between horse and player inventory. 
 - Add 10% to horse step-up height to not get stuck on paths.
 - Remove block break speed slowdown when mounted.
+- Horses become transparent when you look down.
+- 'jeb_' horses become the rainbow.
 
 ## 1.2.1 - 2025-04-10
 - Fixed loading crash with Horse Buff.
