@@ -172,6 +172,7 @@ public class Config {
         public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
         public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
+        public static final ModConfigSpec.BooleanValue JEB_HORSE;
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -193,7 +194,7 @@ public class Config {
 
                 INVENTORY_TOGGLE_ENABLED = builder
                         .comment("Adds button and hotkey to switch between player and horse inventory. Default: true")
-                        .define("toggle_enabled", true);
+                        .define("enabled", true);
 
                 INVENTORY_TOGGLE_PLAYER_BUTTON_X = builder
                         .comment("X position of the button in player's inventory. Default: -14.")
@@ -232,6 +233,10 @@ public class Config {
 
                 builder.pop();
             }
+
+            JEB_HORSE = builder
+                    .comment("Makes horse-type mobs that named 'jeb_' render with rainbow effect, like sheep. Default: true.")
+                    .define("jeb_horse", true);
 
             SPEC = builder.build();
         }

@@ -7,10 +7,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
 public class HorseRenderUtils {
-//    public static boolean isJeb(LivingEntity entityRenderState) {
-//        entityRenderState.getCustomName()
-//        return ModConfig.getInstance().jeb_Horses && entityRenderState.customName != null && "jeb_".equals(entityRenderState.customName.getString());
-//    }
+    public static boolean isJeb(LivingEntity entity) {
+        return Config.Client.JEB_HORSE.get() && entity.getCustomName() != null && entity.getCustomName().getString().equals("jeb_");
+    }
 
     public static int getAlpha(LivingEntity entity) {
         if (!Config.Client.TRANSPARENT_HORSE_ENABLED.get()) return 255;
