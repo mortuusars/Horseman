@@ -15,7 +15,7 @@
   "horseman.configuration.horse_swim_when_ridden": "Swim",
   "horseman.configuration.rotate_horse_instead_of_player": "Rotate horse",
   "horseman.configuration.saddled_horse_wander_radius": "Wander radius",
-  "horseman.configuration.ridden_horse_prevent_rearing": "No rearing",
+  "horseman.configuration.ridden_horse_prevent_rearing": "Prevent rearing",
 
   "horseman.configuration.hitching": "Hitching",
   "horseman.configuration.requires_lead": "Required Lead",

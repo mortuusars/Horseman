@@ -1,0 +1,50 @@
+{
+  "gui.horseman.has_lead": "Має повідець",
+
+  "gui.horseman.switch_inventory.button.from_horse.tooltip": "Інвентар гравця §8[§7CTRL+%s§8]",
+  "gui.horseman.switch_inventory.button.from_inventory.tooltip": "%s §8[§7CTRL+%s§8]",
+  "gui.horseman.switch_inventory.button.from_inventory..tooltip.mount": "Mount",
+
+  "horseman.configuration.enabled": "Увімкнено",
+  "horseman.configuration.movement": "Рух",
+  "horseman.configuration.fix_horse_moved_wrongly": "Виправити 'Moved Wrongly'",
+  "horseman.configuration.horse_step_height_modifier": "Модифікатор висоти кроку",
+  "horseman.configuration.horse_fast_step_down": "Швидке сходження",
+  "horseman.configuration.horse_fast_step_down_two_blocks": "Швидке сходження - два блоки",
+  "horseman.configuration.increase_horse_airborne_speed": "Збільшити швидкість у повітрі",
+  "horseman.configuration.increase_horse_airborne_speed_amount": "Величина швидкості у повітрі",
+  "horseman.configuration.horse_swim_when_ridden": "Плавання",
+  "horseman.configuration.rotate_horse_instead_of_player": "Розворот коня",
+  "horseman.configuration.saddled_horse_wander_radius": "Радіус блукання",
+  "horseman.configuration.ridden_horse_prevent_rearing": "Не ставати на диби",
+
+  "horseman.configuration.hitching": "Причіпляння",
+  "horseman.configuration.requires_lead": "Потребує Повідець",
+  "horseman.configuration.lead_slot": "Слот для Повідця",
+
+  "horseman.configuration.free_camera": "Вільна камера",
+  "horseman.configuration.angle_threshold": "Поріг кута",
+
+  "horseman.configuration.misc": "Різне",
+  "horseman.configuration.mounted_block_break_speed_modifier": "Швидкість ламання блоків верхи",
+  "horseman.configuration.horse_fits_in_boat": "Кінь влізає у човен",
+  "horseman.configuration.shears_remove_chest": "Ножиці видаляють скриню",
+  "horseman.configuration.horse_creative_taming": "Приручення у креативному-режимі",
+
+  "horseman.configuration.horse_model_head_offset": "Зміщення повороту голови коня",
+  "horseman.configuration.horse_model_y_offset": "Зміщення висоти голови коня",
+  "horseman.configuration.render_lead_indication_without_slot": "Індикатор Повідця без слоту",
+
+  "horseman.configuration.switch_inventory": "Перемикання інвентаря",
+  "horseman.configuration.player_button_position_x": "Гравець - позиція кнопки X",
+  "horseman.configuration.player_button_position_y": "Гравець - позиція кнопки Y",
+  "horseman.configuration.horse_button_position_x": "Кінь - позиція кнопки X",
+  "horseman.configuration.horse_button_position_y": "Кінь - позиція кнопки Y",
+
+  "horseman.configuration.transparent_horse": "Прозорий кінь",
+  "horseman.configuration.max_transparency": "Максимальна прозорість",
+  "horseman.configuration.start_angle": "Початковий кут",
+  "horseman.configuration.end_angle": "Кінцевий кут",
+
+  "horseman.configuration.jeb_horse": "Кінь Джеба"
+}
