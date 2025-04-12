@@ -47,7 +47,7 @@ public class Horseman {
                 && horse.fallDistance > 0f
                 && horse.fallDistance < 0.2f
                 && !level.getBlockState(pos.below()).getCollisionShape(level, pos.below()).isEmpty()
-                || (Config.Common.HORSE_FAST_STEP_DOWN_TWO_BLOCKS.get()
+                || (Config.Server.HORSE_FAST_STEP_DOWN_TWO_BLOCKS.get()
                 && !level.getBlockState(pos.below(2)).getCollisionShape(level, pos.below(2)).isEmpty());
     }
 

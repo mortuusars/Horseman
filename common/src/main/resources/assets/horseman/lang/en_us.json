@@ -2,5 +2,48 @@
   "gui.horseman.has_lead": "Has Hitching Lead",
   "gui.horseman.switch_inventory.button.from_horse.tooltip": "Player Inventory §8[§7CTRL+%s§8]",
   "gui.horseman.switch_inventory.button.from_inventory.tooltip": "%s Inventory §8[§7CTRL+%s§8]",
-  "gui.horseman.switch_inventory.button.from_inventory..tooltip.mount": "Mount"
+  "gui.horseman.switch_inventory.button.from_inventory..tooltip.mount": "Mount",
+
+  "horseman.configuration.enabled": "Enabled",
+  "horseman.configuration.movement": "Movement",
+  "horseman.configuration.fix_horse_moved_wrongly": "Fix 'Moved Wrongly'",
+  "horseman.configuration.horse_step_height_modifier": "Step height modifier",
+  "horseman.configuration.horse_fast_step_down": "Step down",
+  "horseman.configuration.horse_fast_step_down_two_blocks": "Step down two blocks",
+  "horseman.configuration.increase_horse_airborne_speed": "Increase airborne speed",
+  "horseman.configuration.increase_horse_airborne_speed_amount": "Airborne speed amount",
+  "horseman.configuration.horse_swim_when_ridden": "Swim",
+  "horseman.configuration.rotate_horse_instead_of_player": "Rotate horse",
+  "horseman.configuration.saddled_horse_wander_radius": "Wander radius",
+  "horseman.configuration.ridden_horse_prevent_rearing": "No rearing",
+
+  "horseman.configuration.hitching": "Hitching",
+  "horseman.configuration.requires_lead": "Required Lead",
+  "horseman.configuration.lead_slot": "Lead slot",
+
+  "horseman.configuration.free_camera": "Free Camera",
+  "horseman.configuration.angle_threshold": "Angle threshold",
+
+  "horseman.configuration.misc": "Misc",
+  "horseman.configuration.mounted_block_break_speed_modifier": "Mounted block break speed",
+  "horseman.configuration.horse_fits_in_boat": "Horse fits in boat",
+  "horseman.configuration.shears_remove_chest": "Shears remove chest",
+  "horseman.configuration.horse_creative_taming": "Creative-mode taming",
+
+  "horseman.configuration.horse_model_head_offset": "Horse head pitch offset",
+  "horseman.configuration.horse_model_y_offset": "Horse head Y offset",
+  "horseman.configuration.render_lead_indication_without_slot": "Lead indication without slot",
+
+  "horseman.configuration.switch_inventory": "Switch Inventory",
+  "horseman.configuration.player_button_position_x": "Inventory button X",
+  "horseman.configuration.player_button_position_y": "Inventory button Y",
+  "horseman.configuration.horse_button_position_x": "Horse button X",
+  "horseman.configuration.horse_button_position_y": "Horse button Y",
+
+  "horseman.configuration.transparent_horse": "Transparent Horse",
+  "horseman.configuration.max_transparency": "Max transparency",
+  "horseman.configuration.start_angle": "Start angle",
+  "horseman.configuration.end_angle": "End angle",
+
+  "horseman.configuration.jeb_horse": "jeb_ horse"
 }
