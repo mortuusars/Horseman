@@ -1,6 +1,7 @@
 # Changelog
 
-## UNRELEASED - 2025-04-10
+## UNRELEASED - 2025-04-10 
+- When riding a horse - jump meter will no longer fill up when mount is in water.
 - Using saddle in creative mode on an untamed horse instantly tames it.
 - Fixed `#horseman:cannot_be_hitched` tag not working.
 - Fixed hitching with block in hand playing block place sound and briefly showing block placed on client.
@@ -14,7 +15,7 @@ Features ported/adapted from Horse Buff:
 - Horses now fit in boats. Their hitbox gets a bit smaller to make breaking the boat easier. 
 - Saddled horse now have a limit on how far they can wander when player dismounts it.
 - Prevent rearing when riding (no bucking).
-- Horses now have some buoyancy when ridden. Allows crossing rivers and lakes on horse. 
+- Horses now can swim when ridden by pressing jump key. Allows crossing rivers and lakes on horse. 
 - Added button and hotkey to switch between horse and player inventory. 
 - Add 10% to horse step-up height to not get stuck on paths.
 - Remove block break speed slowdown when mounted.
