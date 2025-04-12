@@ -138,6 +138,7 @@ public class Horseman {
 
         public static class EntityTypes {
             public static final TagKey<EntityType<?>> CANNOT_BE_HITCHED = TagKey.create(Registries.ENTITY_TYPE, resource("cannot_be_hitched"));
+            public static final TagKey<EntityType<?>> CANNOT_SWIM = TagKey.create(Registries.ENTITY_TYPE, resource("cannot_swim"));
         }
     }
 

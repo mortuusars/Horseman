@@ -119,7 +119,7 @@ public class Config {
                         .defineInRange("increase_horse_airborne_speed_amount", 0.5, 0.0, 1.0);
 
                 HORSE_SWIM_WHEN_RIDDEN = builder
-                        .comment("Horse-type mobs are able to swim when ridden by holding a jump key. Default: true.")
+                        .comment("Horse-type mobs are able to swim when ridden by holding a jump key. Exact types that cannot swim can be controlled by '#horseman:cannot_swim' entity tag. Default: true.")
                         .define("horse_swim_when_ridden", true);
 
                 ROTATE_HORSE_INSTEAD_OF_PLAYER = builder
