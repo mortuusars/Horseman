@@ -35,7 +35,7 @@ public abstract class AbstractChestedHorseMixin extends AbstractHorse implements
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void onMobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (!Config.Common.HORSE_SHEARS_REMOVE_CHEST.get() || isVehicle() || isBaby()
+        if (!Config.Server.HORSE_SHEARS_REMOVE_CHEST.get() || isVehicle() || isBaby()
                 || !isTamed() || !hasChest() || player.isSecondaryUseActive()) {
             return;
         }

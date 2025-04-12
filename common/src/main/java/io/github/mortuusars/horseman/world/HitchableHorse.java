@@ -28,11 +28,11 @@ public interface HitchableHorse {
     // --
 
     static boolean isEnabled() {
-        return Config.Common.HORSE_HITCH.get();
+        return Config.Server.HORSE_HITCH.get();
     }
 
     static boolean requiresLead() {
-        return Config.Common.HORSE_HITCH_REQUIRES_LEAD.get();
+        return Config.Server.HORSE_HITCH_REQUIRES_LEAD.get();
     }
 
     /**
@@ -78,7 +78,7 @@ public interface HitchableHorse {
     // -- Lead in inventory
 
     static boolean shouldHaveLeadSlot(HitchableHorse horse) {
-        return isEnabled() && requiresLead() && Config.Common.HORSE_HITCH_INVENTORY_SLOT.get() && isHitchable(horse);
+        return isEnabled() && requiresLead() && Config.Server.HORSE_HITCH_INVENTORY_SLOT.get() && isHitchable(horse);
     }
 
     static boolean mayPlaceInLeadSlot(HitchableHorse horse, ItemStack stack) {
