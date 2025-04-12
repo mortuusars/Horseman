@@ -7,6 +7,10 @@
   "client": [
     "hitching.HorseInventoryScreenMixin",
     "lower_horse_head.HorseModelMixin",
+    "render.HorseArmorLayerMixin",
+    "render.HorseMarkingLayerMixin",
+    "render.LivingEntityRendererMixin",
+    "render.LlamaDecorLayerMixin",
     "swim.Swim",
     "switch_inventory.AbstractContainerScreenMixin"
   ],
