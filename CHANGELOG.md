@@ -7,6 +7,7 @@
 - Fixed `#horseman:cannot_be_hitched` tag not working.
 - Fixed hitching with block in hand playing block place sound and briefly showing block placed on client.
 - Changed config:
+  - 'free_camera.angle_threshold' default has been changed from 65 to 100 degrees. 
   - Moved all Common settings to Server. Removed Common config.
   - Some settings were renamed.
 
