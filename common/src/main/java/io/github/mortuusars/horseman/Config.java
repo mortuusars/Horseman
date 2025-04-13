@@ -118,8 +118,8 @@ public class Config {
                         .define("enabled", true);
 
                 HORSE_FREE_CAMERA_ANGLE_THRESHOLD = builder
-                        .comment("Threshold in degrees after which horse will follow player rotation. Default: 65")
-                        .defineInRange("angle_threshold", 65.0, 0.0, 180.0);
+                        .comment("Threshold in degrees after which horse will follow player rotation. Default: 100")
+                        .defineInRange("angle_threshold", 100.0, 0.0, 180.0);
 
                 builder.pop();
             }
