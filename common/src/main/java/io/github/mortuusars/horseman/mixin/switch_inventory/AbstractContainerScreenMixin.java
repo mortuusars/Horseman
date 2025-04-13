@@ -62,9 +62,13 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 SwitchInventory.mouseY = null;
             }
 
-            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_Y.get(), 14, 15,
-                    SwitchInventory.SWITCH_BUTTON_SPRITES,
+            ImageButton button = new ImageButton(
+                    leftPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_X.get(),
+                    topPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_Y.get(),
+                    14, 15,
+                    0, 0, 15,
+                    SwitchInventory.BUTTON_TEXTURE,
+                    256, 256,
                     b -> SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this)));
 
             button.setTooltip(Tooltip.create(Component.translatable("gui.horseman.switch_inventory.button.from_horse.tooltip",
@@ -77,9 +81,13 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         if (((AbstractContainerScreen<?>)(Object) this) instanceof InventoryScreen
             && Minecraft.getInstance().gameMode.isServerControlledInventory()) {
 
-            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_Y.get(), 14, 15,
-                    SwitchInventory.SWITCH_BUTTON_SPRITES,
+            ImageButton button = new ImageButton(
+                    leftPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_X.get(),
+                    topPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_Y.get(),
+                    14, 15,
+                    0, 0, 15,
+                    SwitchInventory.BUTTON_TEXTURE,
+                    256, 256,
                     b -> SwitchInventory.switchFromInventory(((AbstractContainerScreen<?>)(Object) this)));
 
             Component vehicleName = Minecraft.getInstance().player != null

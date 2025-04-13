@@ -16,7 +16,7 @@ public abstract class AbstractHorseMixin {
 
     @ModifyReturnValue(method = "isStanding", at = @At("RETURN"))
     private boolean isStanding(boolean original) {
-        if (Config.Server.HORSE_PREVENT_REARING_WHEN_RIDING.get()
+        if (Config.Common.HORSE_PREVENT_REARING_WHEN_RIDING.get()
             && !isJumping()
             && isTamed()
             && getControllingPassenger() != null) {

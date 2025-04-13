@@ -19,7 +19,7 @@ public abstract class AbstractHorseMixin extends Animal {
 
     @Inject(method = "doPlayerRide", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setYRot(F)V"), cancellable = true)
     private void onDoPlayerRide(Player player, CallbackInfo ci) {
-        if (Config.Server.ROTATE_HORSE_INSTEAD_OF_PLAYER.get()) {
+        if (Config.Common.ROTATE_HORSE_INSTEAD_OF_PLAYER.get()) {
             setYRot(player.getYRot());
             setXRot(player.getXRot());
             player.startRiding(this);

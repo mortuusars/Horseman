@@ -22,6 +22,7 @@
     "fits_in_boat.BoatMixin",
     "fits_in_boat.EntityMixin",
     "free_camera_when_mounted.AbstractHorseMixin",
+    "hitching.AbstractChestedHorseMixin",
     "hitching.AbstractHorseMixin",
     "hitching.FenceBlockMixin",
     "hitching.HorseInventoryMenuMixin",

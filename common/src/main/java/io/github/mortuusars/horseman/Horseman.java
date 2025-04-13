@@ -9,19 +9,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Unique;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +42,7 @@ public class Horseman {
                 && horse.fallDistance > 0f
                 && horse.fallDistance < 0.2f
                 && !level.getBlockState(pos.below()).getCollisionShape(level, pos.below()).isEmpty()
-                || (Config.Server.HORSE_FAST_STEP_DOWN_TWO_BLOCKS.get()
+                || (Config.Common.HORSE_FAST_STEP_DOWN_TWO_BLOCKS.get()
                 && !level.getBlockState(pos.below(2)).getCollisionShape(level, pos.below(2)).isEmpty());
     }
 

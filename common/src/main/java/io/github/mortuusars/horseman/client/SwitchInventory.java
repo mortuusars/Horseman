@@ -2,17 +2,14 @@ package io.github.mortuusars.horseman.client;
 
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 public class SwitchInventory {
-    public static final WidgetSprites SWITCH_BUTTON_SPRITES = new WidgetSprites(
-            Horseman.resource("switch_inventory_button"),
-            Horseman.resource("switch_inventory_button_disabled"),
-            Horseman.resource("switch_inventory_button_highlighted"));
+    public static final ResourceLocation BUTTON_TEXTURE = Horseman.resource("textures/gui/switch_inventory_button.png");
 
     public static @Nullable Double mouseX, mouseY;
 

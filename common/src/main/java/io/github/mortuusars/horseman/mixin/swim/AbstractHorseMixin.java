@@ -22,7 +22,7 @@ public abstract class AbstractHorseMixin extends Animal {
 
     @Inject(method = "getRiddenInput", at = @At(value = "RETURN"))
     private void getRiddenInput(Player player, Vec3 travelVector, CallbackInfoReturnable<Vec3> cir) {
-        if (Config.Server.HORSE_SWIM_WHEN_RIDDEN.get()
+        if (Config.Common.HORSE_SWIM_WHEN_RIDDEN.get()
                 && !getType().is(Horseman.Tags.EntityTypes.CANNOT_SWIM)
                 && player.jumping
                 && isInWater()

@@ -1,6 +1,5 @@
 package io.github.mortuusars.horseman.mixin.shears_remove_chest;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.PlatformHelper;
 import io.github.mortuusars.horseman.data.HitchableHorse;
@@ -34,18 +33,9 @@ public abstract class AbstractChestedHorseMixin extends AbstractHorse implements
         super(entityType, level);
     }
 
-    /**
-     * +1 for Lead slot.
-     * {@link AbstractHorseMixin} also has this change, so we should only add +1 if it's not calling the super method.
-     */
-    @ModifyReturnValue(method = "getInventorySize", at = @At("RETURN"))
-    private int onGetInventorySize(int original) {
-        return HitchableHorse.shouldHaveLeadSlot(this) && hasChest() ? original + 1 : original;
-    }
-
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void onMobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (!Config.Server.HORSE_SHEARS_REMOVE_CHEST.get() || isVehicle() || isBaby()
+        if (!Config.Common.HORSE_SHEARS_REMOVE_CHEST.get() || isVehicle() || isBaby()
                 || !isTamed() || !hasChest() || player.isSecondaryUseActive()) {
             return;
         }

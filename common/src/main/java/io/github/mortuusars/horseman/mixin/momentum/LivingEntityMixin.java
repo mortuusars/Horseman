@@ -30,9 +30,9 @@ public abstract class LivingEntityMixin extends Entity {
     private void onGetFlyingSpeed(CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity instanceof AbstractHorse
-                && Config.Server.INCREASE_HORSE_AIRBORNE_SPEED.get()
+                && Config.Common.INCREASE_HORSE_AIRBORNE_SPEED.get()
                 && getControllingPassenger() instanceof Player) {
-            float delta = Config.Server.INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT.get().floatValue();
+            float delta = Config.Common.INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT.get().floatValue();
             float vanillaSpeed = cir.getReturnValue();
             float groundSpeed = getSpeed() * 0.216f;
             cir.setReturnValue(Mth.lerp(delta, vanillaSpeed, groundSpeed));
@@ -43,7 +43,7 @@ public abstract class LivingEntityMixin extends Entity {
     private void onTravelRidden(Player player, Vec3 travelVector, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity instanceof AbstractHorse horse
-                && Config.Server.HORSE_FAST_STEP_DOWN.get()
+                && Config.Common.HORSE_FAST_STEP_DOWN.get()
                 && getControllingPassenger() instanceof Player
                 && Horseman.shouldHorseStepDown(horse)) {
             // Applies downward momentum to connect with the ground faster and regain running speed.

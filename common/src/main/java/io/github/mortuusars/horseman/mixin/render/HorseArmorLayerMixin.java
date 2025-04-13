@@ -9,7 +9,6 @@ import io.github.mortuusars.horseman.client.HorseRenderUtils;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.HorseArmorLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.horse.Horse;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,11 +27,9 @@ public abstract class HorseArmorLayerMixin {
     }
 
     @ModifyArg(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Horse;FFFFFF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HorseModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"),
-            index = 4)
-    int setOpacityForRender(int color, @Share("alpha") LocalIntRef alpha) {
-        int a = FastColor.ARGB32.alpha(color);
-        a = Mth.clamp((int)(a * (alpha.get() / 255f)), 0, 255);
-        return FastColor.ARGB32.color(a, color);
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HorseModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"),
+            index = 7)
+    float setOpacityForRender(float a, @Share("alpha") LocalIntRef alpha) {
+        return Mth.clamp((int) (a * (alpha.get() / 255f)), 0, 255);
     }
 }

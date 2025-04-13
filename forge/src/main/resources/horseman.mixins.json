@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "plugin": "io.github.mortuusars.horseman.forge.HorsemanForgeMixinPlugin",
   "client": [
+    "mount_gui.GuiMixin",
     "realistic_horse_genetics.HorseGUIMixin"
   ],
   "mixins": [

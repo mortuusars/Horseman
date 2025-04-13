@@ -1,12 +1,8 @@
 package io.github.mortuusars.horseman.mixin.attribute_modifiers;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -34,24 +30,20 @@ public abstract class EntityMixin {
         if (!(((Entity)(Object) this) instanceof ServerPlayer player)) return;
 
         if (vehicle instanceof AbstractHorse horse) {
-            double stepHeightModifier = Config.Server.HORSE_STEP_HEIGHT_MODIFIER.get();
+            double stepHeightModifier = Config.Common.HORSE_STEP_HEIGHT_MODIFIER.get();
             if (stepHeightModifier != 0) {
-                AttributeInstance attribute = horse.getAttribute(Attributes.STEP_HEIGHT);
-                if (attribute != null) {
-                    attribute.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT,
-                            stepHeightModifier, AttributeModifier.Operation.ADD_VALUE));
-                }
+                horse.setMaxUpStep((float) Math.max(0.1, horse.maxUpStep() + stepHeightModifier));
             }
         }
 
-        double breakSpeedModifier = Config.Server.MOUNTED_BLOCK_BREAK_SPEED_MODIFIER.get();
-        if (breakSpeedModifier != 0) {
-            AttributeInstance attribute = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
-            if (attribute != null) {
-                attribute.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED,
-                        breakSpeedModifier, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-            }
-        }
+//        double breakSpeedModifier = Config.Server.MOUNTED_BLOCK_BREAK_SPEED_MODIFIER.get();
+//        if (breakSpeedModifier != 0) {
+//            AttributeInstance attribute = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
+//            if (attribute != null) {
+//                attribute.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED,
+//                        breakSpeedModifier, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+//            }
+//        }
     }
 
     @Inject(method = "removeVehicle", at = @At(value = "HEAD"))
@@ -59,15 +51,15 @@ public abstract class EntityMixin {
         if (!(((Entity)(Object) this) instanceof ServerPlayer player)) return;
 
         if (getVehicle() instanceof AbstractHorse horse) {
-            AttributeInstance attribute = horse.getAttribute(Attributes.STEP_HEIGHT);
-            if (attribute != null) {
-                attribute.removeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT);
+            double stepHeightModifier = Config.Common.HORSE_STEP_HEIGHT_MODIFIER.get();
+            if (stepHeightModifier != 0) {
+                horse.setMaxUpStep((float) Math.max(0.1, horse.maxUpStep() - stepHeightModifier));
             }
         }
 
-        AttributeInstance attribute = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
-        if (attribute != null) {
-            attribute.removeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED);
-        }
+//        AttributeInstance attribute = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
+//        if (attribute != null) {
+//            attribute.removeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED);
+//        }
     }
 }

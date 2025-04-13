@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface LessWanderingHorse {
     static boolean isEnabled() {
-        return Config.Server.SADDLED_HORSE_WANDER_RADIUS.get() >= 0;
+        return Config.Common.SADDLED_HORSE_WANDER_RADIUS.get() >= 0;
     }
 
     @Nullable Vec3 horseman$getWanderAnchor();
@@ -34,7 +34,7 @@ public interface LessWanderingHorse {
     }
 
     static int getMaxWanderDistance() {
-        return Config.Server.SADDLED_HORSE_WANDER_RADIUS.get();
+        return Config.Common.SADDLED_HORSE_WANDER_RADIUS.get();
     }
 
     static int getAnchorUpdateThreshold() {

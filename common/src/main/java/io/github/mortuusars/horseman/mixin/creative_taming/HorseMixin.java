@@ -22,7 +22,7 @@ public abstract class HorseMixin extends AbstractHorse {
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void onMobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (Config.Server.HORSE_CREATIVE_TAMING.get()
+        if (Config.Common.HORSE_CREATIVE_TAMING.get()
                 && player.isCreative()
                 && player.getItemInHand(hand).getItem() instanceof SaddleItem
                 && isAlive()
