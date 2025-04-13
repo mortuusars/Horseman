@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "io.github.mortuusars.horseman.neoforge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "plugin": "io.github.mortuusars.horseman.neoforge.HorsemanNeoForgeMixinPlugin",
+  "client": [
+    "mount_gui.NeoforgeGuiMixin"
+  ],
+  "mixins": [
+    "fix_moved_wrongly.ServerGamePacketListenerImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

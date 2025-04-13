@@ -6,7 +6,9 @@ displayURL="${mod_page}"
 logoFile="logo.png"
 
 [[mixins]]
-config="horseman.mixins.common.json"
+config="horseman-common.mixins.json"
+[[mixins]]
+config="horseman-neoforge.mixins.json"
 
 [[mods]]
 modId="${mod_id}"
