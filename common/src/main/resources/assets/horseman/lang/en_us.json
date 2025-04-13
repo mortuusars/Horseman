@@ -30,6 +30,8 @@
   "horseman.configuration.shears_remove_chest": "Shears remove chest",
   "horseman.configuration.horse_creative_taming": "Creative-mode taming",
 
+  "horseman.configuration.improved_mount_gui": "Improved mount GUI",
+  "horseman.configuration.prevent_jumping_in_water": "Prevent jumping in water",
   "horseman.configuration.horse_model_head_offset": "Horse head pitch offset",
   "horseman.configuration.horse_model_y_offset": "Horse head Y offset",
   "horseman.configuration.render_lead_indication_without_slot": "Lead indication without slot",
