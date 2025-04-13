@@ -5,7 +5,7 @@
   "minVersion": "0.8",
   "plugin": "io.github.mortuusars.horseman.neoforge.HorsemanNeoForgeMixinPlugin",
   "client": [
-    "mount_gui.NeoforgeGuiMixin"
+    "mount_gui.GuiMixin"
   ],
   "mixins": [
     "fix_moved_wrongly.ServerGamePacketListenerImplMixin"

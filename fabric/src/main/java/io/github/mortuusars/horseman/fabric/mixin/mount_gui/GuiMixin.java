@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.fabric.mixin.mount_gui;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.player.LocalPlayer;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = Gui.class)
-public abstract class FabricGuiMixin {
+public abstract class GuiMixin {
     @Shadow
     protected abstract int getVisibleVehicleHeartRows(int vehicleHealth);
 
@@ -26,13 +27,18 @@ public abstract class FabricGuiMixin {
     @Shadow
     protected abstract int getVehicleMaxHearts(LivingEntity vehicle);
 
+    @Shadow protected abstract boolean isExperienceBarVisible();
+
     @Unique
     private long horseman$lastTickVehicleInWater = -1;
 
     @Redirect(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;jumpableVehicle()Lnet/minecraft/world/entity/PlayerRideableJumping;"))
     private PlayerRideableJumping renderHotbarAndDecorations_jumpableVehicle(LocalPlayer player) {
-        Minecraft mc = Minecraft.getInstance();
         @Nullable PlayerRideableJumping vehicle = player.jumpableVehicle();
+
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return vehicle;
+
+        Minecraft mc = Minecraft.getInstance();
 
         if (mc.gameMode == null || !mc.gameMode.hasExperience()) return vehicle;
 
@@ -50,11 +56,13 @@ public abstract class FabricGuiMixin {
 
     @Redirect(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
     private int renderPlayerHealth_getVehicleMaxHearts(Gui instance, LivingEntity entity) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return getVehicleMaxHearts(entity);
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.
     }
 
     @Redirect(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVisibleVehicleHeartRows(I)I"))
     private int renderPlayerHealth_getVisibleVehicleHeartRows(Gui instance, int hearts) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return getVisibleVehicleHeartRows(hearts);
         // 'hears' will be 0 here, due to it being set in 'renderPlayerHealth_getVehicleMaxHearts'.
         LivingEntity livingEntity = getPlayerVehicleWithHealth();
         int vehicleHearts = getVehicleMaxHearts(livingEntity);
@@ -63,7 +71,9 @@ public abstract class FabricGuiMixin {
 
     @ModifyVariable(method = "renderVehicleHealth", at = @At(value = "STORE"), ordinal = 2)
     private int renderVehicleHealth(int y) {
-        if (Minecraft.getInstance().gameMode != null && Minecraft.getInstance().gameMode.canHurtPlayer()) {
+        if (Config.Client.IMPROVED_MOUNT_GUI.get()
+                && Minecraft.getInstance().gameMode != null
+                && Minecraft.getInstance().gameMode.canHurtPlayer()) {
             y -= 10; // Make room for hunger bar
         }
         return y;
@@ -71,6 +81,7 @@ public abstract class FabricGuiMixin {
 
     @ModifyReturnValue(method = "isExperienceBarVisible", at = @At("RETURN"))
     private boolean isExperienceBarVisible(boolean original) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original;
         Minecraft mc = Minecraft.getInstance();
         if (mc.gameMode == null || !mc.gameMode.hasExperience() || mc.level == null || mc.player == null) return original;
         if (!mc.options.keyJump.isDown() && mc.player.getJumpRidingScale() <= 0
@@ -82,6 +93,7 @@ public abstract class FabricGuiMixin {
 
     @Redirect(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;isExperienceBarVisible()Z"))
     private boolean renderExperienceLevel(Gui instance) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return isExperienceBarVisible();
         // Always render exp level:
         return Minecraft.getInstance().gameMode != null && Minecraft.getInstance().gameMode.hasExperience();
     }

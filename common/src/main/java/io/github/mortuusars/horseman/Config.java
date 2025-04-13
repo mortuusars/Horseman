@@ -153,6 +153,8 @@ public class Config {
     public static class Client {
         public static final ModConfigSpec SPEC;
 
+        public static final ModConfigSpec.BooleanValue IMPROVED_MOUNT_GUI;
+
         public static final ModConfigSpec.BooleanValue PREVENT_JUMPING_IN_WATER;
 
         public static final ModConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
@@ -175,6 +177,10 @@ public class Config {
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+
+            IMPROVED_MOUNT_GUI = builder
+                    .comment("Adjusts gui to render hunger bar, xp bar and xp level. Makes horse jump bar render only when jumping. Default: true")
+                    .define("improved_mount_gui", true);
 
             PREVENT_JUMPING_IN_WATER = builder
                     .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
