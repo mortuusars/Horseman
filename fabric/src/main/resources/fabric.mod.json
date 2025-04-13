@@ -23,8 +23,8 @@
     ]
   },
   "mixins": [
-    "horseman.mixins.json",
-    "horseman-common.mixins.json"
+    "horseman-common.mixins.json",
+    "horseman-fabric.mixins.json"
   ],
   "depends": {
     "minecraft": "=1.20.1",

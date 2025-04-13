@@ -7,18 +7,18 @@ import net.minecraftforge.common.ForgeConfigSpec;
  */
 public class Config {
     public static class Server {
-        public static final ModConfigSpec SPEC;
+        public static final ForgeConfigSpec SPEC;
 
-        public static final ModConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
-        public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
-        public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
-        public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
-        public static final ModConfigSpec.BooleanValue HORSE_SWIM_WHEN_RIDDEN;
-        public static final ModConfigSpec.DoubleValue HORSE_STEP_HEIGHT_MODIFIER;
-        public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
+        public static final ForgeConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
+        public static final ForgeConfigSpec.BooleanValue HORSE_IN_BOAT;
+        public static final ForgeConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
+        public static final ForgeConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
+        public static final ForgeConfigSpec.BooleanValue HORSE_SWIM_WHEN_RIDDEN;
+        public static final ForgeConfigSpec.DoubleValue HORSE_STEP_HEIGHT_MODIFIER;
+        public static final ForgeConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
 
         static {
-            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+            ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
             HORSE_CREATIVE_TAMING = builder
                     .comment("Using Saddle on untamed horse-type mob while in creative mode tames it instantly. Default: true.")
@@ -56,34 +56,34 @@ public class Config {
         public static final ForgeConfigSpec SPEC;
 
         // Movement
-        public static final ModConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
-        public static final ModConfigSpec.DoubleValue HORSE_STEP_HEIGHT_MODIFIER;
-        public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN;
-        public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
-        public static final ModConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
-        public static final ModConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
-        public static final ModConfigSpec.BooleanValue HORSE_SWIM_WHEN_RIDDEN;
-        public static final ModConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
-        public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
-        public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
+        public static final ForgeConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
+        public static final ForgeConfigSpec.DoubleValue HORSE_STEP_HEIGHT_MODIFIER;
+        public static final ForgeConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN;
+        public static final ForgeConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
+        public static final ForgeConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
+        public static final ForgeConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
+        public static final ForgeConfigSpec.BooleanValue HORSE_SWIM_WHEN_RIDDEN;
+        public static final ForgeConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
+        public static final ForgeConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
+        public static final ForgeConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
 
         // Hitching
-        public static final ModConfigSpec.BooleanValue HORSE_HITCH;
-        public static final ModConfigSpec.BooleanValue HORSE_HITCH_REQUIRES_LEAD;
-        public static final ModConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH;
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_REQUIRES_LEAD;
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
         // Free Camera
-        public static final ModConfigSpec.BooleanValue HORSE_FREE_CAMERA;
-        public static final ModConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
+        public static final ForgeConfigSpec.BooleanValue HORSE_FREE_CAMERA;
+        public static final ForgeConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
 
         // Misc
-        public static final ModConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
-        public static final ModConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
-        public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
-        public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
+        public static final ForgeConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
+        public static final ForgeConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
+        public static final ForgeConfigSpec.BooleanValue HORSE_IN_BOAT;
+        public static final ForgeConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
 
         static {
-            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+            ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
             {
                 builder.push("movement");
@@ -197,30 +197,30 @@ public class Config {
     }
 
     public static class Client {
-        public static final ModConfigSpec SPEC;
+        public static final ForgeConfigSpec SPEC;
 
-        public static final ModConfigSpec.BooleanValue PREVENT_JUMPING_IN_WATER;
+        public static final ForgeConfigSpec.BooleanValue PREVENT_JUMPING_IN_WATER;
 
-        public static final ModConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
-        public static final ModConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
+        public static final ForgeConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
+        public static final ForgeConfigSpec.IntValue HORSE_HEAD_Y_OFFSET;
 
-        public static final ModConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
+        public static final ForgeConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
 
-        public static final ModConfigSpec.BooleanValue INVENTORY_TOGGLE_ENABLED;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_X;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_Y;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_X;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
+        public static final ForgeConfigSpec.BooleanValue INVENTORY_TOGGLE_ENABLED;
+        public static final ForgeConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_X;
+        public static final ForgeConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_Y;
+        public static final ForgeConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_X;
+        public static final ForgeConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
 
-        public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_MAX_TRANSPARENCY;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
+        public static final ForgeConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
+        public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_MAX_TRANSPARENCY;
+        public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
+        public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
-        public static final ModConfigSpec.BooleanValue JEB_HORSE;
+        public static final ForgeConfigSpec.BooleanValue JEB_HORSE;
 
         static {
-            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+            ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
             PREVENT_JUMPING_IN_WATER = builder
                     .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
