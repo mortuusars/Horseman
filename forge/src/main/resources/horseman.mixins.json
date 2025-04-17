@@ -9,6 +9,7 @@
     "realistic_horse_genetics.HorseGUIMixin"
   ],
   "mixins": [
+    "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
     "realistic_horse_genetics.AbstractHorseGeneticMixin"
   ],
   "injectors": {

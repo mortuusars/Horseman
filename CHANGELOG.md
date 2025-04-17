@@ -1,17 +1,15 @@
 # Changelog
 
-## UNRELEASED - 2025-04-10 
+## 1.3.0 - 2025-04-18
 - Improved mount gui - shows player's hunger bar, xp bar and xp levels. Horse jump bar will only show when jumping.
 - When riding a horse - jump meter will no longer fill up when mount is in water.
 - Using saddle in creative mode on an untamed horse instantly tames it.
-- Fixed `#horseman:cannot_be_hitched` tag not working.
 - Fixed hitching with block in hand playing block place sound and briefly showing block placed on client.
 - Changed config:
-  - 'free_camera.angle_threshold' default has been changed from 65 to 100 degrees. 
-  - Moved all Common settings to Server. Removed Common config.
+  - 'free_camera.angle_threshold' default has been changed from 65 to 100 degrees.
   - Some settings were renamed.
 
-**Due to archiving of Horse Buff mod and an agreement with its author, Horseman will now include Horse Buff's features.**
+**Due to archiving of the Horse Buff mod and an agreement with its author, Horseman will now include Horse Buff's features.**
 
 Features ported/adapted from Horse Buff:
 - Horses now fit in boats. Their hitbox gets a bit smaller to make breaking the boat easier. 

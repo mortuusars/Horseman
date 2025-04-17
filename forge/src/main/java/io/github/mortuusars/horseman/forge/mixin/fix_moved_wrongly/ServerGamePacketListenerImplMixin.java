@@ -21,7 +21,7 @@ public abstract class ServerGamePacketListenerImplMixin {
 
     @ModifyConstant(method = "handleMoveVehicle", constant = @Constant(doubleValue = 0.0625))
     private double onHandleMoveVehicle(double value) {
-        if (player.getRootVehicle() instanceof AbstractHorse && Config.Server.FIX_HORSE_MOVED_WRONGLY.get())
+        if (player.getRootVehicle() instanceof AbstractHorse && Config.Common.FIX_HORSE_MOVED_WRONGLY.get())
             return 0.36;
         return value;
     }

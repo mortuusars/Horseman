@@ -128,7 +128,7 @@ public class Config {
                 builder.push("misc");
 
                 MOUNTED_BLOCK_BREAK_SPEED_MODIFIER = builder
-                        .comment("Additional block breaking speed added when mounted. Set to 0 for vanilla behavior. Default 5 (regular breaking speed).")
+                        .comment("Additional block breaking speed added when mounted. Set to 0 for vanilla behavior. Default 5 (regular breaking speed (same as without a mount)).")
                         .defineInRange("mounted_block_break_speed_modifier", 5.0, 0.0, 5.0);
 
                 HORSE_IN_BOAT = builder
@@ -169,7 +169,7 @@ public class Config {
         public static final ForgeConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
 
         public static final ForgeConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_MAX_TRANSPARENCY;
+        public static final ForgeConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_TRANSPARENCY;
         public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
         public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
@@ -230,15 +230,15 @@ public class Config {
                         .define("enabled", true);
 
                 TRANSPARENT_HORSE_MAX_TRANSPARENCY = builder
-                        .comment("Maximum transparency (at the end angle). Default: 20.")
-                        .defineInRange("max_transparency", 20, 0, 255);
+                        .comment("Maximum transparency (at the end angle). Default: 0.08.")
+                        .defineInRange("max_transparency", 0.08, 0.0, 1.0);
 
                 TRANSPARENT_HORSE_START_ANGLE = builder
                         .comment("Angle at which the horse will start to become transparent. Default: 30.")
                         .defineInRange("start_angle", 30, -90, 90);
                 TRANSPARENT_HORSE_END_ANGLE = builder
-                        .comment("Angle at which the horse will reach maximum transparency. Default: 70.")
-                        .defineInRange("end_angle", 70, -90, 90);
+                        .comment("Angle at which the horse will reach maximum transparency. Default: 65.")
+                        .defineInRange("end_angle", 65, -90, 90);
 
                 builder.pop();
             }

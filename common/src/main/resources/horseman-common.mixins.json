@@ -16,7 +16,6 @@
     "switch_inventory.AbstractContainerScreenMixin"
   ],
   "mixins": [
-    "attribute_modifiers.EntityMixin",
     "creative_taming.AbstractChestedHorseMixin",
     "creative_taming.HorseMixin",
     "fits_in_boat.BoatMixin",
@@ -26,7 +25,6 @@
     "hitching.AbstractHorseMixin",
     "hitching.FenceBlockMixin",
     "hitching.HorseInventoryMenuMixin",
-    "hitching.LeashableMixin",
     "hitching.LeashKnotEntityMixin",
     "hitching.MobMixin",
     "hitching.SyncInitialHorseData_ServerEntityMixin",
@@ -36,7 +34,8 @@
     "momentum.LivingEntityMixin",
     "no_rearing.AbstractHorseMixin",
     "rotate_horse_when_mounting.AbstractHorseMixin",
-    "shears_remove_chest.AbstractChestedHorseMixin"
+    "shears_remove_chest.AbstractChestedHorseMixin",
+    "step_height.AbstractHorseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

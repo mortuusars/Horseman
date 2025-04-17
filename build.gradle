@@ -45,12 +45,11 @@ subprojects {
             }
         }
 
-        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
         repositories {
             var path = System.getenv("LOCAL_MAVEN")
             if (path != null) {
                 maven {
-                    name = 'local'
+                    name = 'mortuusarsResources'
                     url = uri(path + "/maven")
                 }
             }

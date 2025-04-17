@@ -11,26 +11,24 @@ public class HorseRenderUtils {
         return Config.Client.JEB_HORSE.get() && entity.getCustomName() != null && entity.getCustomName().getString().equals("jeb_");
     }
 
-    public static int getAlpha(LivingEntity entity) {
-        if (!Config.Client.TRANSPARENT_HORSE_ENABLED.get()) return 255;
-
+    public static double getAlpha(LivingEntity entity) {
         if (!Config.Client.TRANSPARENT_HORSE_ENABLED.get()
                 || Minecraft.getInstance().player == null
                 || !Minecraft.getInstance().options.getCameraType().isFirstPerson()
                 || !(entity instanceof AbstractHorse horse)
                 || !Minecraft.getInstance().player.equals(horse.getControllingPassenger())) {
-            return 255;
+            return 1.0;
         }
 
         int startAngle = Config.Client.TRANSPARENT_HORSE_START_ANGLE.get();
 
         float angle = Minecraft.getInstance().player.xRotO;
-        if (angle < startAngle) return 255;
+        if (angle < startAngle) return 1.0;
 
-        int maxTransparency = Config.Client.TRANSPARENT_HORSE_MAX_TRANSPARENCY.get();
+        double maxTransparency = Config.Client.TRANSPARENT_HORSE_MAX_TRANSPARENCY.get();
         int endAngle = Config.Client.TRANSPARENT_HORSE_END_ANGLE.get();
 
         float delta = (Math.min(angle, endAngle) - startAngle) / (endAngle - startAngle);
-        return (int) Mth.lerp(delta, 255, maxTransparency);
+        return Mth.lerp(delta, 1.0, maxTransparency);
     }
 }

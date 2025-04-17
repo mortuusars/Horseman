@@ -40,7 +40,7 @@ public abstract class AbstractHorseMixin extends Animal implements LessWandering
     // --
 
     @Inject(method = "equipSaddle", at = @At("RETURN"))
-    protected void equipSaddle(ItemStack stack, SoundSource soundSource, CallbackInfo ci) {
+    protected void equipSaddle(SoundSource source, CallbackInfo ci) {
         if (LessWanderingHorse.isEnabled()) {
             horseman$wanderAnchor = this.position();
         }

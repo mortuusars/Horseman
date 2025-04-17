@@ -7,6 +7,7 @@
     "mount_gui.GuiMixin"
   ],
   "mixins": [
+    "break_speed.PlayerMixin",
     "fix_moved_wrongly.ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
