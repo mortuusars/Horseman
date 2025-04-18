@@ -20,7 +20,7 @@ import sekelsta.horse_colors.entity.AbstractHorseGenetic;
 
 @Mixin(HorseGui.class)
 public abstract class HorseGUIMixin extends HorseInventoryScreen {
-    @Shadow @Final private AbstractHorseGenetic horseGenetic;
+    @Shadow(remap = false) @Final private AbstractHorseGenetic horseGenetic;
     @Unique
     private static final ResourceLocation LEAD_SLOT_TEXTURE = Horseman.resource("textures/gui/lead_slot.png");
 

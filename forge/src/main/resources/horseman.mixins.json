@@ -6,11 +6,14 @@
   "plugin": "io.github.mortuusars.horseman.forge.HorsemanForgeMixinPlugin",
   "client": [
     "mount_gui.GuiMixin",
-    "realistic_horse_genetics.HorseGUIMixin"
+    "realistic_horse_genetics.HorseGUIMixin",
+    "realistic_horse_genetics.render.HorseArmorLayerMixin",
+    "realistic_horse_genetics.render.HorseSaddleLayerMixin"
   ],
   "mixins": [
     "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
-    "realistic_horse_genetics.AbstractHorseGeneticMixin"
+    "realistic_horse_genetics.AbstractHorseGeneticMixin",
+    "realistic_horse_genetics.creative_taming.AbstractHorseGeneticMixin"
   ],
   "injectors": {
     "defaultRequire": 1
