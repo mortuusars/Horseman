@@ -1,7 +1,7 @@
 # Changelog
 
-## UNRELEASED - 2025-04-10 
-- Improved mount gui - shows player's hunger bar, xp bar and xp levels. Horse jump bar will only show when jumping.
+## 1.3.0 - 2025-04-18 
+- Improved mount GUI - shows player's hunger bar, xp bar and xp levels. Horse jump bar will only show when jumping.
 - When riding a horse - jump meter will no longer fill up when mount is in water.
 - Using saddle in creative mode on an untamed horse instantly tames it.
 - Fixed `#horseman:cannot_be_hitched` tag not working.
