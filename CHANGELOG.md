@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.2 - 2025-04-19
+## 1.3.2 - 2025-04-20
 - Config screen can now be accessed when ModMenu is installed.
 - Renamed config setting 'transparent_horse.max_transparency' to 'transparent_horse.max_opacity'.
   - It now ranges from 0 to 1 instead of 0 to 255.
