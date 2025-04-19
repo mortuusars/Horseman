@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2 - 2025-04-19
+- Fixed crash with Better Mount HUD. 
+  - You'll need to disable 'improved_mount_gui' in horseman-client config if you want to use both mods due to some hud display issues.
+
 ## 1.3.0 - 2025-04-18 
 - Improved mount GUI - shows player's hunger bar, xp bar and xp levels. Horse jump bar will only show when jumping.
 - When riding a horse - jump meter will no longer fill up when mount is in water.

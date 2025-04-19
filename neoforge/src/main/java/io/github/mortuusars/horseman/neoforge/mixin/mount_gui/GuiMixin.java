@@ -1,6 +1,8 @@
 package io.github.mortuusars.horseman.neoforge.mixin.mount_gui;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -19,16 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
-    @Shadow protected abstract int getVehicleMaxHearts(@Nullable LivingEntity vehicle);
-
-    @Shadow protected abstract boolean isExperienceBarVisible();
-
     @Unique
     private long horseman$lastTickVehicleInWater = -1;
 
-    @Redirect(method = "renderFoodLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
-    private int renderFoodLevel_getVehicleMaxHearts(Gui instance, LivingEntity entity) {
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return getVehicleMaxHearts(entity);
+    @WrapOperation(method = "renderFoodLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
+    private int renderFoodLevel_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicle);
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.
     }
 
@@ -62,10 +60,10 @@ public abstract class GuiMixin {
         return original;
     }
 
-    @Redirect(method = "maybeRenderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;jumpableVehicle()Lnet/minecraft/world/entity/PlayerRideableJumping;"))
-    private PlayerRideableJumping renderHotbarAndDecorations_jumpableVehicle(LocalPlayer player) {
-        @Nullable PlayerRideableJumping vehicle = player.jumpableVehicle();
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return vehicle;
+    @WrapOperation(method = "maybeRenderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;jumpableVehicle()Lnet/minecraft/world/entity/PlayerRideableJumping;"))
+    private PlayerRideableJumping renderHotbarAndDecorations_jumpableVehicle(LocalPlayer instance, Operation<PlayerRideableJumping> original) {
+        @Nullable PlayerRideableJumping vehicle = original.call(instance);
+        if (vehicle == null || !Config.Client.IMPROVED_MOUNT_GUI.get()) return vehicle;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.gameMode == null || !mc.gameMode.hasExperience() || mc.level == null || mc.player == null) return vehicle;
@@ -77,9 +75,9 @@ public abstract class GuiMixin {
         return vehicle;
     }
 
-    @Redirect(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;isExperienceBarVisible()Z"))
-    private boolean renderExperienceLevel_isExperienceBarVisible(Gui instance) {
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return isExperienceBarVisible();
+    @WrapOperation(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;isExperienceBarVisible()Z"))
+    private boolean renderExperienceLevel_isExperienceBarVisible(Gui instance, Operation<Boolean> original) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance);
         // Always render exp level:
         return Minecraft.getInstance().gameMode != null && Minecraft.getInstance().gameMode.hasExperience();
     }
