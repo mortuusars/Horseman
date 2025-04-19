@@ -52,28 +52,6 @@ public abstract class GuiMixin {
         return vehicle;
     }
 
-    /*@Redirect(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;jumpableVehicle()Lnet/minecraft/world/entity/PlayerRideableJumping;"))
-    private PlayerRideableJumping renderHotbarAndDecorations_jumpableVehicle(LocalPlayer player) {
-        @Nullable PlayerRideableJumping vehicle = player.jumpableVehicle();
-
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return vehicle;
-
-        Minecraft mc = Minecraft.getInstance();
-
-        if (mc.gameMode == null || !mc.gameMode.hasExperience()) return vehicle;
-
-        if (vehicle instanceof LivingEntity entity && entity.isInWater()) {
-            horseman$lastTickVehicleInWater = player.level().getGameTime();
-        }
-
-        if (vehicle != null && !mc.options.keyJump.isDown() && player.getJumpRidingScale() <= 0
-                || (player.level().getGameTime() - horseman$lastTickVehicleInWater < 10)) {
-            return null; // Prevent jump bar from rendering.
-        }
-
-        return vehicle;
-    }*/
-
     @WrapOperation(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
     private int renderPlayerHealth_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicle);
