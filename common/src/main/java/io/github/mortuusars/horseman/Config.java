@@ -169,7 +169,7 @@ public class Config {
         public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
 
         public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_MAX_TRANSPARENCY;
+        public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
         public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
         public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
@@ -226,12 +226,12 @@ public class Config {
                 builder.push("transparent_horse");
 
                 TRANSPARENT_HORSE_ENABLED = builder
-                        .comment("Makes horse translucent depending on player's look angle. Default: true")
+                        .comment("Makes horse transparent depending on player's look angle. Default: true")
                         .define("enabled", true);
 
-                TRANSPARENT_HORSE_MAX_TRANSPARENCY = builder
-                        .comment("Maximum transparency (at the end angle). Default: 20.")
-                        .defineInRange("max_transparency", 20, 0, 255);
+                TRANSPARENT_HORSE_MAX_OPACITY = builder
+                        .comment("Maximum opacity (at the end angle). 0 - fully transparent. 1 - fully opaque. Default: 0.08.")
+                        .defineInRange("max_opacity", 0.08, 0.0, 1.0);
 
                 TRANSPARENT_HORSE_START_ANGLE = builder
                         .comment("Angle at which the horse will start to become transparent. Default: 30.")

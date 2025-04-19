@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import io.github.mortuusars.horseman.client.HorseRenderUtils;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.HorseArmorLayer;
@@ -20,19 +20,19 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public abstract class HorseArmorLayerMixin {
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Horse;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
-    RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Horse horse, @Share("alpha") LocalIntRef alpha) {
-        int a = HorseRenderUtils.getAlpha(horse);
+    RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Horse horse, @Share("alpha") LocalFloatRef alpha) {
+        float a = HorseRenderUtils.getAlpha(horse);
         alpha.set(a);
-        if (a == 255) return original.call(location);
+        if (a >= 1.0) return original.call(location);
         return RenderType.entityTranslucent(location);
     }
 
     @ModifyArg(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Horse;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HorseModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"),
             index = 4)
-    int setOpacityForRender(int color, @Share("alpha") LocalIntRef alpha) {
+    int setOpacityForRender(int color, @Share("alpha") LocalFloatRef alpha) {
         int a = FastColor.ARGB32.alpha(color);
-        a = Mth.clamp((int)(a * (alpha.get() / 255f)), 0, 255);
+        a = Mth.clamp((int)(a * alpha.get()), 0, 255);
         return FastColor.ARGB32.color(a, color);
     }
 }

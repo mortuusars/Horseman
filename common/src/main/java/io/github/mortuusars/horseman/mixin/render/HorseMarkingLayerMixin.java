@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.github.mortuusars.horseman.client.HorseRenderUtils;
@@ -32,10 +32,10 @@ public abstract class HorseMarkingLayerMixin extends RenderLayer<Horse, HorseMod
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Horse;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityTranslucent(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
-    RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Horse horse, @Share("alpha") LocalIntRef alpha) {
-        int a = HorseRenderUtils.getAlpha(horse);
+    RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Horse horse, @Share("alpha") LocalFloatRef alpha) {
+        float a = HorseRenderUtils.getAlpha(horse);
         alpha.set(a);
-        if (a == 255) return original.call(location);
+        if (a >= 1.0) return original.call(location);
         return RenderType.entityTranslucent(location);
     }
 
@@ -45,8 +45,8 @@ public abstract class HorseMarkingLayerMixin extends RenderLayer<Horse, HorseMod
     private void onRender(PoseStack poseStack, MultiBufferSource buffer, int packedLight, Horse livingEntity,
                           float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
                           float netHeadYaw, float headPitch, CallbackInfo ci,
-                          @Local VertexConsumer vertexConsumer, @Share("alpha") LocalIntRef alpha) {
-        int a = Mth.clamp((int)(255 * (alpha.get() / 255f)), 0, 255);
+                          @Local VertexConsumer vertexConsumer, @Share("alpha") LocalFloatRef alpha) {
+        int a = Mth.clamp((int)(255 * alpha.get()), 0, 255);
         getParentModel().renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.color(a, 0xFFFFFF));
         ci.cancel();
     }
