@@ -6,6 +6,7 @@
   - It now ranges from 0 to 1 instead of 0 to 255.
 - Fixed crash with Better Mount HUD. 
   - You'll need to disable 'improved_mount_gui' in horseman-client config if you want to use both mods due to some hud display issues.
+- Conflicts with other mods should be slightly less likely now.
 
 ## 1.3.0 - 2025-04-18 
 - Improved mount GUI - shows player's hunger bar, xp bar and xp levels. Horse jump bar will only show when jumping.
