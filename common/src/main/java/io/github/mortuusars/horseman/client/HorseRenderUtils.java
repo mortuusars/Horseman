@@ -25,7 +25,7 @@ public class HorseRenderUtils {
         float angle = Minecraft.getInstance().player.xRotO;
         if (angle < startAngle) return 1.0;
 
-        double maxTransparency = Config.Client.TRANSPARENT_HORSE_MAX_TRANSPARENCY.get();
+        double maxTransparency = Config.Client.TRANSPARENT_HORSE_MAX_OPACITY.get();
         int endAngle = Config.Client.TRANSPARENT_HORSE_END_ANGLE.get();
 
         float delta = (Math.min(angle, endAngle) - startAngle) / (endAngle - startAngle);

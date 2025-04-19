@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.forge.mixin.mount_gui;
 
-import io.github.mortuusars.horseman.Config;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.mortuusars.horseman.client.ImprovedMountGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.PlayerRideableJumping;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
@@ -26,10 +26,10 @@ public abstract class GuiMixin {
         }
     }
 
-    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getXpNeededForNextLevel()I"))
-    private int renderExperienceBar_getXpNeededForNextLevel(LocalPlayer instance) {
+    @WrapOperation(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getXpNeededForNextLevel()I"))
+    private int renderExperienceBar_getXpNeededForNextLevel(LocalPlayer instance, Operation<Integer> original) {
         return ImprovedMountGui.isEnabled() && ImprovedMountGui.shouldRenderJumpBar()
                 ? -1 // Prevent xp bar from rendering, but still render level number.
-                : instance.getXpNeededForNextLevel();
+                : original.call(instance);
     }
 }

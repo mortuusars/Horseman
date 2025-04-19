@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.2 - 2025-04-19
+- Renamed config setting 'transparent_horse.max_transparency' to 'transparent_horse.max_opacity'.
+- Fixed crash with Better Mount HUD.
+  - You'll need to disable 'improved_mount_gui' in horseman-client config if you want to use both mods due to some hud display issues.
+- Fixed another crash due to mixin conflict.
+- Conflicts with other mods should be slightly less likely now.
+
 ## 1.3.1 - 2025-04-18
 - [Forge] - Made new features work with Realistic Horse Genetics (fading, creative taming)
   - Fixed Genetic Horses always rendering slightly translucent.

@@ -169,7 +169,7 @@ public class Config {
         public static final ForgeConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
 
         public static final ForgeConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        public static final ForgeConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_TRANSPARENCY;
+        public static final ForgeConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
         public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
         public static final ForgeConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
@@ -229,9 +229,9 @@ public class Config {
                         .comment("Makes horse translucent depending on player's look angle. Default: true")
                         .define("enabled", true);
 
-                TRANSPARENT_HORSE_MAX_TRANSPARENCY = builder
-                        .comment("Maximum transparency (at the end angle). Default: 0.08.")
-                        .defineInRange("max_transparency", 0.08, 0.0, 1.0);
+                TRANSPARENT_HORSE_MAX_OPACITY = builder
+                        .comment("Maximum opacity (at the end angle). 0 - fully transparent. 1 - fully opaque. Default: 0.08.")
+                        .defineInRange("max_opacity", 0.08, 0.0, 1.0);
 
                 TRANSPARENT_HORSE_START_ANGLE = builder
                         .comment("Angle at which the horse will start to become transparent. Default: 30.")

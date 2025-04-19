@@ -28,7 +28,7 @@ public abstract class LlamaDecorLayerMixin {
     RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Llama llama, @Share("alpha") LocalDoubleRef alpha) {
         double a = HorseRenderUtils.getAlpha(llama);
         alpha.set(a);
-        if (a == 1.0) return original.call(location);
+        if (a >= 1.0) return original.call(location);
         return RenderType.entityTranslucent(location);
     }
 

@@ -30,7 +30,7 @@ public abstract class HorseMarkingLayerMixin extends RenderLayer<Horse, HorseMod
     RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Horse horse, @Share("alpha") LocalDoubleRef alpha) {
         double a = HorseRenderUtils.getAlpha(horse);
         alpha.set(a);
-        if (a == 1.0) return original.call(location);
+        if (a >= 1.0) return original.call(location);
         return RenderType.entityTranslucent(location);
     }
 
