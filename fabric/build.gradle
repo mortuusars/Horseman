@@ -47,10 +47,11 @@ dependencies {
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
     modRuntimeOnly("maven.modrinth:sodium:mc1.21.1-0.6.9-neoforge")
+    modRuntimeOnly("maven.modrinth:modmenu:YIfqIJ8q")
 
 //    modRuntimeOnly("maven.modrinth:horseshoes:1.2.5")
-    modRuntimeOnly("maven.modrinth:swimming-horses:PubCp8NK")
-    modRuntimeOnly("maven.modrinth:better-mount-hud:yyJushgo")
+//    modRuntimeOnly("maven.modrinth:swimming-horses:PubCp8NK")
+//    modRuntimeOnly("maven.modrinth:better-mount-hud:yyJushgo")
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')

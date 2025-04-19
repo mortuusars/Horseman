@@ -45,7 +45,7 @@
   "horseman.configuration.horse_button_position_y": "Кінь - позиція кнопки Y",
 
   "horseman.configuration.transparent_horse": "Прозорий кінь",
-  "horseman.configuration.max_transparency": "Максимальна прозорість",
+  "horseman.configuration.max_opacity": "Максимальна прозорість",
   "horseman.configuration.start_angle": "Початковий кут",
   "horseman.configuration.end_angle": "Кінцевий кут",
 

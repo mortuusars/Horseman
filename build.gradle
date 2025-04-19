@@ -61,9 +61,6 @@ subprojects {
             name = "ModMaven"
             url = "https://modmaven.dev"
         }
-        maven {
-            url = "https://cursemaven.com"
-        }
         maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
         maven {
             name = "Fuzs Mod Resources"
@@ -74,6 +71,12 @@ subprojects {
             url = "https://api.modrinth.com/maven"
             content {
                 includeGroup "maven.modrinth"
+            }
+        }
+        maven {
+            url "https://cursemaven.com"
+            content {
+                includeGroup "curse.maven"
             }
         }
     }

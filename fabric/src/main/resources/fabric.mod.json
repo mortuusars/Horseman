@@ -33,8 +33,6 @@
     "forgeconfigapiport": ">=21.0.0"
   },
   "conflicts": {
-    "bettermounthud": "*",
-    "horseinboat": "*",
     "horsebuff": "*"
   }
 }

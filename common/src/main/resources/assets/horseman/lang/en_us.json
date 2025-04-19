@@ -43,7 +43,7 @@
   "horseman.configuration.horse_button_position_y": "Horse button Y",
 
   "horseman.configuration.transparent_horse": "Transparent Horse",
-  "horseman.configuration.max_transparency": "Max transparency",
+  "horseman.configuration.max_opacity": "Max opacity",
   "horseman.configuration.start_angle": "Start angle",
   "horseman.configuration.end_angle": "End angle",
 
