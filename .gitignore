@@ -116,3 +116,5 @@ run/
 !gradle-wrapper.jar
 
 /extra-mods*/
+
+/forge/
