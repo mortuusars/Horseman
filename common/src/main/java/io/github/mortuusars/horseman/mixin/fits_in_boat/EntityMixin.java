@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class EntityMixin {
     @ModifyReturnValue(method = "getBoundingBox", at = @At("RETURN"))
     private AABB onGetBoundingBox(AABB original) {
-        if (!Config.Server.HORSE_IN_BOAT.get()) return original;
-        if (((Entity)(Object)this) instanceof AbstractHorse horse && horse.getVehicle() instanceof Boat) {
+        if (((Entity) (Object) this) instanceof AbstractHorse horse && horse.getVehicle() instanceof Boat
+                && Config.Server.SPEC.isLoaded() && Config.Server.HORSE_IN_BOAT.get()) {
             return original.deflate(0.1f, 0, 0.1f);
         }
         return original;
