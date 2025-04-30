@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.neoforge;
+package io.github.mortuusars.horseman.fabric;
 
 import com.google.common.collect.ImmutableMap;
 import io.github.mortuusars.horseman.PlatformHelper;
@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class HorsemanNeoForgeMixinPlugin implements IMixinConfigPlugin {
+public class HorsemanFabricMixinPlugin implements IMixinConfigPlugin {
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "io.github.mortuusars.horseman.neoforge.mixin.fix_moved_wrongly.ServerGamePacketListenerImplMixin",
+            "io.github.mortuusars.horseman.fabric.mixin.fix_moved_wrongly.ServerGamePacketListenerImplMixin",
             () -> !PlatformHelper.isModLoading("horsebuff") && !PlatformHelper.isModLoading("imfast")
     );
 
