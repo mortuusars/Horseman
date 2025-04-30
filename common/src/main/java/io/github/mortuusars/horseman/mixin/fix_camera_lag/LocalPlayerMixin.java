@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +19,6 @@ public abstract class LocalPlayerMixin extends Player {
 
     @ModifyReturnValue(method = "getViewYRot", at = @At("RETURN"))
     private float onGetViewYRot(float original) {
-        return isPassenger() && Config.Client.FIX_MOUNTED_CAMERA_LAG.get() ? getYRot() : original;
+        return Config.Client.FIX_MOUNTED_CAMERA_LAG.get() && getVehicle() instanceof AbstractHorse ? getYRot() : original;
     }
 }
