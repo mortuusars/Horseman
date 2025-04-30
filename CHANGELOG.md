@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.3 - 2025-04-30
+- Added a fix for horizontal camera lag when mounted. MC-259512.
+- Fixed horse armor weird rendering with Iris.
+- Fixed button clicking sound playing when pressing Ctrl+Inv key in player's inventory.
+
 ## 1.3.2 - 2025-04-20
 - Config screen can now be accessed when ModMenu is installed.
 - Renamed config setting 'transparent_horse.max_transparency' to 'transparent_horse.max_opacity'.

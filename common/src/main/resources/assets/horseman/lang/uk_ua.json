@@ -32,6 +32,7 @@
   "horseman.configuration.horse_creative_taming": "Приручення у креативному-режимі",
 
   "horseman.configuration.improved_mount_gui": "Покращений інтерфейс наїздника",
+  "horseman.configuration.fix_mounted_camera_lag": "Виправити затримку камери при їзді",
   "horseman.configuration.prevent_jumping_in_water": "Вимкнути стрибок у воді",
 
   "horseman.configuration.horse_model_head_offset": "Зміщення повороту голови коня",
