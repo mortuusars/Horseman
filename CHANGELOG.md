@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.5 - 2025-05-01
+- 'Fix for horizontal camera lag' now only applies to horse-type mobs. Fixes jittery camera in boats (maybe in other vehicles as well).
+
 ## 1.3.4 - 2025-05-01
 - Fixed crash with `I'm Fast` mod.
 
