@@ -1,12 +1,8 @@
 package io.github.mortuusars.horseman.mixin.render;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
-import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.mortuusars.horseman.client.HorseRenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -21,7 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = LivingEntityRenderer.class, priority = 950)
@@ -30,18 +25,10 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity> extends 
         super(context);
     }
 
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
-            at = @At("HEAD") )
-    void setAlpha(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci, @Share("alpha") LocalFloatRef alpha) {
-        if (entity instanceof AbstractHorse) {
-            alpha.set(HorseRenderUtils.getAlpha(entity));
-        }
-    }
-
     @ModifyArg(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"),
             index = 4)
-    int setOpacityAndChromaForRender(int color, @Local(argsOnly = true) LivingEntity entity, @Share("alpha") LocalFloatRef alpha) {
+    int setOpacityAndChromaForRender(int color, @Local(argsOnly = true) LivingEntity entity) {
         if (entity instanceof AbstractHorse) {
             if (HorseRenderUtils.isJeb(entity)) {
                 int index = entity.tickCount / 25 + entity.getId();
@@ -60,7 +47,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity> extends 
             }
 
             int a = FastColor.ARGB32.alpha(color);
-            a = Mth.clamp((int)(a * alpha.get()), 0, 255);
+            a = Mth.clamp((int)(a * HorseRenderUtils.getAlpha(entity)), 0, 255);
             return FastColor.ARGB32.color(a, color);
         } else {
             return color;
@@ -69,8 +56,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity> extends 
 
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     private void getRenderType(T entity, boolean bodyVisible, boolean translucent, boolean glowing,
-                               CallbackInfoReturnable<RenderType> cir, @Share("alpha") LocalFloatRef alphaRef) {
-        if (entity instanceof AbstractHorse && alphaRef.get() < 1.0) {
+                               CallbackInfoReturnable<RenderType> cir) {
+        if (entity instanceof AbstractHorse && HorseRenderUtils.getAlpha(entity) < 1.0f) {
             cir.setReturnValue(RenderType.entityTranslucent(getTextureLocation(entity)));
         }
     }

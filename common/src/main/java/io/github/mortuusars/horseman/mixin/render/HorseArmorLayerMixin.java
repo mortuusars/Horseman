@@ -23,8 +23,10 @@ public abstract class HorseArmorLayerMixin {
     RenderType makeRenderLayerTranslucent(ResourceLocation location, Operation<RenderType> original, @Local(argsOnly = true) Horse horse, @Share("alpha") LocalFloatRef alpha) {
         float a = HorseRenderUtils.getAlpha(horse);
         alpha.set(a);
-        if (a >= 1.0) return original.call(location);
-        return RenderType.entityTranslucent(location);
+        if (a < 1.0) {
+            return RenderType.entityTranslucent(location);
+        }
+        return original.call(location);
     }
 
     @ModifyArg(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Horse;FFFFFF)V",

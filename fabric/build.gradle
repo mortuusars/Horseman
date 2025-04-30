@@ -46,7 +46,8 @@ dependencies {
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
-    modRuntimeOnly("maven.modrinth:sodium:mc1.21.1-0.6.9-neoforge")
+    modRuntimeOnly("maven.modrinth:sodium:mc1.21.1-0.6.13-fabric")
+    modRuntimeOnly("maven.modrinth:iris:1.8.8+1.21.1-fabric")
     modRuntimeOnly("maven.modrinth:modmenu:YIfqIJ8q")
 
 //    modRuntimeOnly("maven.modrinth:horseshoes:1.2.5")
