@@ -1,8 +1,7 @@
-package io.github.mortuusars.horseman.forge;
+package io.github.mortuusars.horseman.fabric;
 
 import com.google.common.collect.ImmutableMap;
 import io.github.mortuusars.horseman.PlatformHelper;
-import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -12,15 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class HorsemanForgeMixinPlugin implements IMixinConfigPlugin {
-
+public class HorsemanFabricMixinPlugin implements IMixinConfigPlugin {
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "io.github.mortuusars.horseman.forge.mixin.realistic_horse_genetics.AbstractHorseGeneticMixin",
-            () -> LoadingModList.get().getModFileById("horse_colors") != null,
-            "io.github.mortuusars.horseman.forge.mixin.realistic_horse_genetics.HorseGUIMixin",
-            () -> LoadingModList.get().getModFileById("horse_colors") != null,
-            "io.github.mortuusars.horseman.neoforge.mixin.fix_moved_wrongly.ServerGamePacketListenerImplMixin",
-            () -> LoadingModList.get().getModFileById("horsebuff") == null && LoadingModList.get().getModFileById("imfast") == null
+            "io.github.mortuusars.horseman.fabric.mixin.fix_moved_wrongly.ServerGamePacketListenerImplMixin",
+            () -> !PlatformHelper.isModLoading("horsebuff") && !PlatformHelper.isModLoading("imfast")
     );
 
     @Override

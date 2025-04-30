@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.4 - 2025-05-01
+- Fixed crash with `I'm Fast` mod.
+
 ## 1.3.3 - 2025-04-30
 - Added a fix for horizontal camera lag when mounted. MC-259512.
 - Fixed button clicking sound playing when pressing Ctrl+Inv key in player's inventory.
