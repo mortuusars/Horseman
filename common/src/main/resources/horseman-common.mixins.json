@@ -5,6 +5,7 @@
   "plugin": "io.github.mortuusars.horseman.mixin.HorsemanMixinPlugin",
   "minVersion": "0.8",
   "client": [
+    "fix_camera_lag.LocalPlayerMixin",
     "fix_water_jump_meter.LocalPlayerMixin",
     "hitching.HorseInventoryScreenMixin",
     "lower_horse_head.HorseModelMixin",

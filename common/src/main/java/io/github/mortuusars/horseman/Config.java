@@ -155,6 +155,8 @@ public class Config {
 
         public static final ForgeConfigSpec.BooleanValue IMPROVED_MOUNT_GUI;
 
+        public static final ForgeConfigSpec.BooleanValue FIX_MOUNTED_CAMERA_LAG;
+
         public static final ForgeConfigSpec.BooleanValue PREVENT_JUMPING_IN_WATER;
 
         public static final ForgeConfigSpec.IntValue HORSE_HEAD_PITCH_OFFSET;
@@ -181,6 +183,10 @@ public class Config {
             IMPROVED_MOUNT_GUI = builder
                     .comment("Adjusts gui to render hunger bar, xp bar and xp level. Makes horse jump bar render only when jumping. Default: true")
                     .define("improved_mount_gui", true);
+
+            FIX_MOUNTED_CAMERA_LAG = builder
+                    .comment("Fixes small delay when moving camera horizontally while mounted - MC-259512. Default: true")
+                    .define("fix_mounted_camera_lag", true);
 
             PREVENT_JUMPING_IN_WATER = builder
                     .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
