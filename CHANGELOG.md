@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.6 - 2025-05-02
+- Horses will have smaller hitbox when in boat with a player to not interfere with item use (previously you'd always click on a horse). 
+
 ## 1.3.5 - 2025-05-01
 - 'Fix for horizontal camera lag' now only applies to horse-type mobs. Fixes jittery camera in boats (maybe in other vehicles as well).
 
