@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.7 - 2025-05-11
+- Fixed Llama carpet not rendering.
+
 ## 1.3.6 - 2025-05-02
 - Horses will have smaller hitbox when in boat with a player to not interfere with item use (previously you'd always click on a horse). 
 

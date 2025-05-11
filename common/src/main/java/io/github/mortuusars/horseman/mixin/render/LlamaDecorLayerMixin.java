@@ -44,6 +44,8 @@ public abstract class LlamaDecorLayerMixin {
         if (aVal < 1.0f) {
             int a = Mth.clamp((int)(255 * aVal), 0, 255);
             model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.color(a, 0xFFFFFF));
+        } else {
+            original.call(instance, poseStack, vertexConsumer, packedLight, packedOverlay);
         }
     }
 }
