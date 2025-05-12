@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.mixin.momentum;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.Horseman;
+import io.github.mortuusars.horseman.world.HorseStepDown;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -42,12 +42,9 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "travelRidden", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;travel(Lnet/minecraft/world/phys/Vec3;)V"))
     private void onTravelRidden(Player player, Vec3 travelVector, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity instanceof AbstractHorse horse
-                && Config.Server.HORSE_FAST_STEP_DOWN.get()
-                && getControllingPassenger() instanceof Player
-                && Horseman.shouldHorseStepDown(horse)) {
+        if (entity instanceof AbstractHorse horse && HorseStepDown.shouldHorseStepDown(horse)) {
             // Applies downward momentum to connect with the ground faster and regain running speed.
-            entity.addDeltaMovement(new Vec3(0, -0.5, 0));
+            entity.addDeltaMovement(new Vec3(0, -0.65, 0));
         }
     }
 }

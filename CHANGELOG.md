@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.8 - 2025-05-13
+- Increased 'fast_step_down' speed from 0.5 to 0.65
+- Fixed 'fast_step_down_two_blocks' config option breaking jumps.
+ 
 ## 1.3.7 - 2025-05-11
 - Fixed Llama carpet not rendering.
 
