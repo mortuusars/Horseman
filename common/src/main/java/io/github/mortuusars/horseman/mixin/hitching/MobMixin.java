@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;

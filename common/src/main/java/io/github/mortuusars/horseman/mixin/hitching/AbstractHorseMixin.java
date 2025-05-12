@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.SimpleContainer;

@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.network.handler;
 
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import io.github.mortuusars.horseman.network.packet.client.SyncHorseDataS2CP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;

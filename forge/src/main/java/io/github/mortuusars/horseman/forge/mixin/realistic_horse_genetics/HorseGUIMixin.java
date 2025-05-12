@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.forge.mixin.realistic_horse_genetics;
 
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.resources.ResourceLocation;

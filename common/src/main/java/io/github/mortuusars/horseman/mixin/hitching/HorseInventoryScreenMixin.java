@@ -3,7 +3,7 @@ package io.github.mortuusars.horseman.mixin.hitching;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.client.LeadOnHorse;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;

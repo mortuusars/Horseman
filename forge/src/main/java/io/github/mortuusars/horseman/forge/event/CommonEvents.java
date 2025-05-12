@@ -24,7 +24,7 @@ public class CommonEvents {
     @Mod.EventBusSubscriber(modid = Horseman.ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ForgeBus {
         @SubscribeEvent
-        public static void serverStarting(PlayerEvent.BreakSpeed event) {
+        public static void onPlayerBreakSpeed(PlayerEvent.BreakSpeed event) {
             if (event.getEntity().getControlledVehicle() instanceof AbstractHorse) {
                 float speed = event.getNewSpeed() > 0 ? event.getNewSpeed() : event.getOriginalSpeed();
                 event.setNewSpeed(speed * Config.Common.MOUNTED_BLOCK_BREAK_SPEED_MODIFIER.get().floatValue());

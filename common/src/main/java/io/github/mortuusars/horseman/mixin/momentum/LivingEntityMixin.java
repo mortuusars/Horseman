@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.mixin.momentum;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.HorseStepDown;
+import io.github.mortuusars.horseman.horse.HorseStepDown;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.data;
+package io.github.mortuusars.horseman.horse;
 
 import com.google.common.base.Preconditions;
 import io.github.mortuusars.horseman.Config;

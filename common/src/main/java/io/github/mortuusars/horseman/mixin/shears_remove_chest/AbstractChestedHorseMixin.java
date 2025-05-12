@@ -2,7 +2,7 @@ package io.github.mortuusars.horseman.mixin.shears_remove_chest;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.PlatformHelper;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;

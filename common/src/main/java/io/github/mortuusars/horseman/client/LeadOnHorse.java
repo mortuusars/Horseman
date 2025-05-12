@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.client;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.data.HitchableHorse;
+import io.github.mortuusars.horseman.horse.HitchableHorse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

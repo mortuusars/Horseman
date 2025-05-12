@@ -1,5 +1,6 @@
-package io.github.mortuusars.horseman;
+package io.github.mortuusars.horseman.horse;
 
+import io.github.mortuusars.horseman.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
