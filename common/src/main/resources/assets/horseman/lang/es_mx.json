@@ -1,0 +1,52 @@
+{
+  "gui.horseman.has_lead": "Tiene cuerda de amarre",
+  "gui.horseman.switch_inventory.button.from_horse.tooltip": "Inventario del jugador §8[§7CTRL+%s§8]",
+  "gui.horseman.switch_inventory.button.from_inventory.tooltip": "Inventario de %s §8[§7CTRL+%s§8]",
+  "gui.horseman.switch_inventory.button.from_inventory..tooltip.mount": "Montar",
+
+  "horseman.configuration.enabled": "Habilitado",
+  "horseman.configuration.movement": "Movimiento",
+  "horseman.configuration.fix_horse_moved_wrongly": "Corregir 'Movimiento incorrecto'",
+  "horseman.configuration.horse_step_height_modifier": "Modificador de altura de paso",
+  "horseman.configuration.horse_fast_step_down": "Paso rápido hacia abajo",
+  "horseman.configuration.horse_fast_step_down_two_blocks": "Paso rápido hacia abajo dos bloques",
+  "horseman.configuration.increase_horse_airborne_speed": "Aumentar velocidad en el aire",
+  "horseman.configuration.increase_horse_airborne_speed_amount": "Cantidad de velocidad en el aire",
+  "horseman.configuration.horse_swim_when_ridden": "Nadar",
+  "horseman.configuration.rotate_horse_instead_of_player": "Rotar caballo en lugar del jugador",
+  "horseman.configuration.saddled_horse_wander_radius": "Radio de vagabundeo",
+  "horseman.configuration.ridden_horse_prevent_rearing": "Prevenir encabritamiento",
+
+  "horseman.configuration.hitching": "Amarre",
+  "horseman.configuration.requires_lead": "Requiere cuerda",
+  "horseman.configuration.lead_slot": "Ranura para cuerda",
+
+  "horseman.configuration.free_camera": "Cámara libre",
+  "horseman.configuration.angle_threshold": "Umbral de ángulo",
+
+  "horseman.configuration.misc": "Varios",
+  "horseman.configuration.mounted_block_break_speed_modifier": "Velocidad de rotura montado",
+  "horseman.configuration.horse_fits_in_boat": "El caballo cabe en el bote",
+  "horseman.configuration.shears_remove_chest": "Tijeras quitan cofre",
+  "horseman.configuration.horse_creative_taming": "Domar en modo creativo",
+
+  "horseman.configuration.improved_mount_gui": "Interfaz mejorada de montura",
+  "horseman.configuration.fix_mounted_camera_lag": "Corregir retraso de cámara montada",
+  "horseman.configuration.prevent_jumping_in_water": "Prevenir saltos en el agua",
+  "horseman.configuration.horse_model_head_offset": "Desplazamiento de cabeceo del caballo",
+  "horseman.configuration.horse_model_y_offset": "Desplazamiento Y de la cabeza del caballo",
+  "horseman.configuration.render_lead_indication_without_slot": "Indicación de cuerda sin ranura",
+
+  "horseman.configuration.switch_inventory": "Cambiar inventario",
+  "horseman.configuration.player_button_position_x": "Posición X del botón del jugador",
+  "horseman.configuration.player_button_position_y": "Posición Y del botón del jugador",
+  "horseman.configuration.horse_button_position_x": "Posición X del botón del caballo",
+  "horseman.configuration.horse_button_position_y": "Posición Y del botón del caballo",
+
+  "horseman.configuration.transparent_horse": "Caballo transparente",
+  "horseman.configuration.max_transparency": "Transparencia máxima",
+  "horseman.configuration.start_angle": "Ángulo inicial",
+  "horseman.configuration.end_angle": "Ángulo final",
+
+  "horseman.configuration.jeb_horse": "jeb_ horse"
+}
