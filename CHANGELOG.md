@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.9 - 2025-05-16
+- [Fabric] Renamed "ServerGamePackedListenerImplMixin" to "ServerGPLImplMixin" to fix a crash with some mods. Yeah... I love Fabric, can't you tell?   
+
 ## 1.3.8 - 2025-05-13
 - Increased 'fast_step_down' speed from 0.5 to 0.65
 - Fixed 'fast_step_down_two_blocks' config option breaking jumps.
