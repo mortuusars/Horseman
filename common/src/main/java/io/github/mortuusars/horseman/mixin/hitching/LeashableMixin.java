@@ -1,49 +1,37 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import io.github.mortuusars.horseman.world.HitchableHorse;
-import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Leashable;
-import net.minecraft.world.item.Items;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.ItemLike;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Leashable.class)
 public interface LeashableMixin {
-    /**
-     * I haven't found a better way than overwriting whole method.
-     * @author Horseman - mortuusars
-     * @reason Prevent Lead dropping when horse is hitched.
-     */
-    @Overwrite
-    private static <E extends Entity & Leashable> void dropLeash(E entity, boolean broadcastPacket, boolean dropItem) {
-        @Nullable HitchableHorse horse = entity instanceof HitchableHorse ? ((HitchableHorse) entity) : null;
-        boolean isHitched = horse != null && HitchableHorse.isHitched(horse);
+    @Inject(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At("HEAD"))
+    private static <E extends Entity> void onDropLeash(E entity, boolean broadcastPacket, boolean dropItem,
+                                                       CallbackInfo ci, @Share("preventDrop") LocalBooleanRef preventDrop) {
+        if (!(entity instanceof HitchableHorse horse)) return;
 
-        if (isHitched) {
-            dropItem = false;
+        boolean hitched = HitchableHorse.isHitched(horse);
+
+        HitchableHorse.setHitched(horse, false);
+        if (!entity.level().isClientSide) {
+            HitchableHorse.syncHorseDataToTrackingClients(horse);
         }
 
-        Leashable.LeashData leashData = entity.getLeashData();
-        if (leashData != null && leashData.leashHolder != null) {
-            entity.setLeashData(null);
+        preventDrop.set(hitched);
+    }
 
-            if (horse != null) {
-                HitchableHorse.setHitched(horse, false);
-                if (!entity.level().isClientSide) {
-                    HitchableHorse.syncHorseDataToTrackingClients(horse);
-                }
-            }
-
-            if (!entity.level().isClientSide && dropItem) {
-                entity.spawnAtLocation(Items.LEAD);
-            }
-
-            if (broadcastPacket && entity.level() instanceof ServerLevel serverLevel) {
-                serverLevel.getChunkSource().broadcast(entity, new ClientboundSetEntityLinkPacket(entity, null));
-            }
-        }
+    @WrapWithCondition(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;spawnAtLocation(Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;"))
+    private static boolean preventLeadDrop(Entity entity, ItemLike item, @Share("preventDrop") LocalBooleanRef preventDrop) {
+        return !preventDrop.get();
     }
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.10
+- Changed some Leash-related code to prevent crashes with some mods (Origins/Apoli).  
+
 ## 1.3.9 - 2025-05-16
 - [Fabric] Renamed "ServerGamePackedListenerImplMixin" to "ServerGPLImplMixin" to fix a crash with some mods. Yeah... I love Fabric, can't you tell?   
 
