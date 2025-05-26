@@ -2,19 +2,24 @@ package io.github.mortuusars.horseman.world.calling;
 
 import com.google.common.base.Preconditions;
 import io.github.mortuusars.horseman.Horseman;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Instrument;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.List;
 
 public class HorseCalling {
     private static final Map<UUID, Map<ResourceKey<Instrument>, StoredBoundHorse>> BOUND_HORSES = new HashMap<>();
@@ -25,11 +30,11 @@ public class HorseCalling {
         return horse.getHorsemanBoundData() != null;
     }
 
-    public static @Nullable HorseCalling.StoredBoundHorse getBoundHorse(UUID owner, ResourceKey<Instrument> instrument) {
+    public static @Nullable StoredBoundHorse getBoundHorse(UUID owner, ResourceKey<Instrument> instrument) {
         return BOUND_HORSES.getOrDefault(owner, Collections.emptyMap()).get(instrument);
     }
 
-    public static @Nullable HorseCalling.StoredBoundHorse getBoundHorse(Player owner, ResourceKey<Instrument> instrument) {
+    public static @Nullable StoredBoundHorse getBoundHorse(Player owner, ResourceKey<Instrument> instrument) {
         return getBoundHorse(owner.getUUID(), instrument);
     }
 
@@ -61,88 +66,125 @@ public class HorseCalling {
 
     public static void unbindHorse(ServerLevel level, StoredBoundHorse boundHorse) {
         getStoredHorsesOf(boundHorse.getCallableData().owner()).remove(boundHorse.getCallableData().instrument());
-        tryFindLoadedHorse(level, boundHorse.getEntityUuid()).ifPresentOrElse(
-                existingHorse -> existingHorse.setHorsemanBoundData(null),
-                () -> UNBOUND_HORSES.add(boundHorse.getEntityUuid()));
+        if (tryFindLoadedHorse(level, boundHorse.getEntityUuid()) instanceof AbstractHorse loadedHorse) {
+            loadedHorse.setHorsemanBoundData(null);
+        } else {
+            UNBOUND_HORSES.add(boundHorse.getEntityUuid());
+        }
     }
 
     public static void unbindExistingHorse(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
-        @Nullable HorseCalling.StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
+        @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
         if (boundHorse != null) {
             unbindHorse(level, boundHorse);
         }
     }
 
-    // --
+    // -- Calling
 
-    public static boolean call(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
-        @Nullable HorseCalling.StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
+    public static HorseCallResult call(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
+        @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
 
-        if (boundHorse == null) {
-            player.displayClientMessage(Component.translatable("gui.horseman.calling.cannot_call.no_bound_horse"), true);
-            return false;
-        }
+        if (boundHorse == null) return HorseCallResult.NO_BOUND_HORSE;
+        if (boundHorse.isDead()) return HorseCallResult.HORSE_IS_DEAD;
 
-        if (boundHorse.isDead()) {
-            player.displayClientMessage(Component.translatable("gui.horseman.calling.cannot_call.dead"), true);
-            return false;
-        }
-
-        //TODO: check for space
-        //TODO: check for dimension
-        //TODO: check max calling distance
-
-        //TODO: check in other dimensions
-        //TODO: run to player if nearby
-
-        // Check if already loaded and tp to the player
-        if (level.getEntity(boundHorse.getEntityUuid()) instanceof AbstractHorse existingHorse) {
+        @Nullable AbstractHorse existingHorse = tryFindLoadedHorse(level, boundHorse.getEntityUuid());
+        if (existingHorse != null) {
             if (!isBound(existingHorse)) {
-                player.displayClientMessage(Component.translatable("gui.horseman.calling.cannot_call.horse_is_not_bound"), true);
-                return false;
+                return HorseCallResult.ERROR_HORSE_IS_NOT_BOUND;
             }
 
-            if (player.distanceTo(existingHorse) < 32) {
-                return callNearbyHorse(player, existingHorse);
-            } else {
-                // Prepare for resummoning
-                addOrUpdateBoundHorse(existingHorse); // Update before calling to have the latest state
-                boundHorse = getBoundHorse(player, instrument); // Re-query updated state
-                Preconditions.checkNotNull(boundHorse); // Should not be null as we check if the horse isBound above.
-            }
+            addOrUpdateBoundHorse(existingHorse); // Update before calling to have the latest state
+            boundHorse = getBoundHorse(player, instrument); // Re-query updated state
+            Preconditions.checkNotNull(boundHorse); // Should not be null as we check if the horse isBound above.
         }
 
+        if (!dimensionsAreValid(player, boundHorse)) return HorseCallResult.INVALID_DIMENSION;
+        if (!isInRange(player, boundHorse)) return HorseCallResult.TOO_FAR;
+
+        if (existingHorse != null && canWalkInsteadOfResummoning(player, existingHorse)) {
+            return walkToPlayer(level, player, existingHorse);
+        }
+
+        return summonHorse(level, player, boundHorse);
+    }
+
+    private static boolean hasSpace(ServerLevel level, Player player) {
+        return true;
+    }
+
+    private static boolean hasSpaceFor(ServerLevel level, Player player, AbstractHorse horse) {
+        StoredBoundHorse boundHorse = new StoredBoundHorse(horse, false);
+        Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
+        if (type.isEmpty()) return false;
+
+        @Nullable Entity entity = type.get().create(player.level());
+        if (!(entity instanceof AbstractHorse newHorse)) return false;
+
+        newHorse.load(boundHorse.getTag());
+        newHorse.setUUID(UUID.randomUUID());
+        newHorse.setPos(player.getX(), player.getY(), player.getZ());
+
+        return !newHorse.isInWall();
+    }
+
+    private static boolean isInRange(Player player, StoredBoundHorse boundHorse) {
+        //TODO: config for max range
+        return true;
+    }
+
+    private static HorseCallResult walkToPlayer(ServerLevel level, Player player, AbstractHorse horse) {
+        AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);
+        if (followRangeAttribute != null) {
+            followRangeAttribute.setBaseValue(16);
+        }
+
+        horse.getNavigation().moveTo(player, 2);
+        addOrUpdateBoundHorse(horse);
+        return HorseCallResult.SUCCESS;
+    }
+
+    private static HorseCallResult summonHorse(ServerLevel level, Player player, @NotNull StoredBoundHorse boundHorse) {
         Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
         if (type.isEmpty()) {
             Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. 'id' probably wasn't saved properly. Tag '{}'.", boundHorse.getTag());
-            player.displayClientMessage(Component.translatable("gui.horseman.calling.cannot_call.entity_not_created"), true);
-            return false;
+            return HorseCallResult.ERROR_ENTITY_NOT_CREATED;
         }
 
         @Nullable Entity entity = type.get().create(player.level());
         if (!(entity instanceof AbstractHorse newHorse)) {
             Horseman.LOGGER.error("Created entity isn't an AbstractHorse but {}. Something went wrong.", entity);
-            player.displayClientMessage(Component.translatable("gui.horseman.calling.cannot_call.entity_not_created"), true);
-            return false;
+            return HorseCallResult.ERROR_ENTITY_NOT_CREATED;
         }
 
         newHorse.load(boundHorse.getTag());
         newHorse.setUUID(UUID.randomUUID());
         newHorse.setPos(player.getX(), player.getY(), player.getZ());
+
+        if (!hasSpaceFor(level, player, newHorse)) return HorseCallResult.NO_SPACE;
+
         player.level().addFreshEntity(newHorse);
 
         removeOldBoundHorse(level, boundHorse);
         addOrUpdateBoundHorse(newHorse);
 
-        return true;
+        return HorseCallResult.SUCCESS;
     }
 
-    private static boolean callNearbyHorse(Player player, AbstractHorse horse) {
-        // horse.setPos(player.getX(), player.getY(), player.getZ());
-        horse.teleportTo(player.getX(), player.getY(), player.getZ());
-        addOrUpdateBoundHorse(horse);
-        return true;
+    // -- Conditions
+
+    private static boolean dimensionsAreValid(Player player, StoredBoundHorse boundHorse) {
+        //TODO: Config for dimensions
+        return boundHorse.isInSameDimension(player);
     }
+
+    private static boolean canWalkInsteadOfResummoning(Player player, AbstractHorse horse) {
+        return player.level().dimension().equals(horse.level().dimension()) && player.distanceTo(horse) < 16;
+    }
+
+//    private static boolean canHorseWalkInsteadOfTPing(ServerLevel level, Player player, AbstractHorse horse) {
+//        return player.distanceTo(horse) < 16;
+//    }
 
     // -- Events
 
@@ -174,13 +216,13 @@ public class HorseCalling {
 
     // -- Util
 
-    private static Optional<AbstractHorse> tryFindLoadedHorse(ServerLevel level, UUID entityUuid) {
+    private static @Nullable AbstractHorse tryFindLoadedHorse(ServerLevel level, UUID entityUuid) {
         for (ServerLevel dimension : level.getServer().getAllLevels()) {
             if (dimension.getEntity(entityUuid) instanceof AbstractHorse horse) {
-                return Optional.of(horse);
+                return horse;
             }
         }
-        return Optional.empty();
+        return null;
     }
 
     private static void removeOldBoundHorse(ServerLevel level, @NotNull StoredBoundHorse boundHorse) {
@@ -199,45 +241,6 @@ public class HorseCalling {
         if (!removed) {
             // Old entity will be removed when it tries to load:
             ENTITIES_TO_REMOVE.add(boundHorse.getEntityUuid());
-        }
-    }
-
-    // --
-
-    public static class StoredBoundHorse {
-        protected final BoundData boundData;
-        protected final CompoundTag tag;
-        protected final UUID entityUuid;
-        protected final boolean isDead;
-
-        public StoredBoundHorse(AbstractHorse horse, boolean dead) {
-            boundData = horse.getHorsemanBoundData();
-            tag = saveToTag(horse);
-            entityUuid = horse.getUUID();
-            isDead = dead;
-        }
-
-        public static CompoundTag saveToTag(AbstractHorse horse) {
-            CompoundTag tag = new CompoundTag();
-            tag.putString("id", EntityType.getKey(horse.getType()).toString());
-            horse.saveWithoutId(tag);
-            return tag;
-        }
-
-        public BoundData getCallableData() {
-            return boundData;
-        }
-
-        public CompoundTag getTag() {
-            return tag;
-        }
-
-        public UUID getEntityUuid() {
-            return entityUuid;
-        }
-
-        public boolean isDead() {
-            return isDead;
         }
     }
 }
