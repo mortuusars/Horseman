@@ -2,14 +2,18 @@ package io.github.mortuusars.horseman;
 
 import com.google.common.base.Preconditions;
 import com.mojang.logging.LogUtils;
+import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
+import net.minecraft.tags.InstrumentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.InstrumentItem;
+import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -54,6 +58,9 @@ public class Horseman {
     }
 
     public static class Items {
+        public static final Supplier<CopperHornItem> COPPER_HORN = Register.item("copper_horn",
+                () -> new CopperHornItem(new Item.Properties().stacksTo(1), InstrumentTags.GOAT_HORNS));
+
         static void init() {
         }
     }

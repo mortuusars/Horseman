@@ -6,11 +6,21 @@ import io.github.mortuusars.horseman.network.packet.C2SPackets;
 import io.github.mortuusars.horseman.network.packet.CommonPackets;
 import io.github.mortuusars.horseman.network.packet.Packet;
 import io.github.mortuusars.horseman.network.packet.S2CPackets;
+import io.github.mortuusars.horseman.world.calling.HorseCalling;
+import io.github.mortuusars.horseman.world.item.CopperHornItem;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.InstrumentTags;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -37,8 +47,37 @@ public class CommonEvents {
                         (StreamCodec<FriendlyByteBuf, Packet>) definition.codec(), PacketsImpl::handle);
             }
         }
+
+        @SubscribeEvent
+        public static void buildCreativeTabs(BuildCreativeModeTabContentsEvent event) {
+            if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
+                event.getParameters().holders()
+                        .lookup(Registries.INSTRUMENT)
+                        .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
+                        .ifPresent(named -> named.stream()
+                                .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
+                                .forEach(itemStack -> event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
+            }
+        }
     }
 
+    @EventBusSubscriber(modid = Horseman.ID, bus = EventBusSubscriber.Bus.GAME)
     public static class GameBus {
+        @SubscribeEvent
+        public static void entityJoinLevel(EntityJoinLevelEvent event) {
+            if (event.getLevel() instanceof ServerLevel serverLevel
+                    && event.getEntity() instanceof AbstractHorse horse
+                    && HorseCalling.horseLoaded(serverLevel, horse)) {
+                event.setCanceled(true);
+            }
+        }
+
+        @SubscribeEvent
+        public static void entityLeaveLevel(EntityLeaveLevelEvent event) {
+            if (event.getLevel() instanceof ServerLevel serverLevel
+                    && event.getEntity() instanceof AbstractHorse horse) {
+                HorseCalling.horseUnloaded(serverLevel, horse);
+            }
+        }
     }
 }

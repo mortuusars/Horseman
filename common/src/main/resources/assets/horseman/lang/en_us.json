@@ -48,5 +48,7 @@
   "horseman.configuration.start_angle": "Start angle",
   "horseman.configuration.end_angle": "End angle",
 
-  "horseman.configuration.jeb_horse": "jeb_ horse"
+  "horseman.configuration.jeb_horse": "jeb_ horse",
+
+  "item.horseman.copper_horn": "Copper Horn"
 }
