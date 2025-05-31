@@ -1,12 +1,12 @@
 package io.github.mortuusars.horseman.neoforge.event;
 
 import io.github.mortuusars.horseman.Horseman;
+import io.github.mortuusars.horseman.HorsemanServer;
 import io.github.mortuusars.horseman.network.neoforge.PacketsImpl;
 import io.github.mortuusars.horseman.network.packet.C2SPackets;
 import io.github.mortuusars.horseman.network.packet.CommonPackets;
 import io.github.mortuusars.horseman.network.packet.Packet;
 import io.github.mortuusars.horseman.network.packet.S2CPackets;
-import io.github.mortuusars.horseman.world.calling.HorseCalling;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,6 +21,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -64,10 +66,20 @@ public class CommonEvents {
     @EventBusSubscriber(modid = Horseman.ID, bus = EventBusSubscriber.Bus.GAME)
     public static class GameBus {
         @SubscribeEvent
+        public static void serverStarted(ServerStartedEvent event) {
+            HorsemanServer.init(event.getServer());
+        }
+
+        @SubscribeEvent
+        public static void serverStarted(ServerStoppedEvent event) {
+            HorsemanServer.stop(event.getServer());
+        }
+
+        @SubscribeEvent
         public static void entityJoinLevel(EntityJoinLevelEvent event) {
             if (event.getLevel() instanceof ServerLevel serverLevel
                     && event.getEntity() instanceof AbstractHorse horse
-                    && HorseCalling.horseLoaded(serverLevel, horse)) {
+                    && HorsemanServer.horseCalling().onHorseLoaded(serverLevel, horse)) {
                 event.setCanceled(true);
             }
         }
@@ -76,7 +88,7 @@ public class CommonEvents {
         public static void entityLeaveLevel(EntityLeaveLevelEvent event) {
             if (event.getLevel() instanceof ServerLevel serverLevel
                     && event.getEntity() instanceof AbstractHorse horse) {
-                HorseCalling.horseUnloaded(serverLevel, horse);
+                HorsemanServer.horseCalling().onHorseUnloaded(serverLevel, horse);
             }
         }
     }

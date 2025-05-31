@@ -3,6 +3,7 @@ package io.github.mortuusars.horseman.fabric;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
+import io.github.mortuusars.horseman.HorsemanServer;
 import io.github.mortuusars.horseman.network.fabric.FabricC2SPackets;
 import io.github.mortuusars.horseman.network.fabric.FabricS2CPackets;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
@@ -42,9 +43,11 @@ public class HorsemanFabric implements ModInitializer {
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            HorsemanServer.init(server);
             HorsemanFabric.server = server;
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            HorsemanServer.stop(server);
             HorsemanFabric.server = null;
         });
 

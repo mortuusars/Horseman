@@ -1,8 +1,8 @@
 package io.github.mortuusars.horseman.world.item;
 
 import com.mojang.datafixers.util.Pair;
+import io.github.mortuusars.horseman.HorsemanServer;
 import io.github.mortuusars.horseman.world.calling.HorseCallResult;
-import io.github.mortuusars.horseman.world.calling.HorseCalling;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,7 +19,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -68,7 +67,7 @@ public class CopperHornItem extends InstrumentItem {
 
         if (horse.getHorsemanBoundData() != null) {
             if (horse.getHorsemanBoundData().isBoundTo(player)) {
-                HorseCalling.bind(level, horse, player, instrumentKey);
+                HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
                 player.displayClientMessage(Component.translatable(
                         "gui.horseman.calling.cannot_bind.already_bound_to_you"), true);
             } else {
@@ -78,7 +77,8 @@ public class CopperHornItem extends InstrumentItem {
             return InteractionResult.FAIL;
         }
 
-        HorseCalling.bind(level, horse, player, instrumentKey);
+        HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
+        player.displayClientMessage(Component.translatable("gui.horseman.calling.bound_successfully"), true);
         //TODO: effects, sounds? etc
 
         horse.standIfPossible();
@@ -106,7 +106,7 @@ public class CopperHornItem extends InstrumentItem {
         player.startUsingItem(usedHand);
 
         if (level instanceof ServerLevel serverLevel) {
-            HorseCallResult callResult = HorseCalling.call(serverLevel, player, instrumentKey);
+            HorseCallResult callResult = HorsemanServer.horseCalling().call(serverLevel, player, instrumentKey);
             @Nullable Component message = getCallResultMessage(callResult);
             if (message != null) {
                 player.displayClientMessage(message, true);

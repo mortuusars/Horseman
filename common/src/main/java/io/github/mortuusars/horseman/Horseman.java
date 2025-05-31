@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.InstrumentTags;
@@ -33,6 +34,10 @@ public class Horseman {
         RecipeSerializers.init();
         SoundEvents.init();
         ArgumentTypes.init();
+    }
+
+    public static void initServer(MinecraftServer server) {
+        HorsemanServer.init(server);
     }
 
     /**

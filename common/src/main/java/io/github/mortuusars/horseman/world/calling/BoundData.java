@@ -28,9 +28,10 @@ public record BoundData(UUID owner, ResourceKey<Instrument> instrument) {
 
     // --
 
-    public void save(CompoundTag tag) {
+    public CompoundTag save(CompoundTag tag) {
         tag.putUUID("HorsemanCallingOwner", owner);
         tag.putString("HorsemanCallingInstrument", instrument.location().toString());
+        return tag;
     }
 
     public static @Nullable BoundData load(CompoundTag tag) {
