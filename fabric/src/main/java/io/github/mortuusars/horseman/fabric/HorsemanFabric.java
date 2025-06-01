@@ -15,7 +15,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Items;
 import net.neoforged.fml.config.ModConfig;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +29,6 @@ public class HorsemanFabric implements ModInitializer {
         NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.SERVER, Config.Server.SPEC);
         NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.CLIENT, Config.Client.SPEC);
 
-        Horseman.Advancements.register();
         Horseman.Stats.register();
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {

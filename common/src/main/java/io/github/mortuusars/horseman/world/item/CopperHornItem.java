@@ -13,6 +13,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -118,8 +119,8 @@ public class CopperHornItem extends InstrumentItem {
 
         player.startUsingItem(usedHand);
 
-        if (level instanceof ServerLevel serverLevel) {
-            CallResult callResult = HorsemanServer.horseCalling().call(serverLevel, player, instrumentKey);
+        if (player instanceof ServerPlayer serverPlayer) {
+            CallResult callResult = HorsemanServer.horseCalling().call(serverPlayer, instrumentKey);
             @Nullable Component message = getCallResultMessage(callResult);
             if (message != null) {
                 player.displayClientMessage(message, true);

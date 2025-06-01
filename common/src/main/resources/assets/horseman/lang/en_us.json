@@ -57,5 +57,9 @@
   "gui.horseman.calling.cannot_call.wrong_or_defective_horse": "§cThe animal forgot the instrument",
 
   "horseman.jei.info.copper_horn1": "Can be used to call the horse to you.",
-  "horseman.jei.info.copper_horn2": "Bind the horse to the instrument with [Sneak+Use] then [Use] to call it."
+  "horseman.jei.info.copper_horn2": "Bind the horse to the instrument with [Sneak+Use] then [Use] to call it.",
+  "horseman.jei.info.copper_horn3": "Horse can respond to several instruments.",
+
+  "advancement.horseman.call_horse.title": "Honk If You Like Horses",
+  "advancement.horseman.call_horse.description": "Call a horse with Copper Horn"
 }

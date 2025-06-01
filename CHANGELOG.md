@@ -1,5 +1,10 @@
 # Changelog
 
+## UNRELEASED
+- Added Copper Horn.
+  - Used to call a horse to the player.
+- Added advancement related to horse calling.
+
 ## 1.3.10
 - Changed some Leash-related code to prevent crashes with some mods (Origins/Apoli).  
 

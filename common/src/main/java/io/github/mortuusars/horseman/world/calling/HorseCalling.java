@@ -6,6 +6,7 @@ import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -88,7 +89,8 @@ public class HorseCalling {
 
     // -- Calling
 
-    public CallResult call(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
+    public CallResult call(ServerPlayer player, ResourceKey<Instrument> instrument) {
+        ServerLevel level = player.serverLevel();
         @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
 
         if (boundHorse == null) return CallResult.NO_BOUND_HORSE;
@@ -109,13 +111,13 @@ public class HorseCalling {
         if (!isInRange(player, boundHorse)) return CallResult.TOO_FAR;
 
         if (existingHorse != null && canWalkInsteadOfResummoning(player, existingHorse)) {
-            return walkToPlayer(level, player, existingHorse);
+            return walkToPlayer(player, existingHorse);
         }
 
-        return summonHorse(level, player, boundHorse);
+        return summonHorse(player, boundHorse);
     }
 
-    protected CallResult walkToPlayer(ServerLevel level, Player player, AbstractHorse horse) {
+    protected CallResult walkToPlayer(ServerPlayer player, AbstractHorse horse) {
         AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRangeAttribute != null) {
             followRangeAttribute.setBaseValue(Config.Server.HORSE_CALLING_MAX_WALKING_DISTANCE.get());
@@ -123,10 +125,15 @@ public class HorseCalling {
 
         horse.getNavigation().moveTo(player, Config.Server.HORSE_CALLING_WALK_MOVEMENT_SPEED.get());
         addOrUpdateBoundHorse(horse);
+
+        Horseman.CriteriaTriggers.HORSE_CALLED.get().trigger(player, horse);
+
         return CallResult.SUCCESS;
     }
 
-    protected CallResult summonHorse(ServerLevel level, Player player, @NotNull StoredBoundHorse boundHorse) {
+    protected CallResult summonHorse(ServerPlayer player, @NotNull StoredBoundHorse boundHorse) {
+        ServerLevel level = player.serverLevel();
+
         Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
         if (type.isEmpty()) {
             Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. 'id' probably wasn't saved properly. Tag '{}'.", boundHorse.getTag());
@@ -149,6 +156,8 @@ public class HorseCalling {
 
         removeOldBoundHorse(level, boundHorse);
         addOrUpdateBoundHorse(newHorse);
+
+        Horseman.CriteriaTriggers.HORSE_CALLED.get().trigger(player, newHorse);
 
         return CallResult.SUCCESS;
     }

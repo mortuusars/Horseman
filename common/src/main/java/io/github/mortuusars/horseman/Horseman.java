@@ -2,6 +2,7 @@ package io.github.mortuusars.horseman;
 
 import com.google.common.base.Preconditions;
 import com.mojang.logging.LogUtils;
+import io.github.mortuusars.horseman.advancement.HorseCalledTrigger;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.ComponentTransferringRecipe;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.serializer.ComponentTransferringRecipeSerializer;
@@ -34,6 +35,7 @@ public class Horseman {
         Items.init();
         MenuTypes.init();
         RecipeSerializers.init();
+        CriteriaTriggers.init();
         SoundEvents.init();
         ArgumentTypes.init();
     }
@@ -119,8 +121,10 @@ public class Horseman {
         }
     }
 
-    public static class Advancements {
-        public static void register() {
+    public static class CriteriaTriggers {
+        public static Supplier<HorseCalledTrigger> HORSE_CALLED = Register.criterionTrigger("horse_called", HorseCalledTrigger::new);
+
+        public static void init() {
         }
     }
 

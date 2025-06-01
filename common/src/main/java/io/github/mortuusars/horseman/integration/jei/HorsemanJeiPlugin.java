@@ -35,7 +35,8 @@ public class HorsemanJeiPlugin implements IModPlugin {
         if (Config.Client.SHOW_JEI_INFORMATION.get()) {
             registration.addItemStackInfo(List.of(new ItemStack(Horseman.Items.COPPER_HORN.get())),
                     Component.translatable("horseman.jei.info.copper_horn1"),
-                    Component.translatable("horseman.jei.info.copper_horn2"));
+                    Component.translatable("horseman.jei.info.copper_horn2"),
+                    Component.translatable("horseman.jei.info.copper_horn3"));
         }
     }
 
