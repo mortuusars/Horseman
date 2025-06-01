@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class HorseCalledTrigger extends SimpleCriterionTrigger<HorseCalledTrigger.TriggerInstance> {
+public class HorseSummonedTrigger extends SimpleCriterionTrigger<HorseSummonedTrigger.TriggerInstance> {
     @Override
     public @NotNull Codec<TriggerInstance> codec() {
         return TriggerInstance.CODEC;

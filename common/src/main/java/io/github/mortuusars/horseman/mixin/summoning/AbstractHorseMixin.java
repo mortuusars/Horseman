@@ -1,7 +1,7 @@
-package io.github.mortuusars.horseman.mixin.calling;
+package io.github.mortuusars.horseman.mixin.summoning;
 
-import io.github.mortuusars.horseman.world.calling.BoundData;
-import io.github.mortuusars.horseman.world.calling.CallableHorse;
+import io.github.mortuusars.horseman.world.summoning.BoundData;
+import io.github.mortuusars.horseman.world.summoning.SummonableHorse;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractHorse.class)
-public abstract class AbstractHorseMixin extends Animal implements CallableHorse {
+public abstract class AbstractHorseMixin extends Animal implements SummonableHorse {
     protected AbstractHorseMixin(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
     }

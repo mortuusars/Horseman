@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanServer;
-import io.github.mortuusars.horseman.world.calling.CallResult;
+import io.github.mortuusars.horseman.world.summoning.CallResult;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -55,7 +55,7 @@ public class CopperHornItem extends InstrumentItem {
         if (Config.Client.COPPER_HORN_SHOW_TOOLTIP_DETAILS.get()) {
             if (Screen.hasShiftDown()) {
                 tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.bind"));
-                tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.call"));
+                tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.summon"));
             } else {
                 tooltip.add(Component.translatable("item.horseman.tooltip.hold_shift_for_details"));
             }
@@ -65,13 +65,13 @@ public class CopperHornItem extends InstrumentItem {
     @Override
     public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand usedHand) {
         if (!player.isSecondaryUseActive() || !(target instanceof AbstractHorse horse)) return InteractionResult.PASS;
-        if (!horse.getType().is(Horseman.Tags.EntityTypes.CALLABLE)) return InteractionResult.PASS;
+        if (!horse.getType().is(Horseman.Tags.EntityTypes.SUMMONABLE)) return InteractionResult.PASS;
         if (!horse.isTamed()) return InteractionResult.PASS;
         if (!(player.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
 
         @Nullable Pair<ResourceKey<Instrument>, Instrument> instrumentData = getInstrumentData(stack);
         if (instrumentData == null) {
-            player.displayClientMessage(Component.translatable("gui.horseman.calling.cannot_bind.no_instrument"), true);
+            player.displayClientMessage(Component.translatable("gui.horseman.summoning.cannot_bind.no_instrument"), true);
             return InteractionResult.FAIL;
         }
 
@@ -82,19 +82,19 @@ public class CopperHornItem extends InstrumentItem {
             if (horse.getHorsemanBoundData().isBoundTo(player)) {
                 if (horse.getHorsemanBoundData().instrument().equals(instrumentKey)) {
                     // Update bind just in case
-                    HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
+                    HorsemanServer.summoning().bind(level, horse, player, instrumentKey);
                     player.displayClientMessage(Component.translatable(
-                            "gui.horseman.calling.cannot_bind.already_bound_to_you"), true);
+                            "gui.horseman.summoning.cannot_bind.already_bound_to_you"), true);
                     return InteractionResult.FAIL;
                 }
             } else {
                 player.displayClientMessage(Component.translatable(
-                        "gui.horseman.calling.cannot_bind.already_bound_to_someone_else"), true);
+                        "gui.horseman.summoning.cannot_bind.already_bound_to_someone_else"), true);
                 return InteractionResult.FAIL;
             }
         }
 
-        HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
+        HorsemanServer.summoning().bind(level, horse, player, instrumentKey);
         level.sendParticles(ParticleTypes.NOTE, target.getX(), target.getY() + 0.75, target.getZ(), 10, 0.6, 0.6, 0.6, 0.1);
 
         horse.standIfPossible();
@@ -120,7 +120,7 @@ public class CopperHornItem extends InstrumentItem {
         player.startUsingItem(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            CallResult callResult = HorsemanServer.horseCalling().call(serverPlayer, instrumentKey);
+            CallResult callResult = HorsemanServer.summoning().call(serverPlayer, instrumentKey);
             @Nullable Component message = getCallResultMessage(callResult);
             if (message != null) {
                 player.displayClientMessage(message, true);
@@ -144,14 +144,14 @@ public class CopperHornItem extends InstrumentItem {
     protected @Nullable Component getCallResultMessage(CallResult result) {
         return switch (result) {
             case SUCCESS -> null;
-            case NO_BOUND_HORSE -> Component.translatable("gui.horseman.calling.cannot_call.no_bound_horse");
-            case HORSE_IS_DEAD -> Component.translatable("gui.horseman.calling.cannot_call.dead");
-            case TOO_FAR -> Component.translatable("gui.horseman.calling.cannot_call.too_far");
+            case NO_BOUND_HORSE -> Component.translatable("gui.horseman.summoning.cannot_summon.no_bound_horse");
+            case HORSE_IS_DEAD -> Component.translatable("gui.horseman.summoning.cannot_summon.dead");
+            case TOO_FAR -> Component.translatable("gui.horseman.summoning.cannot_summon.too_far");
             case INVALID_DIMENSION ->
-                    Component.translatable("gui.horseman.calling.cannot_call.in_other_dimension");
-            case NO_SPACE -> Component.translatable("gui.horseman.calling.cannot_call.no_space");
+                    Component.translatable("gui.horseman.summoning.cannot_summon.in_other_dimension");
+            case NO_SPACE -> Component.translatable("gui.horseman.summoning.cannot_summon.no_space");
             case ERROR_HORSE_IS_NOT_BOUND, ERROR_ENTITY_NOT_CREATED ->
-                    Component.translatable("gui.horseman.calling.cannot_call.wrong_or_defective_horse");
+                    Component.translatable("gui.horseman.summoning.cannot_summon.wrong_or_defective_horse");
         };
     }
 

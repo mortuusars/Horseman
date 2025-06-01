@@ -8,11 +8,14 @@ import io.github.mortuusars.horseman.network.fabric.FabricC2SPackets;
 import io.github.mortuusars.horseman.network.fabric.FabricS2CPackets;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.InstrumentTags;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.fml.config.ModConfig;
@@ -47,6 +50,20 @@ public class HorsemanFabric implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             HorsemanServer.stop(server);
             HorsemanFabric.server = null;
+        });
+
+        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+            if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
+                if (HorsemanServer.summoning().onHorseLoaded(level, horse)) {
+                    horse.discard();
+                }
+            }
+        });
+
+        ServerEntityEvents.ENTITY_UNLOAD.register((entity, world) -> {
+            if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
+                HorsemanServer.summoning().onHorseUnloaded(level, horse);
+            }
         });
 
         FabricC2SPackets.register();

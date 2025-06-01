@@ -2,7 +2,7 @@
   "accessWidener": "horseman.accesswidener",
   "injected_interfaces": {
     "net/minecraft/class_1496": [
-      "io/github/mortuusars/horseman/world/calling/CallableHorse"
+      "io/github/mortuusars/horseman/world/summoning/SummonableHorse"
     ]
   }
 }

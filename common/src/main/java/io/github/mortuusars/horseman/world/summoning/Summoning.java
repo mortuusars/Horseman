@@ -1,8 +1,9 @@
-package io.github.mortuusars.horseman.world.calling;
+package io.github.mortuusars.horseman.world.summoning;
 
 import com.google.common.base.Preconditions;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -19,14 +20,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class HorseCalling {
-    protected final HorseCallingStorage storage;
+public class Summoning {
+    protected final SummoningStorage storage;
 
-    public HorseCalling(MinecraftServer server) {
-        storage = HorseCallingStorage.loadOrCreate(server);
+    public Summoning(MinecraftServer server) {
+        storage = SummoningStorage.loadOrCreate(server);
     }
 
-    public HorseCallingStorage getStorage() {
+    public SummoningStorage getStorage() {
         return storage;
     }
 
@@ -120,13 +121,13 @@ public class HorseCalling {
     protected CallResult walkToPlayer(ServerPlayer player, AbstractHorse horse) {
         AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRangeAttribute != null) {
-            followRangeAttribute.setBaseValue(Config.Server.HORSE_CALLING_MAX_WALKING_DISTANCE.get());
+            followRangeAttribute.setBaseValue(Config.Server.HORSE_SUMMONING_MAX_WALKING_DISTANCE.get());
         }
 
-        horse.getNavigation().moveTo(player, Config.Server.HORSE_CALLING_WALK_MOVEMENT_SPEED.get());
+        horse.getNavigation().moveTo(player, Config.Server.HORSE_SUMMONING_WALK_MOVEMENT_SPEED.get());
         addOrUpdateBoundHorse(horse);
 
-        Horseman.CriteriaTriggers.HORSE_CALLED.get().trigger(player, horse);
+        Horseman.CriteriaTriggers.HORSE_SUMMONED.get().trigger(player, horse);
 
         return CallResult.SUCCESS;
     }
@@ -157,7 +158,7 @@ public class HorseCalling {
         removeOldBoundHorse(level, boundHorse);
         addOrUpdateBoundHorse(newHorse);
 
-        Horseman.CriteriaTriggers.HORSE_CALLED.get().trigger(player, newHorse);
+        Horseman.CriteriaTriggers.HORSE_SUMMONED.get().trigger(player, newHorse);
 
         return CallResult.SUCCESS;
     }
@@ -165,24 +166,24 @@ public class HorseCalling {
     // -- Conditions
 
     protected boolean dimensionsAreValid(Player player, StoredBoundHorse boundHorse) {
-        return switch (Config.Server.HORSE_CALLING_DIMENSION_HANDLING.get()) {
+        return switch (Config.Server.HORSE_SUMMONING_DIMENSION_HANDLING.get()) {
             case ANY -> true;
             case SAME -> boundHorse.isInSameDimension(player);
             case WHITELIST -> {
                 String playerDimension = player.level().dimension().location().toString();
-                yield Config.Server.HORSE_CALLING_DIMENSIONS.get().stream()
+                yield Config.Server.HORSE_SUMMONING_DIMENSIONS.get().stream()
                         .anyMatch(dimension -> dimension.equals(playerDimension));
             }
             case BLACKLIST -> {
                 String playerDimension = player.level().dimension().location().toString();
-                yield Config.Server.HORSE_CALLING_DIMENSIONS.get().stream()
+                yield Config.Server.HORSE_SUMMONING_DIMENSIONS.get().stream()
                         .noneMatch(dimension -> dimension.equals(playerDimension));
             }
         };
     }
 
     protected boolean isInRange(Player player, StoredBoundHorse boundHorse) {
-        int maxDistance = Config.Server.HORSE_CALLING_MAX_DISTANCE.get();
+        int maxDistance = Config.Server.HORSE_SUMMONING_MAX_DISTANCE.get();
         if (maxDistance < 0) return true;
         int distance = (int) boundHorse.position.distanceTo(player.position());
         return distance <= maxDistance;
@@ -190,7 +191,7 @@ public class HorseCalling {
 
     protected boolean canWalkInsteadOfResummoning(Player player, AbstractHorse horse) {
         return player.level().dimension().equals(horse.level().dimension())
-                && player.distanceTo(horse) < Config.Server.HORSE_CALLING_MAX_WALKING_DISTANCE.get();
+                && player.distanceTo(horse) < Config.Server.HORSE_SUMMONING_MAX_WALKING_DISTANCE.get();
     }
 
     protected boolean hasSpaceFor(ServerLevel level, Player player, AbstractHorse horse) {
@@ -236,6 +237,9 @@ public class HorseCalling {
     public void onHorseUnloaded(ServerLevel level, AbstractHorse horse) {
         if (isBound(horse)) {
             addOrUpdateBoundHorse(horse);
+            if (horse.isDeadOrDying() && horse.getCustomName() == null) {
+                Horseman.LOGGER.info("Bound horse has died at [{}, {}, {}].", (int)horse.getX(), (int)horse.getY(), (int)horse.getZ());
+            }
         }
     }
 

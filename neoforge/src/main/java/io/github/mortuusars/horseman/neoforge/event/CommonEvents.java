@@ -79,7 +79,7 @@ public class CommonEvents {
         public static void entityJoinLevel(EntityJoinLevelEvent event) {
             if (event.getLevel() instanceof ServerLevel serverLevel
                     && event.getEntity() instanceof AbstractHorse horse
-                    && HorsemanServer.horseCalling().onHorseLoaded(serverLevel, horse)) {
+                    && HorsemanServer.summoning().onHorseLoaded(serverLevel, horse)) {
                 event.setCanceled(true);
             }
         }
@@ -88,7 +88,7 @@ public class CommonEvents {
         public static void entityLeaveLevel(EntityLeaveLevelEvent event) {
             if (event.getLevel() instanceof ServerLevel serverLevel
                     && event.getEntity() instanceof AbstractHorse horse) {
-                HorsemanServer.horseCalling().onHorseUnloaded(serverLevel, horse);
+                HorsemanServer.summoning().onHorseUnloaded(serverLevel, horse);
             }
         }
     }

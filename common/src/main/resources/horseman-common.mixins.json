@@ -18,7 +18,7 @@
   ],
   "mixins": [
     "attribute_modifiers.EntityMixin",
-    "calling.AbstractHorseMixin",
+    "summoning.AbstractHorseMixin",
     "creative_taming.AbstractChestedHorseMixin",
     "creative_taming.HorseMixin",
     "fits_in_boat.BoatMixin",

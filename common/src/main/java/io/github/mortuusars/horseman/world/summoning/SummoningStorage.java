@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.world.calling;
+package io.github.mortuusars.horseman.world.summoning;
 
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.core.HolderLookup;
@@ -17,19 +17,19 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class HorseCallingStorage extends SavedData {
+public class SummoningStorage extends SavedData {
     protected final Map<UUID, Map<ResourceKey<Instrument>, StoredBoundHorse>> boundHorses;
     protected final List<UUID> unboundHorses;
     protected final List<UUID> horsesToRemove;
 
-    private HorseCallingStorage(Map<UUID, Map<ResourceKey<Instrument>, StoredBoundHorse>> boundHorses,
-                                List<UUID> unboundHorses, List<UUID> horsesToRemove) {
+    private SummoningStorage(Map<UUID, Map<ResourceKey<Instrument>, StoredBoundHorse>> boundHorses,
+                             List<UUID> unboundHorses, List<UUID> horsesToRemove) {
         this.boundHorses = boundHorses;
         this.unboundHorses = unboundHorses;
         this.horsesToRemove = horsesToRemove;
     }
 
-    private HorseCallingStorage() {
+    private SummoningStorage() {
         this(new HashMap<>(), new ArrayList<>(), new ArrayList<>());
     }
 
@@ -50,15 +50,15 @@ public class HorseCallingStorage extends SavedData {
 
     // --
 
-    public static @NotNull HorseCallingStorage loadOrCreate(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(HorseCallingStorage.factory(), "horseman_horse_calling");
+    public static @NotNull SummoningStorage loadOrCreate(MinecraftServer server) {
+        return server.overworld().getDataStorage().computeIfAbsent(SummoningStorage.factory(), "horseman_horse_calling");
     }
 
-    private static Factory<HorseCallingStorage> factory() {
-        return new Factory<>(HorseCallingStorage::new, HorseCallingStorage::load, null);
+    private static Factory<SummoningStorage> factory() {
+        return new Factory<>(SummoningStorage::new, SummoningStorage::load, null);
     }
 
-    private static HorseCallingStorage load(CompoundTag tag, HolderLookup.Provider provider) {
+    private static SummoningStorage load(CompoundTag tag, HolderLookup.Provider provider) {
         try {
             CompoundTag boundHorsesTag = tag.getCompound("BoundHorses");
             Map<UUID, Map<ResourceKey<Instrument>, StoredBoundHorse>> boundHorses = new HashMap<>();
@@ -94,10 +94,10 @@ public class HorseCallingStorage extends SavedData {
                 horsesToRemove.add(NbtUtils.loadUUID(toRemoveUUID));
             }
 
-            return new HorseCallingStorage(boundHorses, unboundHorses, horsesToRemove);
+            return new SummoningStorage(boundHorses, unboundHorses, horsesToRemove);
         } catch (Exception e) {
             Horseman.LOGGER.error("Failed to load HorseCallingStorage: ", e);
-            return new HorseCallingStorage();
+            return new SummoningStorage();
         }
     }
 

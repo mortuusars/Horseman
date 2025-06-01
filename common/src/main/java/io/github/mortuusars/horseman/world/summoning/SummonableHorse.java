@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.world.calling;
+package io.github.mortuusars.horseman.world.summoning;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
  * Injected in AbstractHorse.<br>
  * Injected interfaces must have all methods as 'default'.
  */
-public interface CallableHorse {
+public interface SummonableHorse {
     default @Nullable BoundData getHorsemanBoundData() {
         throw new IllegalStateException("This method should be implemented.");
     }

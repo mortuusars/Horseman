@@ -2,7 +2,7 @@ package io.github.mortuusars.horseman;
 
 import com.google.common.base.Preconditions;
 import com.mojang.logging.LogUtils;
-import io.github.mortuusars.horseman.advancement.HorseCalledTrigger;
+import io.github.mortuusars.horseman.advancement.HorseSummonedTrigger;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.ComponentTransferringRecipe;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.serializer.ComponentTransferringRecipeSerializer;
@@ -122,7 +122,7 @@ public class Horseman {
     }
 
     public static class CriteriaTriggers {
-        public static Supplier<HorseCalledTrigger> HORSE_CALLED = Register.criterionTrigger("horse_called", HorseCalledTrigger::new);
+        public static Supplier<HorseSummonedTrigger> HORSE_SUMMONED = Register.criterionTrigger("horse_summoned", HorseSummonedTrigger::new);
 
         public static void init() {
         }
@@ -139,7 +139,7 @@ public class Horseman {
             public static final TagKey<EntityType<?>> CANNOT_BE_HITCHED = TagKey.create(Registries.ENTITY_TYPE, resource("cannot_be_hitched"));
             public static final TagKey<EntityType<?>> CANNOT_SWIM = TagKey.create(Registries.ENTITY_TYPE, resource("cannot_swim"));
             public static final TagKey<EntityType<?>> FORBIDS_HORSES = TagKey.create(Registries.ENTITY_TYPE, resource("forbids_horses"));
-            public static final TagKey<EntityType<?>> CALLABLE = TagKey.create(Registries.ENTITY_TYPE, resource("callable"));
+            public static final TagKey<EntityType<?>> SUMMONABLE = TagKey.create(Registries.ENTITY_TYPE, resource("summonable"));
         }
     }
 

@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.world.calling;
+package io.github.mortuusars.horseman.world.summoning;
 
 public enum CallResult {
     SUCCESS,

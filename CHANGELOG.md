@@ -2,8 +2,8 @@
 
 ## UNRELEASED
 - Added Copper Horn.
-  - Used to call a horse to the player.
-- Added advancement related to horse calling.
+  - Used to summon a horse to the player.
+- Added advancement related to horse summoning.
 - Added `#horseman:forbids_horses` entity tag for boats. 
   - Can be used to configure what type of boat can fit a horse. 
   - Empty by default.

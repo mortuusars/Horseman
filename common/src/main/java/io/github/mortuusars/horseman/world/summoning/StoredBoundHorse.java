@@ -1,4 +1,4 @@
-package io.github.mortuusars.horseman.world.calling;
+package io.github.mortuusars.horseman.world.summoning;
 
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.core.registries.Registries;

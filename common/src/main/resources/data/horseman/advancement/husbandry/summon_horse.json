@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:husbandry/root",
   "criteria": {
-    "call_horse": {
+    "summon_horse": {
       "conditions": {},
-      "trigger": "horseman:horse_called"
+      "trigger": "horseman:horse_summoned"
     }
   },
   "display": {
@@ -15,15 +15,15 @@
       "id": "horseman:copper_horn"
     },
     "title": {
-      "translate": "advancement.horseman.call_horse.title"
+      "translate": "advancement.horseman.summon_horse.title"
     },
     "description": {
-      "translate": "advancement.horseman.call_horse.description"
+      "translate": "advancement.horseman.summon_horse.description"
     }
   },
   "requirements": [
     [
-      "call_horse"
+      "summon_horse"
     ]
   ]
 }
