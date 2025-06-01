@@ -9,6 +9,9 @@
   - Can be used to configure what type of boat can fit a horse. 
   - Empty by default.
 
+Hotfix: 
+- Fixed release version.
+
 ## 1.3.10
 - Changed some Leash-related code to prevent crashes with some mods (Origins/Apoli).  
 
