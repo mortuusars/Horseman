@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.9 - 2025-06-01
+- Added `#horseman:forbids_horses` entity tag for boats.
+  - Can be used to configure what type of boat can fit a horse.
+  - Empty by default. 
+
 ## 1.3.8 - 2025-05-13
 - Increased 'fast_step_down' speed from 0.5 to 0.65 
 - Fixed 'fast_step_down_two_blocks' config option breaking jumps.
