@@ -1,8 +1,9 @@
 # Changelog
 
-## UNRELEASED
+## 1.4.0 - 2025-06-01
 - Added Copper Horn.
   - Used to summon a horse to the player.
+  - Crafted with Goat Horn and some copper.
 - Added advancement related to horse summoning.
 - Added `#horseman:forbids_horses` entity tag for boats. 
   - Can be used to configure what type of boat can fit a horse. 
