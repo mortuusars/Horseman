@@ -4,6 +4,9 @@
 - Added Copper Horn.
   - Used to call a horse to the player.
 - Added advancement related to horse calling.
+- Added `#horseman:forbids_horses` entity tag for boats. 
+  - Can be used to configure what type of boat can fit a horse. 
+  - Empty by default.
 
 ## 1.3.10
 - Changed some Leash-related code to prevent crashes with some mods (Origins/Apoli).  
