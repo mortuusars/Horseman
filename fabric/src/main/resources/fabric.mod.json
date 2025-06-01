@@ -20,6 +20,9 @@
     ],
     "client": [
       "io.github.mortuusars.horseman.fabric.HorsemanFabricClient"
+    ],
+    "jei_mod_plugin": [
+      "io.github.mortuusars.horseman.integration.jei.HorsemanJeiPlugin"
     ]
   },
   "mixins": [

@@ -1,6 +1,11 @@
 package io.github.mortuusars.horseman;
 
+import io.github.mortuusars.horseman.world.calling.CallDimensionHandling;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Using ForgeConfigApiPort on fabric allows using forge config in both environments and without extra dependencies on forge.
@@ -25,6 +30,15 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_HITCH;
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_REQUIRES_LEAD;
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
+
+        // Calling
+        public static final ModConfigSpec.IntValue COPPER_HORN_SOUND_RANGE;
+        public static final ModConfigSpec.IntValue COPPER_HORN_COOLDOWN;
+        public static final ModConfigSpec.IntValue HORSE_CALLING_MAX_DISTANCE;
+        public static final ModConfigSpec.DoubleValue HORSE_CALLING_MAX_WALKING_DISTANCE;
+        public static final ModConfigSpec.DoubleValue HORSE_CALLING_WALK_MOVEMENT_SPEED;
+        public static final ModConfigSpec.EnumValue<CallDimensionHandling> HORSE_CALLING_DIMENSION_HANDLING;
+        public static final ModConfigSpec.ConfigValue<List<? extends String>> HORSE_CALLING_DIMENSIONS;
 
         // Free Camera
         public static final ModConfigSpec.BooleanValue HORSE_FREE_CAMERA;
@@ -111,6 +125,60 @@ public class Config {
             }
 
             {
+                builder.push("calling");
+
+                COPPER_HORN_SOUND_RANGE = builder
+                        .comment("Range in blocks where Copper Horn tooting sound can be heard by other players. Goat Horn has range of 256.")
+                        .defineInRange("copper_horn_sound_range", 256, 16, 256);
+
+                COPPER_HORN_COOLDOWN = builder
+                        .comment("Cooldown in ticks for Copper Horn. ",
+                                "If set to '-1' - will use same cooldown as Goat Horn.")
+                        .defineInRange("copper_horn_cooldown", -1, -1, Integer.MAX_VALUE);
+
+                HORSE_CALLING_MAX_DISTANCE = builder
+                        .comment("Furthest distance in blocks from a player where a horse can still be called.",
+                                "Set to -1 to allow any distance.")
+                        .defineInRange("max_calling_distance", -1, -1, Integer.MAX_VALUE);
+
+                HORSE_CALLING_MAX_WALKING_DISTANCE = builder
+                        .comment("Furthest distance in blocks from a player from where a horse will walk instead of teleporting.",
+                                "Set to '0' to always teleport.",
+                                "Default: 32")
+                        .defineInRange("max_walking_distance", 32.0, 0.0, 1024.0);
+
+                HORSE_CALLING_WALK_MOVEMENT_SPEED = builder
+                        .comment("Horse movement speed when it walks to the player when called.")
+                        .defineInRange("walk_movement_speed", 2, 0.1, 2.5);
+
+                HORSE_CALLING_DIMENSION_HANDLING = builder
+                        .comment("Calling behavior depending on dimension.",
+                                "ANY: can call in any dimension.",
+                                "SAME: can only call when horse is in the same dimension as the player.",
+                                "WHITELIST: can only call when the player is in one of the dimensions defined in 'dimensions' list.",
+                                "BLACKLIST: can only call when the player is NOT in one of the dimensions defined in 'dimensions' list.",
+                                "Default: ANY")
+                        .defineEnum("dimension_handling", CallDimensionHandling.ANY);
+
+                HORSE_CALLING_DIMENSIONS = builder
+                        .comment("Dimensions whitelist or blacklist, depending on the 'dimension_handling' setting.",
+                                "Format: [\"minecraft:overworld\", \"minecraft:the_end\"]",
+                                "Default: [] (empty)")
+                        .defineListAllowEmpty("dimensions", Collections.emptyList(), () -> "modid:dimension_id", o -> {
+                            if (o instanceof String str) {
+                                try {
+                                    ResourceLocation.parse(str);
+                                    return true;
+                                } catch (Exception ignored) {
+                                }
+                            }
+                            return false;
+                        });
+
+                builder.pop();
+            }
+
+            {
                 builder.push("free_camera");
 
                 HORSE_FREE_CAMERA = builder
@@ -176,6 +244,11 @@ public class Config {
         public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
         public static final ModConfigSpec.BooleanValue JEB_HORSE;
+
+        public static final ModConfigSpec.BooleanValue COPPER_HORN_SHOW_TOOLTIP_DETAILS;
+
+        // INTEGRATION
+        public static final ModConfigSpec.BooleanValue SHOW_JEI_INFORMATION;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -249,9 +322,23 @@ public class Config {
                 builder.pop();
             }
 
+            {
+                builder.push("integration");
+
+                SHOW_JEI_INFORMATION = builder
+                        .comment("Useful information about some items will be shown in JEI description category. Default: true")
+                        .define("jei_information", true);
+
+                builder.pop();
+            }
+
             JEB_HORSE = builder
                     .comment("Makes horse-type mobs that named 'jeb_' render with rainbow effect, like sheep. Default: true.")
                     .define("jeb_horse", true);
+
+            COPPER_HORN_SHOW_TOOLTIP_DETAILS = builder
+                    .comment("Copper Horn tooltip will show details.")
+                    .define("copper_horn_details_tooltip", true);
 
             SPEC = builder.build();
         }

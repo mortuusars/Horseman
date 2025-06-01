@@ -7,7 +7,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class HorsemanServer {
+    private static @Nullable MinecraftServer server;
+
     private static @Nullable HorseCalling horseCalling;
+
+    public static @NotNull MinecraftServer getServer() {
+        Preconditions.checkNotNull(server, "Tried to retrieve server before it has initialized.");
+        return server;
+    }
 
     public static @NotNull HorseCalling horseCalling() {
         Preconditions.checkNotNull(horseCalling, "Tried to retrieve horseCalling before the server has initialized.");
@@ -17,10 +24,12 @@ public class HorsemanServer {
     // --
 
     public static void init(MinecraftServer server) {
+        HorsemanServer.server = server;
         horseCalling = new HorseCalling(server);
     }
 
     public static void stop(MinecraftServer server) {
+        HorsemanServer.server = null;
         horseCalling = null;
     }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "horseman:component_transferring",
+  "source": {
+    "item": "minecraft:goat_horn"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "result": {
+    "id": "horseman:copper_horn"
+  }
+}

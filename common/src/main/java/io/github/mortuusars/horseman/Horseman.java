@@ -3,6 +3,8 @@ package io.github.mortuusars.horseman;
 import com.google.common.base.Preconditions;
 import com.mojang.logging.LogUtils;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
+import io.github.mortuusars.horseman.world.item.crafting.recipe.ComponentTransferringRecipe;
+import io.github.mortuusars.horseman.world.item.crafting.recipe.serializer.ComponentTransferringRecipeSerializer;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -13,8 +15,8 @@ import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.InstrumentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.InstrumentItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -81,6 +83,10 @@ public class Horseman {
     }
 
     public static class RecipeSerializers {
+        public static final Supplier<RecipeSerializer<?>> COMPONENT_TRANSFERRING = Register.recipeSerializer(
+                "component_transferring", () -> new ComponentTransferringRecipeSerializer<>(
+                        "component_transferring", "source", ComponentTransferringRecipe::new));
+
         static void init() {
         }
     }
@@ -128,6 +134,7 @@ public class Horseman {
         public static class EntityTypes {
             public static final TagKey<EntityType<?>> CANNOT_BE_HITCHED = TagKey.create(Registries.ENTITY_TYPE, resource("cannot_be_hitched"));
             public static final TagKey<EntityType<?>> CANNOT_SWIM = TagKey.create(Registries.ENTITY_TYPE, resource("cannot_swim"));
+            public static final TagKey<EntityType<?>> CALLABLE = TagKey.create(Registries.ENTITY_TYPE, resource("callable"));
         }
     }
 

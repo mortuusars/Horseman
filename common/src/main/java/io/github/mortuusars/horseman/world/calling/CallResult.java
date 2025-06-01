@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.world.calling;
 
-public enum HorseCallResult {
+public enum CallResult {
     SUCCESS,
     NO_BOUND_HORSE,
     HORSE_IS_DEAD,

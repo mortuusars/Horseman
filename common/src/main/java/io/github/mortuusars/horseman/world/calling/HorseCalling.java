@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.world.calling;
 
 import com.google.common.base.Preconditions;
+import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -48,7 +49,7 @@ public class HorseCalling {
         return getStoredHorsesOf(owner.getUUID());
     }
 
-    private void addOrUpdateBoundHorse(AbstractHorse horse) {
+    protected void addOrUpdateBoundHorse(AbstractHorse horse) {
         @Nullable BoundData data = horse.getHorsemanBoundData();
         if (data == null) {
             Horseman.LOGGER.warn("Tried to update a horse that does not have a bound data. Horse: {}", horse);
@@ -87,16 +88,16 @@ public class HorseCalling {
 
     // -- Calling
 
-    public HorseCallResult call(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
+    public CallResult call(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
         @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
 
-        if (boundHorse == null) return HorseCallResult.NO_BOUND_HORSE;
-        if (boundHorse.isDead()) return HorseCallResult.HORSE_IS_DEAD;
+        if (boundHorse == null) return CallResult.NO_BOUND_HORSE;
+        if (boundHorse.isDead()) return CallResult.HORSE_IS_DEAD;
 
         @Nullable AbstractHorse existingHorse = tryFindLoadedHorse(level, boundHorse.getEntityUuid());
         if (existingHorse != null) {
             if (!isBound(existingHorse)) {
-                return HorseCallResult.ERROR_HORSE_IS_NOT_BOUND;
+                return CallResult.ERROR_HORSE_IS_NOT_BOUND;
             }
 
             addOrUpdateBoundHorse(existingHorse); // Update before calling to have the latest state
@@ -104,8 +105,8 @@ public class HorseCalling {
             Preconditions.checkNotNull(boundHorse); // Should not be null as we check if the horse isBound above.
         }
 
-        if (!dimensionsAreValid(player, boundHorse)) return HorseCallResult.INVALID_DIMENSION;
-        if (!isInRange(player, boundHorse)) return HorseCallResult.TOO_FAR;
+        if (!dimensionsAreValid(player, boundHorse)) return CallResult.INVALID_DIMENSION;
+        if (!isInRange(player, boundHorse)) return CallResult.TOO_FAR;
 
         if (existingHorse != null && canWalkInsteadOfResummoning(player, existingHorse)) {
             return walkToPlayer(level, player, existingHorse);
@@ -114,7 +115,76 @@ public class HorseCalling {
         return summonHorse(level, player, boundHorse);
     }
 
-    private boolean hasSpaceFor(ServerLevel level, Player player, AbstractHorse horse) {
+    protected CallResult walkToPlayer(ServerLevel level, Player player, AbstractHorse horse) {
+        AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);
+        if (followRangeAttribute != null) {
+            followRangeAttribute.setBaseValue(Config.Server.HORSE_CALLING_MAX_WALKING_DISTANCE.get());
+        }
+
+        horse.getNavigation().moveTo(player, Config.Server.HORSE_CALLING_WALK_MOVEMENT_SPEED.get());
+        addOrUpdateBoundHorse(horse);
+        return CallResult.SUCCESS;
+    }
+
+    protected CallResult summonHorse(ServerLevel level, Player player, @NotNull StoredBoundHorse boundHorse) {
+        Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
+        if (type.isEmpty()) {
+            Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. 'id' probably wasn't saved properly. Tag '{}'.", boundHorse.getTag());
+            return CallResult.ERROR_ENTITY_NOT_CREATED;
+        }
+
+        @Nullable Entity entity = type.get().create(player.level());
+        if (!(entity instanceof AbstractHorse newHorse)) {
+            Horseman.LOGGER.error("Created entity isn't an AbstractHorse but {}. Something went wrong.", entity);
+            return CallResult.ERROR_ENTITY_NOT_CREATED;
+        }
+
+        newHorse.load(boundHorse.getTag());
+        newHorse.setUUID(UUID.randomUUID());
+        newHorse.setPos(player.getX(), player.getY(), player.getZ());
+
+        if (!hasSpaceFor(level, player, newHorse)) return CallResult.NO_SPACE;
+
+        player.level().addFreshEntity(newHorse);
+
+        removeOldBoundHorse(level, boundHorse);
+        addOrUpdateBoundHorse(newHorse);
+
+        return CallResult.SUCCESS;
+    }
+
+    // -- Conditions
+
+    protected boolean dimensionsAreValid(Player player, StoredBoundHorse boundHorse) {
+        return switch (Config.Server.HORSE_CALLING_DIMENSION_HANDLING.get()) {
+            case ANY -> true;
+            case SAME -> boundHorse.isInSameDimension(player);
+            case WHITELIST -> {
+                String playerDimension = player.level().dimension().location().toString();
+                yield Config.Server.HORSE_CALLING_DIMENSIONS.get().stream()
+                        .anyMatch(dimension -> dimension.equals(playerDimension));
+            }
+            case BLACKLIST -> {
+                String playerDimension = player.level().dimension().location().toString();
+                yield Config.Server.HORSE_CALLING_DIMENSIONS.get().stream()
+                        .noneMatch(dimension -> dimension.equals(playerDimension));
+            }
+        };
+    }
+
+    protected boolean isInRange(Player player, StoredBoundHorse boundHorse) {
+        int maxDistance = Config.Server.HORSE_CALLING_MAX_DISTANCE.get();
+        if (maxDistance < 0) return true;
+        int distance = (int) boundHorse.position.distanceTo(player.position());
+        return distance <= maxDistance;
+    }
+
+    protected boolean canWalkInsteadOfResummoning(Player player, AbstractHorse horse) {
+        return player.level().dimension().equals(horse.level().dimension())
+                && player.distanceTo(horse) < Config.Server.HORSE_CALLING_MAX_WALKING_DISTANCE.get();
+    }
+
+    protected boolean hasSpaceFor(ServerLevel level, Player player, AbstractHorse horse) {
         StoredBoundHorse boundHorse = new StoredBoundHorse(horse);
         Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
         if (type.isEmpty()) return false;
@@ -127,60 +197,6 @@ public class HorseCalling {
         newHorse.setPos(player.getX(), player.getY(), player.getZ());
 
         return !newHorse.isInWall();
-    }
-
-    private boolean isInRange(Player player, StoredBoundHorse boundHorse) {
-        //TODO: config for max range
-        return true;
-    }
-
-    private HorseCallResult walkToPlayer(ServerLevel level, Player player, AbstractHorse horse) {
-        AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);
-        if (followRangeAttribute != null) {
-            followRangeAttribute.setBaseValue(16);
-        }
-
-        horse.getNavigation().moveTo(player, 2);
-        addOrUpdateBoundHorse(horse);
-        return HorseCallResult.SUCCESS;
-    }
-
-    private HorseCallResult summonHorse(ServerLevel level, Player player, @NotNull StoredBoundHorse boundHorse) {
-        Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
-        if (type.isEmpty()) {
-            Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. 'id' probably wasn't saved properly. Tag '{}'.", boundHorse.getTag());
-            return HorseCallResult.ERROR_ENTITY_NOT_CREATED;
-        }
-
-        @Nullable Entity entity = type.get().create(player.level());
-        if (!(entity instanceof AbstractHorse newHorse)) {
-            Horseman.LOGGER.error("Created entity isn't an AbstractHorse but {}. Something went wrong.", entity);
-            return HorseCallResult.ERROR_ENTITY_NOT_CREATED;
-        }
-
-        newHorse.load(boundHorse.getTag());
-        newHorse.setUUID(UUID.randomUUID());
-        newHorse.setPos(player.getX(), player.getY(), player.getZ());
-
-        if (!hasSpaceFor(level, player, newHorse)) return HorseCallResult.NO_SPACE;
-
-        player.level().addFreshEntity(newHorse);
-
-        removeOldBoundHorse(level, boundHorse);
-        addOrUpdateBoundHorse(newHorse);
-
-        return HorseCallResult.SUCCESS;
-    }
-
-    // -- Conditions
-
-    private boolean dimensionsAreValid(Player player, StoredBoundHorse boundHorse) {
-        //TODO: Config for dimensions
-        return boundHorse.isInSameDimension(player);
-    }
-
-    private boolean canWalkInsteadOfResummoning(Player player, AbstractHorse horse) {
-        return player.level().dimension().equals(horse.level().dimension()) && player.distanceTo(horse) < 16;
     }
 
     // -- Events
@@ -216,7 +232,7 @@ public class HorseCalling {
 
     // -- Util
 
-    private @Nullable AbstractHorse tryFindLoadedHorse(ServerLevel level, UUID entityUuid) {
+    protected @Nullable AbstractHorse tryFindLoadedHorse(ServerLevel level, UUID entityUuid) {
         for (ServerLevel dimension : level.getServer().getAllLevels()) {
             if (dimension.getEntity(entityUuid) instanceof AbstractHorse horse) {
                 return horse;
@@ -225,7 +241,7 @@ public class HorseCalling {
         return null;
     }
 
-    private void removeOldBoundHorse(ServerLevel level, @NotNull StoredBoundHorse boundHorse) {
+    protected void removeOldBoundHorse(ServerLevel level, @NotNull StoredBoundHorse boundHorse) {
         boolean removed = false;
 
         // Remove already loaded horse immediately:

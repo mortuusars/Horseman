@@ -1,10 +1,14 @@
 package io.github.mortuusars.horseman.world.item;
 
 import com.mojang.datafixers.util.Pair;
+import io.github.mortuusars.horseman.Config;
+import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanServer;
-import io.github.mortuusars.horseman.world.calling.HorseCallResult;
+import io.github.mortuusars.horseman.world.calling.CallResult;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -45,14 +49,22 @@ public class CopperHornItem extends InstrumentItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        //TODO: Press [Shift] for details
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltip, tooltipFlag);
+        if (Config.Client.COPPER_HORN_SHOW_TOOLTIP_DETAILS.get()) {
+            if (Screen.hasShiftDown()) {
+                tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.bind"));
+                tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.call"));
+            } else {
+                tooltip.add(Component.translatable("item.horseman.tooltip.hold_shift_for_details"));
+            }
+        }
     }
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand usedHand) {
         if (!player.isSecondaryUseActive() || !(target instanceof AbstractHorse horse)) return InteractionResult.PASS;
+        if (!horse.getType().is(Horseman.Tags.EntityTypes.CALLABLE)) return InteractionResult.PASS;
         if (!horse.isTamed()) return InteractionResult.PASS;
         if (!(player.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
 
@@ -67,28 +79,29 @@ public class CopperHornItem extends InstrumentItem {
 
         if (horse.getHorsemanBoundData() != null) {
             if (horse.getHorsemanBoundData().isBoundTo(player)) {
-                HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
-                player.displayClientMessage(Component.translatable(
-                        "gui.horseman.calling.cannot_bind.already_bound_to_you"), true);
+                if (horse.getHorsemanBoundData().instrument().equals(instrumentKey)) {
+                    // Update bind just in case
+                    HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
+                    player.displayClientMessage(Component.translatable(
+                            "gui.horseman.calling.cannot_bind.already_bound_to_you"), true);
+                    return InteractionResult.FAIL;
+                }
             } else {
                 player.displayClientMessage(Component.translatable(
                         "gui.horseman.calling.cannot_bind.already_bound_to_someone_else"), true);
+                return InteractionResult.FAIL;
             }
-            return InteractionResult.FAIL;
         }
 
         HorsemanServer.horseCalling().bind(level, horse, player, instrumentKey);
-        player.displayClientMessage(Component.translatable("gui.horseman.calling.bound_successfully"), true);
-        //TODO: effects, sounds? etc
+        level.sendParticles(ParticleTypes.NOTE, target.getX(), target.getY() + 0.75, target.getZ(), 10, 0.6, 0.6, 0.6, 0.1);
 
         horse.standIfPossible();
         level.playSound(null, horse, SoundEvents.HORSE_AMBIENT, SoundSource.NEUTRAL, 1, 1);
 
         player.startUsingItem(usedHand);
-        playInstrument(player.level(), null, player, instrument, 1.2F);
-
-//        player.getCooldowns().addCooldown(this, instr.useDuration());
-        player.getCooldowns().addCooldown(this, 10);
+        playInstrument(player.level(), player, instrument, 1.2F);
+        cooldown(player, instrument);
         player.awardStat(Stats.ITEM_USED.get(this));
 
         return InteractionResult.SUCCESS_NO_ITEM_USED;
@@ -106,29 +119,28 @@ public class CopperHornItem extends InstrumentItem {
         player.startUsingItem(usedHand);
 
         if (level instanceof ServerLevel serverLevel) {
-            HorseCallResult callResult = HorsemanServer.horseCalling().call(serverLevel, player, instrumentKey);
+            CallResult callResult = HorsemanServer.horseCalling().call(serverLevel, player, instrumentKey);
             @Nullable Component message = getCallResultMessage(callResult);
             if (message != null) {
                 player.displayClientMessage(message, true);
             }
-            playInstrument(level, null, player, instrument, getSoundPitchFromCallResult(callResult));
+            playInstrument(level, player, instrument, getSoundPitchFromCallResult(callResult));
         }
 
-        // player.getCooldowns().addCooldown(this, instrument.useDuration());
-        player.getCooldowns().addCooldown(this, 10);
+        cooldown(player, instrument);
         player.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.consume(itemInHand);
     }
 
-    protected void playInstrument(Level level, Player clientPlayer, Player player, Instrument instrument, float pitch) {
-        SoundEvent soundEvent = instrument.soundEvent().value();
-        //TODO: configurable range
-        float volume = instrument.range() / 16.0F;
-        level.playSound(clientPlayer, player, soundEvent, SoundSource.RECORDS, volume, pitch);
-        level.gameEvent(GameEvent.INSTRUMENT_PLAY, player.position(), GameEvent.Context.of(player));
+    protected void cooldown(Player player, Instrument instrument) {
+        int cooldown = Config.Server.COPPER_HORN_COOLDOWN.get();
+        if (cooldown < 0) {
+            cooldown = instrument.useDuration();
+        }
+        player.getCooldowns().addCooldown(this, cooldown);
     }
 
-    protected @Nullable Component getCallResultMessage(HorseCallResult result) {
+    protected @Nullable Component getCallResultMessage(CallResult result) {
         return switch (result) {
             case SUCCESS -> null;
             case NO_BOUND_HORSE -> Component.translatable("gui.horseman.calling.cannot_call.no_bound_horse");
@@ -142,7 +154,7 @@ public class CopperHornItem extends InstrumentItem {
         };
     }
 
-    protected float getSoundPitchFromCallResult(HorseCallResult result) {
+    protected float getSoundPitchFromCallResult(CallResult result) {
         return switch (result) {
             case SUCCESS -> 1.0F;
             case HORSE_IS_DEAD -> 0.6F;
@@ -155,6 +167,13 @@ public class CopperHornItem extends InstrumentItem {
 
     protected boolean hasInstrument(ItemStack stack) {
         return getInstrumentData(stack) != null;
+    }
+
+    protected void playInstrument(Level level, Player player, Instrument instrument, float pitch) {
+        SoundEvent soundEvent = instrument.soundEvent().value();
+        float volume = Config.Server.COPPER_HORN_SOUND_RANGE.get() / 16.0F;
+        level.playSound(null, player, soundEvent, SoundSource.RECORDS, volume, pitch);
+        level.gameEvent(GameEvent.INSTRUMENT_PLAY, player.position(), GameEvent.Context.of(player));
     }
 
     protected Optional<Holder<Instrument>> getInstrument(ItemStack stack) {
