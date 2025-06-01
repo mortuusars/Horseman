@@ -5,6 +5,9 @@
   - Can be used to configure what type of boat can fit a horse.
   - Empty by default. 
 
+Hotfix:
+- Fixed release version.
+
 ## 1.3.8 - 2025-05-13
 - Increased 'fast_step_down' speed from 0.5 to 0.65 
 - Fixed 'fast_step_down_two_blocks' config option breaking jumps.
