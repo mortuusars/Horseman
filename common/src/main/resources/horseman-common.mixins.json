@@ -18,7 +18,6 @@
   ],
   "mixins": [
     "attribute_modifiers.EntityMixin",
-    "summoning.AbstractHorseMixin",
     "creative_taming.AbstractChestedHorseMixin",
     "creative_taming.HorseMixin",
     "fits_in_boat.BoatMixin",
@@ -36,8 +35,10 @@
     "less_wander.WaterAvoidingRandomStrollGoalMixin",
     "momentum.LivingEntityMixin",
     "no_rearing.AbstractHorseMixin",
+    "ride_though_leaves.BlockBehaviourMixin",
     "rotate_horse_when_mounting.AbstractHorseMixin",
-    "shears_remove_chest.AbstractChestedHorseMixin"
+    "shears_remove_chest.AbstractChestedHorseMixin",
+    "summoning.AbstractHorseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

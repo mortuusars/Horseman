@@ -1,5 +1,9 @@
 # Changelog
 
+## UNRELEASED
+- Bottom leaves blocks will not have a collision when riding a horse to improve forest traversal.
+  - Can be configured to remove collision from all leaves.
+
 ## 1.4.0 - 2025-06-01
 - Added Copper Horn.
   - Used to summon a horse to the player.

@@ -1,5 +1,6 @@
 package io.github.mortuusars.horseman;
 
+import io.github.mortuusars.horseman.world.LeavesCollisionMode;
 import io.github.mortuusars.horseman.world.summoning.SummonDimensionHandling;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -49,6 +50,7 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
         public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
         public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
+        public static final ModConfigSpec.EnumValue<LeavesCollisionMode> LEAVES_COLLISION_MODE_WHEN_MOUNTED;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -210,6 +212,14 @@ public class Config {
                 HORSE_CREATIVE_TAMING = builder
                         .comment("Using Saddle on untamed horse-type mob while in creative mode tames it instantly. Default: true.")
                         .define("horse_creative_taming", true);
+
+                LEAVES_COLLISION_MODE_WHEN_MOUNTED = builder
+                        .comment("Controls collision of leaves block when riding a horse." +
+                                "FULL: full collision, same as in vanilla.",
+                                "IGNORE_LOWEST_BLOCK: lowest block of leaves will have no collision.",
+                                "IGNORE_ALL: no collision in all leaves blocks.",
+                                "Default: IGNORE_LOWEST_BLOCK (enough to make riding through forests bearable).")
+                        .defineEnum("leaves_collision_mode_when_mounted", LeavesCollisionMode.IGNORE_LOWEST_BLOCK);
 
                 builder.pop();
             }
