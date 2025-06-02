@@ -30,6 +30,7 @@ public class HorsemanFabric implements ModInitializer {
         Horseman.init();
 
         NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.SERVER, Config.Server.SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.COMMON, Config.Common.SPEC);
         NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.CLIENT, Config.Client.SPEC);
 
         Horseman.Stats.register();

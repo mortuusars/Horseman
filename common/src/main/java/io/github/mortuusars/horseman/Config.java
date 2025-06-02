@@ -214,15 +214,31 @@ public class Config {
                         .define("horse_creative_taming", true);
 
                 LEAVES_COLLISION_MODE_WHEN_MOUNTED = builder
-                        .comment("Controls collision of leaves block when riding a horse." +
+                        .comment("Controls collision of leaves block when riding a horse.",
                                 "FULL: full collision, same as in vanilla.",
                                 "IGNORE_LOWEST_BLOCK: lowest block of leaves will have no collision.",
                                 "IGNORE_ALL: no collision in all leaves blocks.",
-                                "Default: IGNORE_LOWEST_BLOCK (enough to make riding through forests bearable).")
+                                "Default: IGNORE_LOWEST_BLOCK (enough to make riding through forests viable).")
                         .defineEnum("leaves_collision_mode_when_mounted", LeavesCollisionMode.IGNORE_LOWEST_BLOCK);
 
                 builder.pop();
             }
+
+            SPEC = builder.build();
+        }
+    }
+
+    public static class Common {
+        public static final ModConfigSpec SPEC;
+
+        public static final ModConfigSpec.BooleanValue HORSE_STATS_TOOLTIP;
+
+        static {
+            ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+
+            HORSE_STATS_TOOLTIP = builder
+                    .comment("Tooltip with horse stats will be shown when looking at a horse when holding a food item that animal likes.")
+                    .define("horse_stats_tooltip", true);
 
             SPEC = builder.build();
         }
