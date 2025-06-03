@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## 1.4.1 - 2025-06-03
 - Bottom leaves blocks will not have a collision when riding a horse to improve forest traversal.
   - Can be configured to remove collision from all leaves.
 - Added tooltip with horse stats when looking at a horse while holding `#minecraft:horse_food` item.
