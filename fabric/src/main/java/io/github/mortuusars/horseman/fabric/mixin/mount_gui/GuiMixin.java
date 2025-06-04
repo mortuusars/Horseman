@@ -2,8 +2,10 @@ package io.github.mortuusars.horseman.fabric.mixin.mount_gui;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import io.github.mortuusars.horseman.PlatformHelper;
 import io.github.mortuusars.horseman.client.ImprovedMountGui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
@@ -30,7 +32,16 @@ public abstract class GuiMixin {
     @Shadow
     protected abstract int getVehicleMaxHearts(LivingEntity vehicle);
 
-    @Shadow public abstract void renderExperienceBar(GuiGraphics guiGraphics, int x);
+    @Shadow
+    public abstract void renderExperienceBar(GuiGraphics guiGraphics, int x);
+
+    @Shadow
+    private int screenWidth;
+    @Shadow
+    private int screenHeight;
+
+    @Shadow
+    public abstract Font getFont();
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;jumpableVehicle()Lnet/minecraft/world/entity/PlayerRideableJumping;"))
     private PlayerRideableJumping renderHotbarAndDecorations_jumpableVehicle(LocalPlayer instance, Operation<PlayerRideableJumping> original) {
@@ -67,13 +78,30 @@ public abstract class GuiMixin {
         return y;
     }
 
-    @Inject(method = "renderJumpMeter", at = @At(value = "RETURN"))
+    @Inject(method = "renderJumpMeter", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;pop()V"))
     private void renderJumpMeter(PlayerRideableJumping rideable, GuiGraphics guiGraphics, int x, CallbackInfo ci) {
         if (!ImprovedMountGui.isEnabled()) return;
 
+        // This method renders xp level number when jumping
+
         MultiPlayerGameMode gameMode = Minecraft.getInstance().gameMode;
-        if (gameMode != null && gameMode.hasExperience()) {
-            renderExperienceBar(guiGraphics, x);
+        if (gameMode != null && gameMode.hasExperience() && Minecraft.getInstance().player != null) {
+            if (PlatformHelper.isModLoaded("immediatelyfast")) {
+                // Render manually with ImmediatelyFast, because calling `renderExperienceBar` causes issues with it.
+                if (Minecraft.getInstance().player.experienceLevel > 0) {
+                    Minecraft.getInstance().getProfiler().push("expLevel");
+                    String string = "" + Minecraft.getInstance().player.experienceLevel;
+                    int k = (screenWidth - getFont().width(string)) / 2;
+                    int l = screenHeight - 31 - 4;
+                    guiGraphics.drawString(this.getFont(), string, k + 1, l, 0, false);
+                    guiGraphics.drawString(this.getFont(), string, k - 1, l, 0, false);
+                    guiGraphics.drawString(this.getFont(), string, k, l + 1, 0, false);
+                    guiGraphics.drawString(this.getFont(), string, k, l - 1, 0, false);
+                    guiGraphics.drawString(this.getFont(), string, k, l, 8453920, false);
+                }
+            } else {
+                renderExperienceBar(guiGraphics, x);
+            }
         }
     }
 

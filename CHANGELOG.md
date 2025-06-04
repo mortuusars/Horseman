@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.10 - 2025-06-04
+- [Fabric] Fixed issue with jump bar rendering with ImmediatelyFast.
+
 ## 1.3.9 - 2025-06-01
 - Added `#horseman:forbids_horses` entity tag for boats.
   - Can be used to configure what type of boat can fit a horse.
