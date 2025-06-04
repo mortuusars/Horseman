@@ -51,7 +51,7 @@ public abstract class GuiMixin {
     @WrapOperation(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVisibleVehicleHeartRows(I)I"))
     private int renderPlayerHealth_getVisibleVehicleHeartRows(Gui instance, int vehicleHealth, Operation<Integer> original) {
         if (!ImprovedMountGui.isEnabled()) return original.call(instance, vehicleHealth);
-        // 'hears' will be 0 here, due to it being set in 'renderPlayerHealth_getVehicleMaxHearts'.
+        // 'hearts' will be 0 here, due to it being set in 'renderPlayerHealth_getVehicleMaxHearts'.
         LivingEntity livingEntity = getPlayerVehicleWithHealth();
         int vehicleHearts = getVehicleMaxHearts(livingEntity);
         return getVisibleVehicleHeartRows(vehicleHearts);
