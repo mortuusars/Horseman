@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.2 - 2025-06-05
+- Fixed Copper Horn recipe being craftable with Create mixing.
+
 ## 1.4.1 - 2025-06-03
 - Bottom leaves blocks will not have a collision when riding a horse to improve forest traversal.
   - Can be configured to remove collision from all leaves.
