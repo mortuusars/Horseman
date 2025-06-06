@@ -54,11 +54,11 @@ public abstract class EntityMixin {
         }
     }
 
-    @Inject(method = "removeVehicle", at = @At(value = "RETURN"))
+    @Inject(method = "removeVehicle", at = @At(value = "HEAD"))
     private void removeVehicle(CallbackInfo ci) {
         if (!(((Entity)(Object) this) instanceof ServerPlayer player)) return;
 
-        if (getVehicle() instanceof AbstractHorse horse && horse.getControllingPassenger() == null) {
+        if (getVehicle() instanceof AbstractHorse horse && horse.getPassengers().size() == 1) {
             @Nullable AttributeInstance instance = horse.getAttribute(Attributes.STEP_HEIGHT);
             if (instance != null) {
                 instance.removeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT);
