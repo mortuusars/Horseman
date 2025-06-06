@@ -36,9 +36,9 @@ public abstract class EntityMixin {
         if (vehicle instanceof AbstractHorse horse) {
             double stepHeightModifier = Config.Server.HORSE_STEP_HEIGHT_MODIFIER.get();
             if (stepHeightModifier != 0) {
-                AttributeInstance attribute = horse.getAttribute(Attributes.STEP_HEIGHT);
-                if (attribute != null) {
-                    attribute.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT,
+                @Nullable AttributeInstance instance = horse.getAttribute(Attributes.STEP_HEIGHT);
+                if (instance != null && instance.getModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT) == null) {
+                    instance.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT,
                             stepHeightModifier, AttributeModifier.Operation.ADD_VALUE));
                 }
             }
@@ -46,28 +46,28 @@ public abstract class EntityMixin {
 
         double breakSpeedModifier = Config.Server.MOUNTED_BLOCK_BREAK_SPEED_MODIFIER.get();
         if (breakSpeedModifier != 0) {
-            AttributeInstance attribute = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
-            if (attribute != null) {
-                attribute.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED,
+            @Nullable AttributeInstance instance = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
+            if (instance != null && instance.getModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED) == null) {
+                instance.addTransientModifier(new AttributeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED,
                         breakSpeedModifier, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
         }
     }
 
-    @Inject(method = "removeVehicle", at = @At(value = "HEAD"))
+    @Inject(method = "removeVehicle", at = @At(value = "RETURN"))
     private void removeVehicle(CallbackInfo ci) {
         if (!(((Entity)(Object) this) instanceof ServerPlayer player)) return;
 
-        if (getVehicle() instanceof AbstractHorse horse) {
-            AttributeInstance attribute = horse.getAttribute(Attributes.STEP_HEIGHT);
-            if (attribute != null) {
-                attribute.removeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT);
+        if (getVehicle() instanceof AbstractHorse horse && horse.getControllingPassenger() == null) {
+            @Nullable AttributeInstance instance = horse.getAttribute(Attributes.STEP_HEIGHT);
+            if (instance != null) {
+                instance.removeModifier(Horseman.EntityAttributes.MOUNTED_STEP_HEIGHT);
             }
         }
 
-        AttributeInstance attribute = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
-        if (attribute != null) {
-            attribute.removeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED);
+        @Nullable AttributeInstance instance = player.getAttribute(Attributes.BLOCK_BREAK_SPEED);
+        if (instance != null) {
+            instance.removeModifier(Horseman.EntityAttributes.MOUNTED_BREAK_SPEED);
         }
     }
 }
