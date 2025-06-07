@@ -21,7 +21,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
-import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -66,13 +66,13 @@ public class CommonEvents {
     @EventBusSubscriber(modid = Horseman.ID, bus = EventBusSubscriber.Bus.GAME)
     public static class GameBus {
         @SubscribeEvent
-        public static void serverStarted(ServerStartedEvent event) {
-            HorsemanServer.init(event.getServer());
+        public static void serverStarting(ServerStartingEvent event) {
+            HorsemanServer.serverStarting(event.getServer());
         }
 
         @SubscribeEvent
-        public static void serverStarted(ServerStoppedEvent event) {
-            HorsemanServer.stop(event.getServer());
+        public static void serverStopped(ServerStoppedEvent event) {
+            HorsemanServer.serverStopped(event.getServer());
         }
 
         @SubscribeEvent

@@ -23,12 +23,12 @@ public class HorsemanServer {
 
     // --
 
-    public static void init(MinecraftServer server) {
+    public static void serverStarting(MinecraftServer server) {
         HorsemanServer.server = server;
         horseCalling = new Summoning(server);
     }
 
-    public static void stop(MinecraftServer server) {
+    public static void serverStopped(MinecraftServer server) {
         HorsemanServer.server = null;
         horseCalling = null;
     }

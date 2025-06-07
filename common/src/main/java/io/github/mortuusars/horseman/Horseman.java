@@ -40,10 +40,6 @@ public class Horseman {
         ArgumentTypes.init();
     }
 
-    public static void initServer(MinecraftServer server) {
-        HorsemanServer.init(server);
-    }
-
     /**
      * Creates resource location in the mod namespace with the given path.
      */

@@ -44,12 +44,12 @@ public class HorsemanFabric implements ModInitializer {
                             .forEach(itemStack -> content.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
         });
 
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            HorsemanServer.init(server);
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            HorsemanServer.serverStarting(server);
             HorsemanFabric.server = server;
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            HorsemanServer.stop(server);
+            HorsemanServer.serverStopped(server);
             HorsemanFabric.server = null;
         });
 

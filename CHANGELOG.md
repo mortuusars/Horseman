@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.4 - 2025-06-07
+- Potentially fixed somewhat rare crash when world is loading.
+
 ## 1.4.3.1 - 2025-06-06
 - Potentially fixed an error for setting attribute multiple times when two players ride the same horse.
   - Issue comes into play with `Two Players One Horse` (and similar mods).
