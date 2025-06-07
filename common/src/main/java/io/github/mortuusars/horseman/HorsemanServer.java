@@ -8,28 +8,27 @@ import org.jetbrains.annotations.Nullable;
 
 public class HorsemanServer {
     private static @Nullable MinecraftServer server;
-
-    private static @Nullable Summoning horseCalling;
+    private static @Nullable Summoning summoning;
 
     public static @NotNull MinecraftServer getServer() {
         Preconditions.checkNotNull(server, "Tried to retrieve server before it has initialized.");
         return server;
     }
 
-    public static @NotNull Summoning summoning() {
-        Preconditions.checkNotNull(horseCalling, "Tried to retrieve horseCalling before the server has initialized.");
-        return horseCalling;
+    public static @NotNull Summoning getSummoning() {
+        Preconditions.checkNotNull(summoning, "Tried to retrieve HorseSummoning before the server has initialized.");
+        return summoning;
     }
 
     // --
 
-    public static void serverStarting(MinecraftServer server) {
+    public static void serverStarted(MinecraftServer server) {
         HorsemanServer.server = server;
-        horseCalling = new Summoning(server);
+        summoning = new Summoning(server);
     }
 
     public static void serverStopped(MinecraftServer server) {
         HorsemanServer.server = null;
-        horseCalling = null;
+        summoning = null;
     }
 }

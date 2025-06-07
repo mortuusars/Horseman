@@ -82,7 +82,7 @@ public class CopperHornItem extends InstrumentItem {
             if (horse.getHorsemanBoundData().isBoundTo(player)) {
                 if (horse.getHorsemanBoundData().instrument().equals(instrumentKey)) {
                     // Update bind just in case
-                    HorsemanServer.summoning().bind(level, horse, player, instrumentKey);
+                    HorsemanServer.getSummoning().bind(level, horse, player, instrumentKey);
                     player.displayClientMessage(Component.translatable(
                             "gui.horseman.summoning.cannot_bind.already_bound_to_you"), true);
                     return InteractionResult.FAIL;
@@ -94,7 +94,7 @@ public class CopperHornItem extends InstrumentItem {
             }
         }
 
-        HorsemanServer.summoning().bind(level, horse, player, instrumentKey);
+        HorsemanServer.getSummoning().bind(level, horse, player, instrumentKey);
         level.sendParticles(ParticleTypes.NOTE, target.getX(), target.getY() + 0.75, target.getZ(), 10, 0.6, 0.6, 0.6, 0.1);
 
         horse.standIfPossible();
@@ -120,7 +120,7 @@ public class CopperHornItem extends InstrumentItem {
         player.startUsingItem(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            CallResult callResult = HorsemanServer.summoning().call(serverPlayer, instrumentKey);
+            CallResult callResult = HorsemanServer.getSummoning().call(serverPlayer, instrumentKey);
             @Nullable Component message = getCallResultMessage(callResult);
             if (message != null) {
                 player.displayClientMessage(message, true);

@@ -44,8 +44,8 @@ public class HorsemanFabric implements ModInitializer {
                             .forEach(itemStack -> content.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
         });
 
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            HorsemanServer.serverStarting(server);
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            HorsemanServer.serverStarted(server);
             HorsemanFabric.server = server;
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
@@ -54,16 +54,24 @@ public class HorsemanFabric implements ModInitializer {
         });
 
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
-                if (HorsemanServer.summoning().onHorseLoaded(level, horse)) {
-                    horse.discard();
+            try {
+                if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
+                    if (HorsemanServer.getSummoning().onHorseLoaded(level, horse)) {
+                        horse.discard();
+                    }
                 }
+            } catch (Exception e) {
+                Horseman.LOGGER.warn("Cannot handle Horseman's entityJoinLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
             }
         });
 
         ServerEntityEvents.ENTITY_UNLOAD.register((entity, world) -> {
-            if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
-                HorsemanServer.summoning().onHorseUnloaded(level, horse);
+            try {
+                if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
+                    HorsemanServer.getSummoning().onHorseUnloaded(level, horse);
+                }
+            } catch (Exception e) {
+                Horseman.LOGGER.warn("Cannot handle Horseman's entityLeaveLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
             }
         });
 

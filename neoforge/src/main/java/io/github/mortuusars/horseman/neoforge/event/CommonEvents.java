@@ -15,13 +15,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -66,8 +67,8 @@ public class CommonEvents {
     @EventBusSubscriber(modid = Horseman.ID, bus = EventBusSubscriber.Bus.GAME)
     public static class GameBus {
         @SubscribeEvent
-        public static void serverStarting(ServerStartingEvent event) {
-            HorsemanServer.serverStarting(event.getServer());
+        public static void serverStarted(ServerStartedEvent event) {
+            HorsemanServer.serverStarted(event.getServer());
         }
 
         @SubscribeEvent
@@ -77,18 +78,26 @@ public class CommonEvents {
 
         @SubscribeEvent
         public static void entityJoinLevel(EntityJoinLevelEvent event) {
-            if (event.getLevel() instanceof ServerLevel serverLevel
-                    && event.getEntity() instanceof AbstractHorse horse
-                    && HorsemanServer.summoning().onHorseLoaded(serverLevel, horse)) {
-                event.setCanceled(true);
+            try {
+                if (event.getLevel() instanceof ServerLevel serverLevel
+                        && event.getEntity() instanceof AbstractHorse horse
+                        && HorsemanServer.getSummoning().onHorseLoaded(serverLevel, horse)) {
+                    event.setCanceled(true);
+                }
+            } catch (Exception e) {
+                Horseman.LOGGER.warn("Cannot handle Horseman's entityJoinLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
             }
         }
 
         @SubscribeEvent
         public static void entityLeaveLevel(EntityLeaveLevelEvent event) {
-            if (event.getLevel() instanceof ServerLevel serverLevel
-                    && event.getEntity() instanceof AbstractHorse horse) {
-                HorsemanServer.summoning().onHorseUnloaded(serverLevel, horse);
+            try {
+                if (event.getLevel() instanceof ServerLevel serverLevel
+                        && event.getEntity() instanceof AbstractHorse horse) {
+                    HorsemanServer.getSummoning().onHorseUnloaded(serverLevel, horse);
+                }
+            } catch (Exception e) {
+                Horseman.LOGGER.warn("Cannot handle Horseman's entityLeaveLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
             }
         }
     }

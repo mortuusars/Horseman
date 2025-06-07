@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.5 - 2025-06-07
+- Potentially fixed crash when world is loading again.
+
 ## 1.4.4 - 2025-06-07
 - Potentially fixed somewhat rare crash when world is loading.
 
