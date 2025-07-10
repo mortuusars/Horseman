@@ -51,6 +51,7 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
         public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
         public static final ModConfigSpec.EnumValue<LeavesCollisionMode> LEAVES_COLLISION_MODE_WHEN_MOUNTED;
+        public static final ModConfigSpec.BooleanValue LEASH_KNOT_SOUNDS;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -220,6 +221,10 @@ public class Config {
                                 "IGNORE_ALL: no collision in all leaves blocks.",
                                 "Default: IGNORE_LOWEST_BLOCK (enough to make riding through forests viable).")
                         .defineEnum("leaves_collision_mode_when_mounted", LeavesCollisionMode.IGNORE_LOWEST_BLOCK);
+
+                LEASH_KNOT_SOUNDS = builder
+                        .comment("Untying or breaking a leash knot now has a sound (backported from 1.21.6). Default: true")
+                        .define("leash_knot_sounds", true);
 
                 builder.pop();
             }

@@ -64,5 +64,7 @@
   "item.horseman.copper_horn": "Мідний ріг",
   "item.horseman.copper_horn.tooltip.bind": "§8[§7Використайте крадучись§8], щоб привчити коня до інструменту.",
   "item.horseman.copper_horn.tooltip.summon": "§8[§7Використайте§8], щоб покликати коня.",
-  "item.horseman.tooltip.hold_shift_for_details": "§8Утримуйте [§7Shift§8] для подробиць"
+  "item.horseman.tooltip.hold_shift_for_details": "§8Утримуйте [§7Shift§8] для подробиць",
+  "subtitles.horseman.item.lead.break": "Вузол повідця рветься",
+  "subtitles.horseman.item.lead.untied": "Вузол повідця відв’язано"
 }

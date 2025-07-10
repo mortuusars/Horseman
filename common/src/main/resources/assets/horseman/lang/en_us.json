@@ -64,5 +64,7 @@
   "item.horseman.copper_horn": "Copper Horn",
   "item.horseman.copper_horn.tooltip.bind": "§8[§7Sneak+Use§8] on a horse to bind it to the instrument.",
   "item.horseman.copper_horn.tooltip.summon": "§8[§7Use§8] to summon a horse.",
-  "item.horseman.tooltip.hold_shift_for_details": "§8Hold [§7Shift§8] for details"
+  "item.horseman.tooltip.hold_shift_for_details": "§8Hold [§7Shift§8] for details",
+  "subtitles.horseman.item.lead.break": "Leash Knot snaps",
+  "subtitles.horseman.item.lead.untied": "Leash Knot untied"
 }

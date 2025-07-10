@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Leashable.class)
 public interface LeashableMixin {
     @Inject(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At("HEAD"))
-    private static <E extends Entity> void onDropLeash(E entity, boolean broadcastPacket, boolean dropItem,
+    private static <E extends Entity & Leashable> void onDropLeash(E entity, boolean broadcastPacket, boolean dropItem,
                                                        CallbackInfo ci, @Share("preventDrop") LocalBooleanRef preventDrop) {
         if (!(entity instanceof HitchableHorse horse)) return;
 

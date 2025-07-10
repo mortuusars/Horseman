@@ -10,7 +10,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.InstrumentTags;
@@ -90,6 +89,9 @@ public class Horseman {
     }
 
     public static class SoundEvents {
+        public static final Supplier<SoundEvent> LEASH_BREAK = register("item", "lead.break");
+        public static final Supplier<SoundEvent> LEASH_UNTIED = register("item", "lead.untied");
+
         private static Supplier<SoundEvent> register(String category, String key) {
             Preconditions.checkState(category != null && !category.isEmpty(), "'category' should not be empty.");
             Preconditions.checkState(key != null && !key.isEmpty(), "'key' should not be empty.");

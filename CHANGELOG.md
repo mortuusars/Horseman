@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+- Backported Leash knot untying and breaking sounds from a recent minecraft version.
+
 ## 1.4.5 - 2025-06-07
 - Potentially fixed crash when world is loading again.
 

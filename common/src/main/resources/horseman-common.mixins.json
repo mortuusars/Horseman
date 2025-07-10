@@ -30,6 +30,8 @@
     "hitching.LeashKnotEntityMixin",
     "hitching.MobMixin",
     "hitching.SyncInitialHorseData_ServerEntityMixin",
+    "leash_sounds.LeashableMixin",
+    "leash_sounds.LeashFenceKnotEntityMixin",
     "less_wander.AbstractHorseMixin",
     "less_wander.ServerPlayerMixin",
     "less_wander.WaterAvoidingRandomStrollGoalMixin",
