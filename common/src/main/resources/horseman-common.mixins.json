@@ -20,6 +20,7 @@
     "attribute_modifiers.EntityMixin",
     "creative_taming.AbstractChestedHorseMixin",
     "creative_taming.HorseMixin",
+    "dismount.AbstractHorseMixin",
     "fits_in_boat.BoatMixin",
     "fits_in_boat.EntityMixin",
     "free_camera_when_mounted.AbstractHorseMixin",

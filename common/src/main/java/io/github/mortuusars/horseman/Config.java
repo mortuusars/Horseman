@@ -52,6 +52,7 @@ public class Config {
         public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
         public static final ModConfigSpec.EnumValue<LeavesCollisionMode> LEAVES_COLLISION_MODE_WHEN_MOUNTED;
         public static final ModConfigSpec.BooleanValue LEASH_KNOT_SOUNDS;
+        public static final ModConfigSpec.BooleanValue DISMOUNT_TOWARDS_VIEW_DIRECTION;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -225,6 +226,10 @@ public class Config {
                 LEASH_KNOT_SOUNDS = builder
                         .comment("Untying or breaking a leash knot now has a sound (backported from 1.21.6). Default: true")
                         .define("leash_knot_sounds", true);
+
+                DISMOUNT_TOWARDS_VIEW_DIRECTION = builder
+                        .comment("Dismounting from a horse will place a player towards their view direction. Default: true")
+                        .define("dismount_towards_view_direction", true);
 
                 builder.pop();
             }
