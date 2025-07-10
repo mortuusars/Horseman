@@ -3,6 +3,7 @@
 ## UNRELEASED
 - Backported Leash knot untying and breaking sounds from a recent minecraft version.
 - Dismounting from a horse will now place a player towards their view direction rather than on left/right side of a horse.
+- Fixed horse sometimes running back when the player dismounts it.
 
 ## 1.4.5 - 2025-06-07
 - Potentially fixed crash when world is loading again.

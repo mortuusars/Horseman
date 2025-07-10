@@ -23,6 +23,7 @@
     "dismount.AbstractHorseMixin",
     "fits_in_boat.BoatMixin",
     "fits_in_boat.EntityMixin",
+    "fix_running_back.EntityMixin",
     "free_camera_when_mounted.AbstractHorseMixin",
     "hitching.AbstractHorseMixin",
     "hitching.FenceBlockMixin",

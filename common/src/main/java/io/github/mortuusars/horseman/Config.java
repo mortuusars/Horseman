@@ -53,6 +53,7 @@ public class Config {
         public static final ModConfigSpec.EnumValue<LeavesCollisionMode> LEAVES_COLLISION_MODE_WHEN_MOUNTED;
         public static final ModConfigSpec.BooleanValue LEASH_KNOT_SOUNDS;
         public static final ModConfigSpec.BooleanValue DISMOUNT_TOWARDS_VIEW_DIRECTION;
+        public static final ModConfigSpec.BooleanValue FIX_RUNNING_BACK_AFTER_DISMOUNT;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -230,6 +231,10 @@ public class Config {
                 DISMOUNT_TOWARDS_VIEW_DIRECTION = builder
                         .comment("Dismounting from a horse will place a player towards their view direction. Default: true")
                         .define("dismount_towards_view_direction", true);
+
+                FIX_RUNNING_BACK_AFTER_DISMOUNT = builder
+                        .comment("Fixes horse running back after player dismounts it (occurs when horse was leashed before mounting). Default: true")
+                        .define("fix_running_back_after_dismount", true);
 
                 builder.pop();
             }
