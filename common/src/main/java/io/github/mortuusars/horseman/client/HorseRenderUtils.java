@@ -33,4 +33,9 @@ public class HorseRenderUtils {
         float delta = (Math.min(angle, endAngle) - startAngle) / (endAngle - startAngle);
         return Mth.lerp(delta, 1.0f, maxTransparency);
     }
+
+    public interface HorsemanEquineRenderState {
+        boolean getHorsemanRiddenByPlayerInFirstPerson();
+        void setHorsemanRiddenByPlayerInFirstPerson(boolean value);
+    }
 }

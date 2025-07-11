@@ -5,6 +5,7 @@ import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.Register;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.critereon.ItemSubPredicate;
@@ -14,15 +15,20 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -47,12 +53,14 @@ public class RegisterImpl {
     }
 
     public static <T extends BlockEntity> BlockEntityType<T> newBlockEntityType(Register.BlockEntitySupplier<T> blockEntitySupplier, Block... validBlocks) {
-        return BlockEntityType.Builder.of(blockEntitySupplier::create, validBlocks).build();
+        return FabricBlockEntityTypeBuilder.create(blockEntitySupplier::create, validBlocks).build();
     }
 
-    public static <T extends Item> Supplier<T> item(String id, Supplier<T> supplier) {
-        T obj = Registry.register(BuiltInRegistries.ITEM, Horseman.resource(id), supplier.get());
-        return () -> obj;
+    public static <T extends Item> Supplier<T> item(String id, Function<Item.Properties, T> func, Item.Properties properties) {
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Horseman.resource(id));
+        T item = func.apply(properties.setId(itemKey));
+        T registeredItem = Registry.register(BuiltInRegistries.ITEM, itemKey, item);
+        return () -> registeredItem;
     }
 
     public static <T extends Entity> Supplier<EntityType<T>> entityType(String id, EntityType.EntityFactory<T> factory,
@@ -64,7 +72,7 @@ public class RegisterImpl {
                         .clientTrackingRange(clientTrackingRange)
                         .alwaysUpdateVelocity(velocityUpdates)
                         .updateInterval(updateInterval)
-                        .build());
+                        .build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(id))));
         return () -> type;
     }
 
@@ -72,7 +80,7 @@ public class RegisterImpl {
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, category);
         typeBuilder.accept(builder);
         builder.alwaysUpdateVelocity(receiveVelocityUpdates);
-        EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, Horseman.resource(id), builder.build());
+        EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, Horseman.resource(id), builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(id))));
         return () -> type;
     }
 
@@ -101,8 +109,8 @@ public class RegisterImpl {
         return () -> obj;
     }
 
-    public static Supplier<RecipeSerializer<?>> recipeSerializer(String id, Supplier<RecipeSerializer<?>> supplier) {
-        RecipeSerializer<?> obj = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Horseman.resource(id), supplier.get());
+    public static <T extends CustomRecipe> Supplier<RecipeSerializer<T>> recipeSerializer(String name, Supplier<RecipeSerializer<T>> supplier) {
+        RecipeSerializer<T> obj = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Horseman.resource(name), supplier.get());
         return () -> obj;
     }
 

@@ -4,7 +4,11 @@ import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +28,7 @@ public class ComponentTransferringRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<ComponentTransferringRecipe> getSerializer() {
         return Horseman.RecipeSerializers.COMPONENT_TRANSFERRING.get();
     }
 
@@ -32,12 +36,10 @@ public class ComponentTransferringRecipe extends CustomRecipe {
         return sourceIngredient;
     }
 
-    @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    @Override
     public @NotNull ItemStack getResultItem(HolderLookup.Provider registries) {
         return getResult();
     }
@@ -83,20 +85,17 @@ public class ComponentTransferringRecipe extends CustomRecipe {
             ItemStack itemStack = input.getItem(index);
 
             if (getSourceIngredient().test(itemStack)) {
-                return transferComponents(itemStack, getResultItem(registries).copy());
+                return itemStack.transmuteCopy(getResultItem(registries).getItem());
             }
         }
 
         return getResultItem(registries);
     }
 
-    public @NotNull ItemStack transferComponents(ItemStack transferIngredientStack, ItemStack recipeResultStack) {
-        recipeResultStack.applyComponents(transferIngredientStack.getComponents());
-        return recipeResultStack;
-    }
-
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return ingredients.size() <= width * height;
+    public @NotNull List<RecipeDisplay> display() {
+        ArrayList<SlotDisplay> list = new ArrayList<>(ingredients.stream().map(Ingredient::display).toList());
+        list.addFirst(sourceIngredient.display());
+        return List.of(new ShapelessCraftingRecipeDisplay(list, new SlotDisplay.ItemSlotDisplay(this.result.getItem()), new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
     }
 }

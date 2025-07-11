@@ -11,23 +11,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = Gui.class)
 public abstract class GuiMixin {
-    @Shadow
-    protected abstract int getVisibleVehicleHeartRows(int vehicleHealth);
-
-    @Shadow
-    @Nullable
-    protected abstract LivingEntity getPlayerVehicleWithHealth();
-
-    @Shadow
-    protected abstract int getVehicleMaxHearts(LivingEntity vehicle);
-
     @Unique
     private long horseman$lastTickVehicleInWater = -1;
 
@@ -56,15 +45,6 @@ public abstract class GuiMixin {
     private int renderPlayerHealth_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicle);
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.
-    }
-
-    @WrapOperation(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVisibleVehicleHeartRows(I)I"))
-    private int renderPlayerHealth_getVisibleVehicleHeartRows(Gui instance, int vehicleHealth, Operation<Integer> original) {
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicleHealth);
-        // 'hears' will be 0 here, due to it being set in 'renderPlayerHealth_getVehicleMaxHearts'.
-        LivingEntity livingEntity = getPlayerVehicleWithHealth();
-        int vehicleHearts = getVehicleMaxHearts(livingEntity);
-        return getVisibleVehicleHeartRows(vehicleHearts);
     }
 
     @ModifyVariable(method = "renderVehicleHealth", at = @At(value = "STORE"), ordinal = 2)

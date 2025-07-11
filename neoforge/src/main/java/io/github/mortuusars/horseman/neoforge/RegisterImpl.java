@@ -11,6 +11,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -30,12 +32,13 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class RegisterImpl {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Horseman.ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Horseman.ID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, Horseman.ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Horseman.ID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Horseman.ID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, Horseman.ID);
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Registries.SOUND_EVENT, Horseman.ID);
@@ -58,29 +61,29 @@ public class RegisterImpl {
     }
 
     public static <T extends BlockEntity> BlockEntityType<T> newBlockEntityType(Register.BlockEntitySupplier<T> blockEntitySupplier, Block... validBlocks) {
-        return BlockEntityType.Builder.of(blockEntitySupplier::create, validBlocks).build(null);
+        return new BlockEntityType<>(blockEntitySupplier::create, validBlocks);
     }
 
-    public static <T extends Item> Supplier<T> item(String id, Supplier<T> supplier) {
-        return ITEMS.register(id, supplier);
+    public static <T extends Item> Supplier<T> item(String id, Function<Item.Properties, T> func, Item.Properties properties) {
+        return ITEMS.registerItem(id, func, properties);
     }
 
-    public static <T extends Entity> Supplier<EntityType<T>> entityType(String id, EntityType.EntityFactory<T> factory, MobCategory category,
+    public static <T extends Entity> Supplier<EntityType<T>> entityType(String name, EntityType.EntityFactory<T> factory, MobCategory category,
                                                                         float width, float height, int clientTrackingRange, boolean velocityUpdates, int updateInterval) {
-        return ENTITY_TYPES.register(id, () -> EntityType.Builder.of(factory, category)
+        return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(factory, category)
                 .sized(width, height)
                 .clientTrackingRange(clientTrackingRange)
                 .setShouldReceiveVelocityUpdates(velocityUpdates)
                 .updateInterval(updateInterval)
-                .build(id));
+                .build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(name))));
     }
 
-    public static <T extends Entity> Supplier<EntityType<T>> entityType(String id, EntityType.EntityFactory<T> factory, MobCategory category, boolean receiveVelocityUpdates, Consumer<EntityType.Builder<T>> typeBuilder) {
-        return ENTITY_TYPES.register(id, () -> {
+    public static <T extends Entity> Supplier<EntityType<T>> entityType(String name, EntityType.EntityFactory<T> factory, MobCategory category, boolean receiveVelocityUpdates, Consumer<EntityType.Builder<T>> typeBuilder) {
+        return ENTITY_TYPES.register(name, () -> {
             EntityType.Builder<T> builder = EntityType.Builder.of(factory, category);
             builder.setShouldReceiveVelocityUpdates(receiveVelocityUpdates);
             typeBuilder.accept(builder);
-            return builder.build(id);
+            return builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(name)));
         });
     }
 
@@ -96,8 +99,8 @@ public class RegisterImpl {
         return RECIPE_TYPES.register(id, supplier);
     }
 
-    public static Supplier<RecipeSerializer<?>> recipeSerializer(String id, Supplier<RecipeSerializer<?>> supplier) {
-        return RECIPE_SERIALIZERS.register(id, supplier);
+    public static <T extends CustomRecipe> Supplier<RecipeSerializer<T>> recipeSerializer(String name, Supplier<RecipeSerializer<T>> supplier) {
+        return RECIPE_SERIALIZERS.register(name, supplier);
     }
 
     public static <T extends CriterionTrigger<?>> Supplier<T> criterionTrigger(String name, Supplier<T> supplier) {

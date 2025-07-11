@@ -17,9 +17,4 @@ public class InstrumentSubtypeInterpreter implements ISubtypeInterpreter<ItemSta
 		if (context == UidContext.Recipe) return null; // Show all in recipe lookup
 		return ingredient.get(DataComponents.INSTRUMENT);
 	}
-
-	@Override
-	public @NotNull String getLegacyStringSubtypeInfo(ItemStack itemStack, UidContext context) {
-		return "";
-	}
 }

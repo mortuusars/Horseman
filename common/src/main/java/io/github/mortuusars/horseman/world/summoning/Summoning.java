@@ -9,6 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -141,7 +142,7 @@ public class Summoning {
             return CallResult.ERROR_ENTITY_NOT_CREATED;
         }
 
-        @Nullable Entity entity = type.get().create(player.level());
+        @Nullable Entity entity = type.get().create(player.level(), EntitySpawnReason.MOB_SUMMONED);
         if (!(entity instanceof AbstractHorse newHorse)) {
             Horseman.LOGGER.error("Created entity isn't an AbstractHorse but {}. Something went wrong.", entity);
             return CallResult.ERROR_ENTITY_NOT_CREATED;
@@ -199,7 +200,7 @@ public class Summoning {
         Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
         if (type.isEmpty()) return false;
 
-        @Nullable Entity entity = type.get().create(player.level());
+        @Nullable Entity entity = type.get().create(player.level(), EntitySpawnReason.MOB_SUMMONED);
         if (!(entity instanceof AbstractHorse newHorse)) return false;
 
         newHorse.load(boundHorse.getTag());

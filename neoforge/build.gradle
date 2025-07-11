@@ -41,7 +41,7 @@ dependencies {
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}") { transitive = false }
     modRuntimeOnly("curse.maven:jade-324717:${jade_neoforge_id}") { transitive = false }
-    modRuntimeOnly("curse.maven:embeddium-908741:6118392")
+//    modRuntimeOnly("curse.maven:embeddium-908741:6118392")
 
     // modImplementation("maven.modrinth:sodium:mc1.21.1-0.6.13-neoforge")
     // modImplementation("maven.modrinth:iris:1.8.8+1.21.1-neoforge")
