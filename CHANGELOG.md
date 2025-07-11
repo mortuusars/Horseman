@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## 1.5.0 - 2025-07-11
 - Horse with Leather Horse Armor can now walk on Powder Snow like a player with Leather Boots.
 - Backported Leash knot untying and breaking sounds from a recent minecraft version.
 - Dismounting from a horse will now place a player towards their view direction rather than on left/right side of a horse.
