@@ -32,6 +32,7 @@
     "hitching.LeashKnotEntityMixin",
     "hitching.MobMixin",
     "hitching.SyncInitialHorseData_ServerEntityMixin",
+    "horse_powder_snow.PowderSnowBlockMixin",
     "leash_sounds.LeashableMixin",
     "leash_sounds.LeashFenceKnotEntityMixin",
     "less_wander.AbstractHorseMixin",

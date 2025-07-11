@@ -43,6 +43,7 @@
   "horseman.configuration.jeb_horse": "jeb_ horse",
   "horseman.configuration.lead_slot": "Lead slot",
   "horseman.configuration.leash_knot_sounds": "Leash Knot Sounds",
+  "horseman.configuration.leather_horse_armor_powder_snow": "Leather Horse Armor allows walking on Powder Snow",
   "horseman.configuration.leaves_collision_mode_when_mounted": "Leaves collision mode when mounted",
   "horseman.configuration.max_opacity": "Max opacity",
   "horseman.configuration.misc": "Misc",

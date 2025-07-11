@@ -54,6 +54,7 @@ public class Config {
         public static final ModConfigSpec.BooleanValue LEASH_KNOT_SOUNDS;
         public static final ModConfigSpec.BooleanValue DISMOUNT_TOWARDS_VIEW_DIRECTION;
         public static final ModConfigSpec.BooleanValue FIX_RUNNING_BACK_AFTER_DISMOUNT;
+        public static final ModConfigSpec.BooleanValue LEATHER_HORSE_ARMOR_POWDER_SNOW;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -235,6 +236,10 @@ public class Config {
                 FIX_RUNNING_BACK_AFTER_DISMOUNT = builder
                         .comment("Fixes horse running back after player dismounts it (occurs when horse was leashed before mounting). Default: true")
                         .define("fix_running_back_after_dismount", true);
+
+                LEATHER_HORSE_ARMOR_POWDER_SNOW = builder
+                        .comment("Horse with Leather Horse Armor equipped can walk on a Powder Snow like a player with Leather Boots. Default: true")
+                        .define("leather_horse_armor_powder_snow", true);
 
                 builder.pop();
             }
