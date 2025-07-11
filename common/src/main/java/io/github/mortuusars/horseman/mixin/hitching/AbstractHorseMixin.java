@@ -3,7 +3,6 @@ package io.github.mortuusars.horseman.mixin.hitching;
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
@@ -61,9 +60,9 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
 
     // Drops the Lead if it's not in inventory (slot is disabled)
     @Inject(method = "dropEquipment", at = @At(value = "RETURN"))
-    private void onDropEquipment(ServerLevel level, CallbackInfo ci) {
+    private void onDropEquipment(CallbackInfo ci) {
         if (HitchableHorse.hasLead(this)) {
-            spawnAtLocation(level, HitchableHorse.getLead(this));
+            spawnAtLocation(HitchableHorse.getLead(this));
             HitchableHorse.setLead(this, ItemStack.EMPTY);
         }
     }

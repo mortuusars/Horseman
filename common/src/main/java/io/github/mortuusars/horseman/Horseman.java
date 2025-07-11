@@ -16,7 +16,6 @@ import net.minecraft.tags.InstrumentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.slf4j.Logger;
 
@@ -64,8 +63,7 @@ public class Horseman {
 
     public static class Items {
         public static final Supplier<CopperHornItem> COPPER_HORN = Register.item("copper_horn",
-                props -> new CopperHornItem(InstrumentTags.GOAT_HORNS, props), new Item.Properties()
-                        .stacksTo(1).rarity(Rarity.UNCOMMON));
+                () -> new CopperHornItem(new Item.Properties().stacksTo(1), InstrumentTags.GOAT_HORNS));
 
         static void init() {
         }
@@ -82,7 +80,7 @@ public class Horseman {
     }
 
     public static class RecipeSerializers {
-        public static final Supplier<RecipeSerializer<ComponentTransferringRecipe>> COMPONENT_TRANSFERRING = Register.recipeSerializer(
+        public static final Supplier<RecipeSerializer<?>> COMPONENT_TRANSFERRING = Register.recipeSerializer(
                 "component_transferring", () -> new ComponentTransferringRecipeSerializer<>(
                         "component_transferring", "source", ComponentTransferringRecipe::new));
 

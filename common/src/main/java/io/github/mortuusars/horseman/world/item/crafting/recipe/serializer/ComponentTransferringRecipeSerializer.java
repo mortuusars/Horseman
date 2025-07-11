@@ -9,7 +9,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,8 +33,8 @@ public class ComponentTransferringRecipeSerializer<T extends ComponentTransferri
         return RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
                         CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC).forGetter(CraftingRecipe::category),
-                        Ingredient.CODEC.fieldOf(sourceIngredientName).forGetter(ComponentTransferringRecipe::getSourceIngredient),
-                        Ingredient.CODEC
+                        Ingredient.CODEC_NONEMPTY.fieldOf(sourceIngredientName).forGetter(ComponentTransferringRecipe::getSourceIngredient),
+                        Ingredient.CODEC_NONEMPTY
                                 .listOf()
                                 .fieldOf("ingredients")
                                 .flatXmap(
@@ -45,7 +44,7 @@ public class ComponentTransferringRecipeSerializer<T extends ComponentTransferri
                                             } else {
                                                 return list.size() > 9
                                                         ? DataResult.error(() -> ("Too many ingredients for %s recipe. Maximum is: %s".formatted(9, recipeTypeName)))
-                                                        : DataResult.success(NonNullList.of(Ingredient.of(Items.BARRIER), list.toArray(new Ingredient[0])));
+                                                        : DataResult.success(NonNullList.of(Ingredient.EMPTY, list.toArray(new Ingredient[0])));
                                             }
                                         },
                                         DataResult::success

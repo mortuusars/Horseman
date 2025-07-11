@@ -2,7 +2,7 @@ package io.github.mortuusars.horseman.integration.jei;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
-import io.github.mortuusars.horseman.integration.jei.recipe.ComponentTransferringCategoryExtension;
+import io.github.mortuusars.horseman.integration.jei.recipe.ComponentTransferringShapelessExtension;
 import io.github.mortuusars.horseman.integration.jei.subtypes.InstrumentSubtypeInterpreter;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.ComponentTransferringRecipe;
 import mezz.jei.api.IModPlugin;
@@ -42,6 +42,6 @@ public class HorsemanJeiPlugin implements IModPlugin {
 
     @Override
     public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
-        registration.getCraftingCategory().addExtension(ComponentTransferringRecipe.class, new ComponentTransferringCategoryExtension());
+        registration.getCraftingCategory().addExtension(ComponentTransferringRecipe.class, new ComponentTransferringShapelessExtension());
     }
 }

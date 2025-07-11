@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import io.github.mortuusars.horseman.world.HitchableHorse;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.level.ItemLike;
@@ -31,8 +30,8 @@ public interface LeashableMixin {
     }
 
     @WrapWithCondition(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;"))
-    private static boolean preventLeadDrop(Entity instance, ServerLevel level, ItemLike item, @Share("preventDrop") LocalBooleanRef preventDrop) {
+            target = "Lnet/minecraft/world/entity/Entity;spawnAtLocation(Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;"))
+    private static boolean preventLeadDrop(Entity entity, ItemLike item, @Share("preventDrop") LocalBooleanRef preventDrop) {
         return !preventDrop.get();
     }
 }

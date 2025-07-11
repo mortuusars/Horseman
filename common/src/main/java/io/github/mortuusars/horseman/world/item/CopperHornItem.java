@@ -7,11 +7,9 @@ import io.github.mortuusars.horseman.HorsemanServer;
 import io.github.mortuusars.horseman.world.summoning.CallResult;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -23,6 +21,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
@@ -39,8 +38,8 @@ import java.util.Optional;
 public class CopperHornItem extends InstrumentItem {
     protected final TagKey<Instrument> instruments;
 
-    public CopperHornItem(TagKey<Instrument> instruments, Properties properties) {
-        super(instruments, properties);
+    public CopperHornItem(Properties properties, TagKey<Instrument> instruments) {
+        super(properties, instruments);
         this.instruments = instruments;
     }
 
@@ -70,7 +69,7 @@ public class CopperHornItem extends InstrumentItem {
         if (!horse.isTamed()) return InteractionResult.PASS;
         if (!(player.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
 
-        @Nullable Pair<ResourceKey<Instrument>, Instrument> instrumentData = getInstrumentData(stack, player.registryAccess());
+        @Nullable Pair<ResourceKey<Instrument>, Instrument> instrumentData = getInstrumentData(stack);
         if (instrumentData == null) {
             player.displayClientMessage(Component.translatable("gui.horseman.summoning.cannot_bind.no_instrument"), true);
             return InteractionResult.FAIL;
@@ -103,18 +102,18 @@ public class CopperHornItem extends InstrumentItem {
 
         player.startUsingItem(usedHand);
         playInstrument(player.level(), player, instrument, 1.2F);
-        cooldown(player, stack, instrument);
+        cooldown(player, instrument);
         player.awardStat(Stats.ITEM_USED.get(this));
 
-        return InteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS_NO_ITEM_USED;
     }
 
     @Override
-    public @NotNull InteractionResult use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack itemInHand = player.getItemInHand(usedHand);
 
-        @Nullable Pair<ResourceKey<Instrument>, Instrument> instrumentData = getInstrumentData(itemInHand, player.registryAccess());
-        if (instrumentData == null) return InteractionResult.FAIL;
+        @Nullable Pair<ResourceKey<Instrument>, Instrument> instrumentData = getInstrumentData(itemInHand);
+        if (instrumentData == null) return InteractionResultHolder.fail(itemInHand);
         ResourceKey<Instrument> instrumentKey = instrumentData.getFirst();
         Instrument instrument = instrumentData.getSecond();
 
@@ -129,17 +128,17 @@ public class CopperHornItem extends InstrumentItem {
             playInstrument(level, player, instrument, getSoundPitchFromCallResult(callResult));
         }
 
-        cooldown(player, itemInHand, instrument);
+        cooldown(player, instrument);
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResult.CONSUME;
+        return InteractionResultHolder.consume(itemInHand);
     }
 
-    protected void cooldown(Player player, ItemStack stack, Instrument instrument) {
+    protected void cooldown(Player player, Instrument instrument) {
         int cooldown = Config.Server.COPPER_HORN_COOLDOWN.get();
         if (cooldown < 0) {
-            cooldown = (int)instrument.useDuration();
+            cooldown = instrument.useDuration();
         }
-        player.getCooldowns().addCooldown(stack, cooldown);
+        player.getCooldowns().addCooldown(this, cooldown);
     }
 
     protected @Nullable Component getCallResultMessage(CallResult result) {
@@ -167,8 +166,8 @@ public class CopperHornItem extends InstrumentItem {
 
     // --
 
-    protected boolean hasInstrument(ItemStack stack, HolderLookup.Provider registries) {
-        return getInstrumentData(stack, registries) != null;
+    protected boolean hasInstrument(ItemStack stack) {
+        return getInstrumentData(stack) != null;
     }
 
     protected void playInstrument(Level level, Player player, Instrument instrument, float pitch) {
@@ -178,25 +177,18 @@ public class CopperHornItem extends InstrumentItem {
         level.gameEvent(GameEvent.INSTRUMENT_PLAY, player.position(), GameEvent.Context.of(player));
     }
 
-    protected Optional<Holder<Instrument>> getInstrument(ItemStack stack, HolderLookup.Provider registries) {
+    protected Optional<Holder<Instrument>> getInstrument(ItemStack stack) {
         @Nullable Holder<Instrument> holder = stack.get(DataComponents.INSTRUMENT);
         if (holder != null) {
             return Optional.of(holder);
         } else {
-            Optional<HolderSet.Named<Instrument>> optional = registries.lookupOrThrow(Registries.INSTRUMENT).get(this.instruments);
-            if (optional.isPresent()) {
-                Iterator<Holder<Instrument>> iterator = optional.get().iterator();
-                if (iterator.hasNext()) {
-                    return Optional.of(iterator.next());
-                }
-            }
-
-            return Optional.empty();
+            Iterator<Holder<Instrument>> iterator = BuiltInRegistries.INSTRUMENT.getTagOrEmpty(this.instruments).iterator();
+            return iterator.hasNext() ? Optional.of(iterator.next()) : Optional.empty();
         }
     }
 
-    protected @Nullable Pair<ResourceKey<Instrument>, Instrument> getInstrumentData(ItemStack stack, HolderLookup.Provider registries) {
-        return getInstrument(stack, registries).map(holder -> {
+    protected @Nullable Pair<ResourceKey<Instrument>, Instrument> getInstrumentData(ItemStack stack) {
+        return getInstrument(stack).map(holder -> {
             if (holder.unwrapKey().isEmpty()) return null;
             return Pair.of(holder.unwrapKey().orElseThrow(), holder.value());
         }).orElse(null);

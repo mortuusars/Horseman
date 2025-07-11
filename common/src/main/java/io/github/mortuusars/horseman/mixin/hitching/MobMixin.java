@@ -1,7 +1,6 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
 import io.github.mortuusars.horseman.world.HitchableHorse;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -37,18 +36,18 @@ public abstract class MobMixin extends LivingEntity {
 
         if (itemInHand.getItem() instanceof ShearsItem && !player.isSecondaryUseActive() && HitchableHorse.hasLead(horse)) {
             if (HitchableHorse.isHitched(horse)) {
-                horse.horseman$asHorse().removeLeash();
+                horse.horseman$asHorse().dropLeash(true, false);
             }
-            if (level() instanceof ServerLevel serverLevel) {
+            if (!level().isClientSide) {
                 ItemStack leadStack = HitchableHorse.getLead(horse);
-                spawnAtLocation(serverLevel, leadStack);
+                spawnAtLocation(leadStack);
             }
             level().playSound(player, player, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 0.8f, 1f);
             HitchableHorse.setLead(horse, ItemStack.EMPTY);
             if (!level().isClientSide) {
                 HitchableHorse.syncHorseDataToTrackingClients(horse);
             }
-            cir.setReturnValue(InteractionResult.SUCCESS_SERVER);
+            cir.setReturnValue(InteractionResult.sidedSuccess(level().isClientSide));
             return;
         }
 
@@ -57,7 +56,7 @@ public abstract class MobMixin extends LivingEntity {
             ItemStack leadStack = itemInHand.split(1);
             HitchableHorse.setLead(horse, leadStack);
             player.swing(hand);
-            cir.setReturnValue(InteractionResult.SUCCESS_SERVER);
+            cir.setReturnValue(InteractionResult.sidedSuccess(level().isClientSide));
             level().playSound(player, player, SoundEvents.LEASH_KNOT_PLACE, SoundSource.PLAYERS, 0.8f, 1f);
             return;
         }
