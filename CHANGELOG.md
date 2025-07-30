@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.1 - 2025-07-30
+- Added Trader Llama to `horseman:cannot_be_hitched` tag.
+
 ## 1.5.0 - 2025-07-11
 - Horse with Leather Horse Armor can now walk on Powder Snow like a player with Leather Boots.
 - Backported Leash knot untying and breaking sounds from a recent minecraft version.
