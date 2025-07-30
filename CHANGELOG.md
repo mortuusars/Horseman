@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.11 - 2025-07-30
+- Fixed Trader Llama missing from `horseman:cannot_be_hitched` tag. (it doesn't support hitching)
+
 ## 1.3.10 - 2025-06-04
 - [Fabric] Fixed issue with jump bar rendering with ImmediatelyFast.
 
