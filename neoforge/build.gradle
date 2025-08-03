@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow"
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
+    neoForge "net.neoforged:neoforge:${neoforge_version}"
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation(include("io.github.llamalad7:mixinextras-neoforge:0.4.1"))
@@ -40,7 +40,7 @@ dependencies {
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}") { transitive = false }
-    modRuntimeOnly("curse.maven:jade-324717:${jade_neoforge_id}") { transitive = false }
+    modRuntimeOnly("maven.modrinth:jade:${jade_neoforge_version}") { transitive = false }
 //    modRuntimeOnly("curse.maven:embeddium-908741:6118392")
 
     // modImplementation("maven.modrinth:sodium:mc1.21.1-0.6.13-neoforge")
@@ -80,6 +80,6 @@ shadowJar {
 remapJar {
     injectAccessWidener = true
     atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
 }
