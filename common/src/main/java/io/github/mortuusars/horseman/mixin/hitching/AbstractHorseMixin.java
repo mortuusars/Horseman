@@ -84,12 +84,11 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
     protected void onReadAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        if (tag.contains("HorsemanLeadItem", Tag.TAG_COMPOUND)) {
-            ItemStack leadStack = ItemStack.parse(registryAccess(), tag.getCompound("HorsemanLeadItem")).orElse(ItemStack.EMPTY);
-            horseman$setLead(leadStack);
-        }
-
-        horseman$isHitched = tag.getBoolean("HorsemanHitched");
+        horseman$leadItem = tag.getCompound("HorsemanLeadItem")
+                .map(compound -> ItemStack.parse(registryAccess(), compound)
+                        .orElse(ItemStack.EMPTY))
+                .orElse(ItemStack.EMPTY);
+        horseman$isHitched = tag.getBooleanOr("HorsemanHitched", false);
     }
 
     // --

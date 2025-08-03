@@ -3,7 +3,6 @@ package io.github.mortuusars.horseman.world.summoning;
 import com.google.common.base.Preconditions;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +24,7 @@ public class Summoning {
     protected final SummoningStorage storage;
 
     public Summoning(MinecraftServer server) {
-        storage = SummoningStorage.loadOrCreate(server);
+        storage = server.overworld().getDataStorage().get(SummoningStorage.TYPE);
     }
 
     public SummoningStorage getStorage() {
@@ -71,13 +70,13 @@ public class Summoning {
     }
 
     public void unbindHorse(ServerLevel level, StoredBoundHorse boundHorse) {
-        if (boundHorse.getBoundData() != null) {
-            getStoredHorsesOf(boundHorse.getBoundData().owner()).remove(boundHorse.getBoundData().instrument());
-        }
-        if (tryFindLoadedHorse(level, boundHorse.getEntityUuid()) instanceof AbstractHorse loadedHorse) {
+        boundHorse.boundData().ifPresent(data -> {
+            getStoredHorsesOf(data.owner()).remove(data.instrument());
+        });
+        if (tryFindLoadedHorse(level, boundHorse.uuid()) instanceof AbstractHorse loadedHorse) {
             loadedHorse.setHorsemanBoundData(null);
         } else {
-            getStorage().getUnboundHorses().add(boundHorse.getEntityUuid());
+            getStorage().getUnboundHorses().add(boundHorse.uuid());
         }
         getStorage().setDirty();
     }
@@ -98,7 +97,7 @@ public class Summoning {
         if (boundHorse == null) return CallResult.NO_BOUND_HORSE;
         if (boundHorse.isDead()) return CallResult.HORSE_IS_DEAD;
 
-        @Nullable AbstractHorse existingHorse = tryFindLoadedHorse(level, boundHorse.getEntityUuid());
+        @Nullable AbstractHorse existingHorse = tryFindLoadedHorse(level, boundHorse.uuid());
         if (existingHorse != null) {
             if (!isBound(existingHorse)) {
                 return CallResult.ERROR_HORSE_IS_NOT_BOUND;
@@ -136,9 +135,10 @@ public class Summoning {
     protected CallResult summonHorse(ServerPlayer player, @NotNull StoredBoundHorse boundHorse) {
         ServerLevel level = player.serverLevel();
 
-        Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
+        Optional<EntityType<?>> type = EntityType.by(boundHorse.tag());
         if (type.isEmpty()) {
-            Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. 'id' probably wasn't saved properly. Tag '{}'.", boundHorse.getTag());
+            Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. " +
+                    "'id' probably wasn't saved properly. Tag '{}'.", boundHorse.tag());
             return CallResult.ERROR_ENTITY_NOT_CREATED;
         }
 
@@ -148,7 +148,7 @@ public class Summoning {
             return CallResult.ERROR_ENTITY_NOT_CREATED;
         }
 
-        newHorse.load(boundHorse.getTag());
+        newHorse.load(boundHorse.tag());
         newHorse.setUUID(UUID.randomUUID());
         newHorse.setPos(player.getX(), player.getY(), player.getZ());
 
@@ -186,7 +186,7 @@ public class Summoning {
     protected boolean isInRange(Player player, StoredBoundHorse boundHorse) {
         int maxDistance = Config.Server.HORSE_SUMMONING_MAX_DISTANCE.get();
         if (maxDistance < 0) return true;
-        int distance = (int) boundHorse.position.distanceTo(player.position());
+        int distance = (int) boundHorse.position().distanceTo(player.position());
         return distance <= maxDistance;
     }
 
@@ -197,13 +197,13 @@ public class Summoning {
 
     protected boolean hasSpaceFor(ServerLevel level, Player player, AbstractHorse horse) {
         StoredBoundHorse boundHorse = new StoredBoundHorse(horse);
-        Optional<EntityType<?>> type = EntityType.by(boundHorse.getTag());
+        Optional<EntityType<?>> type = EntityType.by(boundHorse.tag());
         if (type.isEmpty()) return false;
 
         @Nullable Entity entity = type.get().create(player.level(), EntitySpawnReason.MOB_SUMMONED);
         if (!(entity instanceof AbstractHorse newHorse)) return false;
 
-        newHorse.load(boundHorse.getTag());
+        newHorse.load(boundHorse.tag());
         newHorse.setUUID(UUID.randomUUID());
         newHorse.setPos(player.getX(), player.getY(), player.getZ());
 
@@ -260,7 +260,7 @@ public class Summoning {
 
         // Remove already loaded horse immediately:
         for (ServerLevel dimension : level.getServer().getAllLevels()) {
-            @Nullable Entity existingHorse = dimension.getEntity(boundHorse.getEntityUuid());
+            @Nullable Entity existingHorse = dimension.getEntity(boundHorse.uuid());
             if (existingHorse != null) {
                 existingHorse.discard();
                 removed = true;
@@ -270,7 +270,7 @@ public class Summoning {
 
         if (!removed) {
             // Old entity will be removed when it tries to load:
-            getStorage().getHorsesToRemove().add(boundHorse.getEntityUuid());
+            getStorage().getHorsesToRemove().add(boundHorse.uuid());
         }
 
         getStorage().setDirty();

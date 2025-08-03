@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.fabric;
 
-import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
+import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanServer;
@@ -29,9 +29,9 @@ public class HorsemanFabric implements ModInitializer {
     public void onInitialize() {
         Horseman.init();
 
-        NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.SERVER, Config.Server.SPEC);
-        NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.COMMON, Config.Common.SPEC);
-        NeoForgeConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.CLIENT, Config.Client.SPEC);
+        ConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.SERVER, Config.Server.SPEC);
+        ConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.COMMON, Config.Common.SPEC);
+        ConfigRegistry.INSTANCE.register(Horseman.ID, ModConfig.Type.CLIENT, Config.Client.SPEC);
 
         Horseman.Stats.register();
 

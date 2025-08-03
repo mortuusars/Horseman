@@ -7,6 +7,7 @@ import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.ComponentTransferringRecipe;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.serializer.ComponentTransferringRecipeSerializer;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,8 +16,10 @@ import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.InstrumentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Instruments;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.InstrumentComponent;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.slf4j.Logger;
 
@@ -63,9 +66,11 @@ public class Horseman {
     }
 
     public static class Items {
+        @SuppressWarnings("deprecation")
         public static final Supplier<CopperHornItem> COPPER_HORN = Register.item("copper_horn",
-                props -> new CopperHornItem(InstrumentTags.GOAT_HORNS, props), new Item.Properties()
-                        .stacksTo(1).rarity(Rarity.UNCOMMON));
+                CopperHornItem::new, new Item.Properties()
+                        .stacksTo(1).rarity(Rarity.UNCOMMON)
+                        .component(DataComponents.INSTRUMENT, new InstrumentComponent(Instruments.PONDER_GOAT_HORN)));
 
         static void init() {
         }

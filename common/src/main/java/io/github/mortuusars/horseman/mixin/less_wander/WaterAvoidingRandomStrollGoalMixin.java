@@ -22,7 +22,7 @@ public abstract class WaterAvoidingRandomStrollGoalMixin extends RandomStrollGoa
                 && LessWanderingHorse.isEnabled()
                 && mob instanceof AbstractHorse horse
                 && horse.isSaddled()
-                && !mob.isInWaterOrBubble() // Allow horse to escape water. But this does not seem to be working in vanilla.
+                && !mob.isInWater() // Allow horse to escape water. But this does not seem to be working in vanilla.
                 && mob instanceof LessWanderingHorse lessWanderingHorse
                 && lessWanderingHorse.horseman$isOutsideWanderingLimit(original)) {
             return null; // Stay at current pos

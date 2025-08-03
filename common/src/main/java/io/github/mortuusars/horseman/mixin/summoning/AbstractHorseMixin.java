@@ -4,6 +4,7 @@ import io.github.mortuusars.horseman.world.summoning.BoundData;
 import io.github.mortuusars.horseman.world.summoning.SummonableHorse;
 import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -47,13 +48,15 @@ public abstract class AbstractHorseMixin extends Animal implements SummonableHor
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
     protected void onAddAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         if (horseman$boundData != null) {
-            horseman$boundData.save(tag);
+            tag.put("HorsemanBoundData", BoundData.CODEC.encodeStart(NbtOps.INSTANCE, horseman$boundData).getOrThrow());
         }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
     protected void onReadAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        horseman$boundData = BoundData.load(tag);
+        horseman$boundData = tag.getCompound("HorsemanBoundData")
+                .map(compound -> BoundData.CODEC.decode(NbtOps.INSTANCE, compound).getOrThrow().getFirst())
+                .orElse(null);
     }
 
     // --

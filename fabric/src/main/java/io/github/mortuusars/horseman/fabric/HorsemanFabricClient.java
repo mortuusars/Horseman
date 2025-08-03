@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.fabric;
 
-import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.client.ConfigScreenFactoryRegistry;
+import fuzs.forgeconfigapiport.fabric.api.v5.client.ConfigScreenFactoryRegistry;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanClient;
 import io.github.mortuusars.horseman.client.HorseStatsTooltip;
@@ -14,7 +14,9 @@ public class HorsemanFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         HorsemanClient.init();
         FabricS2CPacketHandler.register();
+
         ConfigScreenFactoryRegistry.INSTANCE.register(Horseman.ID, ConfigurationScreen::new);
+        //noinspection deprecation
         HudRenderCallback.EVENT.register(HorseStatsTooltip::render);
     }
 }

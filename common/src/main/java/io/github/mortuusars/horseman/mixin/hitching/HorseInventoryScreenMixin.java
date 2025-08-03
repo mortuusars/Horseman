@@ -1,7 +1,5 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.client.LeadOnHorse;
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import io.github.mortuusars.horseman.world.menu.LeadSlot;
@@ -10,7 +8,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.HorseInventoryMenu;
@@ -19,7 +16,6 @@ import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,14 +25,12 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
     @Shadow
     @Final
     private AbstractHorse horse;
-    @Unique
-    private static final ResourceLocation LEAD_SLOT_TEXTURE = Horseman.resource("textures/gui/lead_slot.png");
 
     public HorseInventoryScreenMixin(HorseInventoryMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
-    @Inject(method = "render", at = @At(value = "RETURN"))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/HorseInventoryScreen;renderTooltip(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
     private void onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         if (!(this.horse instanceof HitchableHorse hitchableHorse)) return;
 
@@ -45,14 +39,10 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
 
             for (Slot slot : getMenu().slots) {
                 if (slot instanceof LeadSlot && slot.getItem().is(Items.LEAD)) {
-                    // Darken the slot
                     int leftPos = (this.width - this.imageWidth) / 2;
                     int topPos = (this.height - this.imageHeight) / 2;
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                    guiGraphics.blit(RenderType::guiTextured, LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1,
-                            350, 0, 18, 18, 18, 256, 256);
-                    RenderSystem.disableBlend();
+                    guiGraphics.blit(RenderType::guiTexturedOverlay, LeadOnHorse.LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1,
+                            0, 18, 18, 18, 256, 256);
                 }
             }
         } else if (HitchableHorse.requiresLead() && HitchableHorse.hasLead(hitchableHorse)) {
@@ -67,7 +57,7 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
         if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
             int leftPos = (this.width - this.imageWidth) / 2;
             int topPos = (this.height - this.imageHeight) / 2;
-            guiGraphics.blit(RenderType::guiTextured, LEAD_SLOT_TEXTURE, leftPos + 7, topPos + 53,
+            guiGraphics.blit(RenderType::guiTextured, LeadOnHorse.LEAD_SLOT_TEXTURE, leftPos + 7, topPos + 53,
                     0, 0, 18, 18, 256, 256);
         }
     }

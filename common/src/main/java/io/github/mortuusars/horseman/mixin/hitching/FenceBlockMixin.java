@@ -19,17 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FenceBlock.class)
 public class FenceBlockMixin {
-//    @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-//    private void onUse(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
-//                       BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
-//        if (level.isClientSide
-//                && player.getRootVehicle() instanceof AbstractHorse horse
-//                    && horse instanceof HitchableHorse hitchableHorse
-//                    && HitchableHorse.canHitch(hitchableHorse)) {
-//            cir.setReturnValue(InteractionResult.SUCCESS);
-//        }
-//    }
-
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
     private void onUse(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult,
                        CallbackInfoReturnable<InteractionResult> cir) {

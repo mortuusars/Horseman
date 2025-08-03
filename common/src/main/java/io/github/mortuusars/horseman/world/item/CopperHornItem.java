@@ -8,10 +8,8 @@ import io.github.mortuusars.horseman.world.summoning.CallResult;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -20,45 +18,37 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.InstrumentComponent;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class CopperHornItem extends InstrumentItem {
-    protected final TagKey<Instrument> instruments;
-
-    public CopperHornItem(TagKey<Instrument> instruments, Properties properties) {
-        super(instruments, properties);
-        this.instruments = instruments;
+    public CopperHornItem(Properties properties) {
+        super(properties);
     }
 
-    public static ItemStack create(Item item, Holder<Instrument> instrument) {
-        ItemStack itemStack = new ItemStack(item);
-        itemStack.set(DataComponents.INSTRUMENT, instrument);
-        return itemStack;
-    }
-
+    @SuppressWarnings("deprecation")
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltip, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
+                                Consumer<Component> tooltip, TooltipFlag flag) {
         if (Config.Client.COPPER_HORN_SHOW_TOOLTIP_DETAILS.get()) {
             if (Screen.hasShiftDown()) {
-                tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.bind"));
-                tooltip.add(Component.translatable("item.horseman.copper_horn.tooltip.summon"));
+                tooltip.accept(Component.translatable("item.horseman.copper_horn.tooltip.bind"));
+                tooltip.accept(Component.translatable("item.horseman.copper_horn.tooltip.summon"));
             } else {
-                tooltip.add(Component.translatable("item.horseman.tooltip.hold_shift_for_details"));
+                tooltip.accept(Component.translatable("item.horseman.tooltip.hold_shift_for_details"));
             }
         }
     }
@@ -179,20 +169,8 @@ public class CopperHornItem extends InstrumentItem {
     }
 
     protected Optional<Holder<Instrument>> getInstrument(ItemStack stack, HolderLookup.Provider registries) {
-        @Nullable Holder<Instrument> holder = stack.get(DataComponents.INSTRUMENT);
-        if (holder != null) {
-            return Optional.of(holder);
-        } else {
-            Optional<HolderSet.Named<Instrument>> optional = registries.lookupOrThrow(Registries.INSTRUMENT).get(this.instruments);
-            if (optional.isPresent()) {
-                Iterator<Holder<Instrument>> iterator = optional.get().iterator();
-                if (iterator.hasNext()) {
-                    return Optional.of(iterator.next());
-                }
-            }
-
-            return Optional.empty();
-        }
+        InstrumentComponent instrumentComponent = stack.get(DataComponents.INSTRUMENT);
+        return instrumentComponent != null ? instrumentComponent.unwrap(registries) : Optional.empty();
     }
 
     protected @Nullable Pair<ResourceKey<Instrument>, Instrument> getInstrumentData(ItemStack stack, HolderLookup.Provider registries) {

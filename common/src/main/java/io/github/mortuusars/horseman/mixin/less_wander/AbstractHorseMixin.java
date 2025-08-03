@@ -2,12 +2,9 @@ package io.github.mortuusars.horseman.mixin.less_wander;
 
 import io.github.mortuusars.horseman.world.LessWanderingHorse;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -39,15 +36,6 @@ public abstract class AbstractHorseMixin extends Animal implements LessWandering
 
     // --
 
-    @Inject(method = "equipSaddle", at = @At("RETURN"))
-    protected void equipSaddle(ItemStack stack, SoundSource soundSource, CallbackInfo ci) {
-        if (LessWanderingHorse.isEnabled()) {
-            horseman$wanderAnchor = this.position();
-        }
-    }
-
-    // --
-
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
     protected void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         if (horseman$wanderAnchor != null && LessWanderingHorse.isEnabled()) {
@@ -61,19 +49,9 @@ public abstract class AbstractHorseMixin extends Animal implements LessWandering
     protected void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         if (!LessWanderingHorse.isEnabled()) return;
 
-        @Nullable Double x = null;
-        @Nullable Double y = null;
-        @Nullable Double z = null;
-
-        if (tag.contains("HorsemanWanderAnchorX", Tag.TAG_DOUBLE)) {
-            x = tag.getDouble("HorsemanWanderAnchorX");
-        }
-        if (tag.contains("HorsemanWanderAnchorY", Tag.TAG_DOUBLE)) {
-            y = tag.getDouble("HorsemanWanderAnchorY");
-        }
-        if (tag.contains("HorsemanWanderAnchorZ", Tag.TAG_DOUBLE)) {
-            z = tag.getDouble("HorsemanWanderAnchorZ");
-        }
+        @Nullable Double x = tag.getDouble("HorsemanWanderAnchorX").orElse(null);
+        @Nullable Double y = tag.getDouble("HorsemanWanderAnchorY").orElse(null);
+        @Nullable Double z = tag.getDouble("HorsemanWanderAnchorZ").orElse(null);
 
         if (x != null && y != null && z != null) {
             horseman$wanderAnchor = new Vec3(x, y, z);
