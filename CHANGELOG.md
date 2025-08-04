@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.1.1 - 2025-08-05
+- Fixed Copper Horns not working due to data save/load issue.
+
 ## 1.5.1 - 2025-08-04
 - Ported to 1.21.5.
 

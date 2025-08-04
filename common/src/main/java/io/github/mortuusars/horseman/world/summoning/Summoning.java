@@ -24,7 +24,7 @@ public class Summoning {
     protected final SummoningStorage storage;
 
     public Summoning(MinecraftServer server) {
-        storage = server.overworld().getDataStorage().get(SummoningStorage.TYPE);
+        storage = server.overworld().getDataStorage().computeIfAbsent(SummoningStorage.TYPE);
     }
 
     public SummoningStorage getStorage() {
