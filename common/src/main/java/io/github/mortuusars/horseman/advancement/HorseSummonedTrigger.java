@@ -28,7 +28,7 @@ public class HorseSummonedTrigger extends SimpleCriterionTrigger<HorseSummonedTr
                 .apply(instance, TriggerInstance::new));
 
         public boolean matches(ServerPlayer player, AbstractHorse horse) {
-            return (this.horse.isEmpty() || this.horse.get().matches(player.serverLevel(), horse.position(), horse));
+            return (this.horse.isEmpty() || this.horse.get().matches(player.level(), horse.position(), horse));
         }
     }
 }

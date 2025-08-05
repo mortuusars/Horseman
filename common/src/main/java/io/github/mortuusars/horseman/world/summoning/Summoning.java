@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -15,6 +16,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Instrument;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.ValueInput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +27,7 @@ public class Summoning {
     protected final SummoningStorage storage;
 
     public Summoning(MinecraftServer server) {
-        storage = server.overworld().getDataStorage().get(SummoningStorage.TYPE);
+        storage = server.overworld().getDataStorage().computeIfAbsent(SummoningStorage.TYPE);
     }
 
     public SummoningStorage getStorage() {
@@ -91,7 +94,7 @@ public class Summoning {
     // -- Calling
 
     public CallResult call(ServerPlayer player, ResourceKey<Instrument> instrument) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.level();
         @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
 
         if (boundHorse == null) return CallResult.NO_BOUND_HORSE;
@@ -133,9 +136,10 @@ public class Summoning {
     }
 
     protected CallResult summonHorse(ServerPlayer player, @NotNull StoredBoundHorse boundHorse) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.level();
 
-        Optional<EntityType<?>> type = EntityType.by(boundHorse.tag());
+        ValueInput input = TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), boundHorse.tag());
+        Optional<EntityType<?>> type = EntityType.by(input);
         if (type.isEmpty()) {
             Horseman.LOGGER.error("Failed to get the type from a stored boundHorse data. " +
                     "'id' probably wasn't saved properly. Tag '{}'.", boundHorse.tag());
@@ -148,7 +152,7 @@ public class Summoning {
             return CallResult.ERROR_ENTITY_NOT_CREATED;
         }
 
-        newHorse.load(boundHorse.tag());
+        newHorse.load(input);
         newHorse.setUUID(UUID.randomUUID());
         newHorse.setPos(player.getX(), player.getY(), player.getZ());
 
@@ -197,13 +201,14 @@ public class Summoning {
 
     protected boolean hasSpaceFor(ServerLevel level, Player player, AbstractHorse horse) {
         StoredBoundHorse boundHorse = new StoredBoundHorse(horse);
-        Optional<EntityType<?>> type = EntityType.by(boundHorse.tag());
+        ValueInput input = TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), boundHorse.tag());
+        Optional<EntityType<?>> type = EntityType.by(input);
         if (type.isEmpty()) return false;
 
         @Nullable Entity entity = type.get().create(player.level(), EntitySpawnReason.MOB_SUMMONED);
         if (!(entity instanceof AbstractHorse newHorse)) return false;
 
-        newHorse.load(boundHorse.tag());
+        newHorse.load(input);
         newHorse.setUUID(UUID.randomUUID());
         newHorse.setPos(player.getX(), player.getY(), player.getZ());
 

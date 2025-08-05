@@ -6,6 +6,7 @@ import io.github.mortuusars.horseman.world.menu.LeadSlot;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -41,7 +42,7 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
                 if (slot instanceof LeadSlot && slot.getItem().is(Items.LEAD)) {
                     int leftPos = (this.width - this.imageWidth) / 2;
                     int topPos = (this.height - this.imageHeight) / 2;
-                    guiGraphics.blit(RenderType::guiTexturedOverlay, LeadOnHorse.LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1,
+                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, LeadOnHorse.LEAD_SLOT_TEXTURE, leftPos + slot.x - 1, topPos + slot.y - 1,
                             0, 18, 18, 18, 256, 256);
                 }
             }
@@ -57,7 +58,7 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
         if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
             int leftPos = (this.width - this.imageWidth) / 2;
             int topPos = (this.height - this.imageHeight) / 2;
-            guiGraphics.blit(RenderType::guiTextured, LeadOnHorse.LEAD_SLOT_TEXTURE, leftPos + 7, topPos + 53,
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, LeadOnHorse.LEAD_SLOT_TEXTURE, leftPos + 7, topPos + 53,
                     0, 0, 18, 18, 256, 256);
         }
     }

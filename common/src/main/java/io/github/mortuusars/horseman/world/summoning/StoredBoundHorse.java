@@ -6,10 +6,12 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
@@ -33,10 +35,10 @@ public record StoredBoundHorse(Optional<BoundData> boundData, CompoundTag tag, U
     }
 
     public static CompoundTag saveToTag(AbstractHorse horse) {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("id", EntityType.getKey(horse.getType()).toString());
-        horse.saveWithoutId(tag);
-        return tag;
+        TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, horse.registryAccess());
+        output.putString("id", EntityType.getKey(horse.getType()).toString());
+        horse.saveWithoutId(output);
+        return output.buildResult();
     }
 
     // --
@@ -48,35 +50,4 @@ public record StoredBoundHorse(Optional<BoundData> boundData, CompoundTag tag, U
     public boolean isInSameDimension(ResourceKey<Level> dimension) {
         return dimension().equals(dimension);
     }
-
-    // --
-
-//    public CompoundTag save(CompoundTag tag) {
-//        if (this.boundData != null) {
-//            tag.put("BoundData", this.boundData.save(new CompoundTag()));
-//        }
-//        tag.put("Tag", this.tag);
-//        tag.putUUID("EntityUUID", this.entityUuid);
-//        tag.putDouble("PosX", this.position.x);
-//        tag.putDouble("PosY", this.position.y);
-//        tag.putDouble("PosZ", this.position.z);
-//        tag.putString("Dimension", this.dimension.location().toString());
-//        tag.putBoolean("IsDead", this.isDead);
-//        return tag;
-//    }
-//
-//    public static @Nullable StoredBoundHorse load(CompoundTag tag) {
-//        try {
-//            @Nullable BoundData boundData = BoundData.load(tag.getCompound("BoundData"));
-//            CompoundTag storedTag = tag.getCompound("Tag");
-//            UUID entityUUID = tag.getUUID("EntityUUID");
-//            Vec3 position = new Vec3(tag.getDouble("PosX"), tag.getDouble("PosY"), tag.getDouble("PosZ"));
-//            ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(tag.getString("Dimension")));
-//            boolean isDead = tag.getBoolean("IsDead");
-//            return new StoredBoundHorse(boundData, storedTag, entityUUID, position, dimension, isDead);
-//        } catch (Exception e) {
-//            Horseman.LOGGER.error("Failed to load StoredBoundHorse: ", e);
-//            return null;
-//        }
-//    }
 }

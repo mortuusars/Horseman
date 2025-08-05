@@ -1,8 +1,6 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
 import io.github.mortuusars.horseman.world.HitchableHorse;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +9,8 @@ import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -71,24 +71,21 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
     // --
 
     @Inject(method = "addAdditionalSaveData", at = @At("RETURN"))
-    protected void onAddAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+    protected void onAddAdditionalSaveData(ValueOutput output, CallbackInfo ci) {
         ItemStack leadStack = horseman$getLead();
         if (!leadStack.isEmpty()) {
-            tag.put("HorsemanLeadItem", leadStack.save(registryAccess()));
+            output.store("HorsemanLeadItem", ItemStack.CODEC, leadStack);
         }
 
         if (horseman$isHitched()) {
-            tag.putBoolean("HorsemanHitched", true);
+            output.putBoolean("HorsemanHitched", true);
         }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    protected void onReadAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        horseman$leadItem = tag.getCompound("HorsemanLeadItem")
-                .map(compound -> ItemStack.parse(registryAccess(), compound)
-                        .orElse(ItemStack.EMPTY))
-                .orElse(ItemStack.EMPTY);
-        horseman$isHitched = tag.getBooleanOr("HorsemanHitched", false);
+    protected void onReadAdditionalSaveData(ValueInput input, CallbackInfo ci) {
+        horseman$leadItem = input.read("HorsemanLeadItem", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        horseman$isHitched = input.getBooleanOr("HorsemanHitched", false);
     }
 
     // --

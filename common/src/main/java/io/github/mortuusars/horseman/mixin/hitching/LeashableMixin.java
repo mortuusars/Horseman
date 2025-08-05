@@ -15,6 +15,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Leashable.class)
 public interface LeashableMixin {
+    @Inject(method = "setLeashedTo(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Z)V", at = @At("RETURN"))
+    private static <E extends Entity & Leashable> void setLeashedTo(E entity, Entity leashHolder, boolean broadcastPacket, CallbackInfo ci) {
+        if (broadcastPacket && entity instanceof HitchableHorse horse && entity.level() instanceof ServerLevel) {
+            HitchableHorse.syncHorseDataToTrackingClients(horse);
+        }
+    }
+
     @Inject(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At("HEAD"))
     private static <E extends Entity & Leashable> void onDropLeash(E entity, boolean broadcastPacket, boolean dropItem,
                                                        CallbackInfo ci, @Share("preventDrop") LocalBooleanRef preventDrop) {

@@ -35,18 +35,5 @@ public abstract class AbstractEquineModelMixin<T extends EquineRenderState> exte
                 this.headParts.y += headYOffset;
             }
         }
-
-//        if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON
-//                && Minecraft.getInstance().player != null && entity.hasPassenger(Minecraft.getInstance().player)) {
-//            int headXRotOffset = Config.Client.HORSE_HEAD_PITCH_OFFSET.get();
-//            if (headXRotOffset > 0) {
-//                this.headParts.xRot = Math.min(this.headParts.xRot + (headXRotOffset / 100f), 1.5f);
-//            }
-//
-//            int headYOffset = Config.Client.HORSE_HEAD_Y_OFFSET.get();
-//            if (headYOffset > 0) {
-//                this.headParts.y += headYOffset;
-//            }
-//        }
     }
 }

@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
 import io.github.mortuusars.horseman.world.HitchableHorse;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -28,17 +29,22 @@ public abstract class LeashKnotEntityMixin extends BlockAttachedEntity {
     /**
      * Hitch a horse to an existing knot, without removing it first.
      */
-    @Inject(method = "interact", at = @At("HEAD"))
+    @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     private void onInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (player.getRootVehicle() instanceof AbstractHorse horse
-                && horse instanceof HitchableHorse hitchableHorse
-                && HitchableHorse.canHitch(hitchableHorse)) {
-            horse.setLeashedTo(player, true);
-            HitchableHorse.setHitched(hitchableHorse, true);
+                && horse instanceof HitchableHorse hitchableHorse) {
+            if (HitchableHorse.isHitched(hitchableHorse)) {
+                horse.removeLeash();
+                this.playSound(SoundEvents.LEAD_UNTIED);
+                cir.setReturnValue(InteractionResult.SUCCESS);
+            } else if (HitchableHorse.canHitch(hitchableHorse)) {
+                horse.setLeashedTo(player, true);
+                HitchableHorse.setHitched(hitchableHorse, true);
 
-            if (!level().isClientSide()) {
-                HitchableHorse.syncHorseDataToTrackingClients(hitchableHorse);
-                playPlacementSound();
+                if (!level().isClientSide()) {
+                    HitchableHorse.syncHorseDataToTrackingClients(hitchableHorse);
+                    playPlacementSound();
+                }
             }
         }
     }

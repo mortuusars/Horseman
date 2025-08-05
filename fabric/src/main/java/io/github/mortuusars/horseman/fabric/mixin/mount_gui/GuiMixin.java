@@ -10,36 +10,21 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = Gui.class)
 public abstract class GuiMixin {
+    @Shadow @Final private Minecraft minecraft;
+
+    @Shadow protected abstract boolean willPrioritizeJumpInfo();
+
     @Unique
     private long horseman$lastTickVehicleInWater = -1;
-
-    @WrapOperation(method = "renderHotbarAndDecorations", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;jumpableVehicle()Lnet/minecraft/world/entity/PlayerRideableJumping;"))
-    private PlayerRideableJumping renderHotbarAndDecorations_jumpableVehicle(LocalPlayer player, Operation<PlayerRideableJumping> original) {
-        @Nullable PlayerRideableJumping vehicle = original.call(player);
-        if (vehicle == null || !Config.Client.IMPROVED_MOUNT_GUI.get()) return vehicle;
-
-        Minecraft mc = Minecraft.getInstance();
-
-        if (mc.gameMode == null || !mc.gameMode.hasExperience()) return vehicle;
-
-        if (vehicle instanceof LivingEntity entity && entity.isInWater()) {
-            horseman$lastTickVehicleInWater = player.level().getGameTime();
-        }
-
-        if (!mc.options.keyJump.isDown() && player.getJumpRidingScale() <= 0
-                || (player.level().getGameTime() - horseman$lastTickVehicleInWater < 10)) {
-            return null; // Prevent jump bar from rendering.
-        }
-
-        return vehicle;
-    }
 
     @WrapOperation(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
     private int renderPlayerHealth_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
@@ -57,22 +42,48 @@ public abstract class GuiMixin {
         return y;
     }
 
-    @ModifyReturnValue(method = "isExperienceBarVisible", at = @At("RETURN"))
-    private boolean isExperienceBarVisible(boolean original) {
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original;
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.gameMode == null || !mc.gameMode.hasExperience() || mc.level == null || mc.player == null) return original;
-        if (!mc.options.keyJump.isDown() && mc.player.getJumpRidingScale() <= 0
-                || mc.level.getGameTime() - horseman$lastTickVehicleInWater < 10) {
-            return true;
-        }
-        return original;
+    @WrapOperation(method = "getAirBubbleYLine", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVisibleVehicleHeartRows(I)I"))
+    private int getAirYLine(Gui instance, int vehicleHealth, Operation<Integer> original) {
+        int rows = original.call(instance, vehicleHealth);
+        return Config.Client.IMPROVED_MOUNT_GUI.get()
+                && minecraft.player != null
+                && minecraft.player.jumpableVehicle() != null ? rows + 2 : rows;
     }
 
-    @WrapOperation(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;isExperienceBarVisible()Z"))
-    private boolean renderExperienceLevel(Gui instance, Operation<Boolean> original) {
-        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance);
-        // Always render exp level:
-        return Minecraft.getInstance().gameMode != null && Minecraft.getInstance().gameMode.hasExperience();
+    @ModifyVariable(method = "nextContextualInfoState", at = @At(value = "STORE"), ordinal = 1)
+    private boolean nextState(boolean willChooseJumpBar) {
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get() || (minecraft.player != null && minecraft.player.isCreative())) {
+            return willChooseJumpBar;
+        }
+
+        if (minecraft.player != null && minecraft.player.jumpableVehicle() instanceof LivingEntity entity && entity.isInWater()) {
+            horseman$lastTickVehicleInWater = minecraft.player.level().getGameTime();
+        }
+
+        return willChooseJumpBar && willPrioritizeJumpInfo()
+                && (minecraft.level != null && minecraft.level.getGameTime() - horseman$lastTickVehicleInWater > 10);
     }
+
+
+
+
+
+//    @ModifyReturnValue(method = "isExperienceBarVisible", at = @At("RETURN"))
+//    private boolean isExperienceBarVisible(boolean original) {
+//        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original;
+//        Minecraft mc = Minecraft.getInstance();
+//        if (mc.gameMode == null || !mc.gameMode.hasExperience() || mc.level == null || mc.player == null) return original;
+//        if (!mc.options.keyJump.isDown() && mc.player.getJumpRidingScale() <= 0
+//                || mc.level.getGameTime() - horseman$lastTickVehicleInWater < 10) {
+//            return true;
+//        }
+//        return original;
+//    }
+//
+//    @WrapOperation(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;isExperienceBarVisible()Z"))
+//    private boolean renderExperienceLevel(Gui instance, Operation<Boolean> original) {
+//        if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance);
+//        // Always render exp level:
+//        return Minecraft.getInstance().gameMode != null && Minecraft.getInstance().gameMode.hasExperience();
+//    }
 }

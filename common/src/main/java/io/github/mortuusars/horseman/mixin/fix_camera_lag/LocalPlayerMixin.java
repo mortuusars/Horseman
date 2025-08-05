@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.authlib.GameProfile;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -13,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin extends Player {
-    public LocalPlayerMixin(Level level, BlockPos pos, float yRot, GameProfile gameProfile) {
-        super(level, pos, yRot, gameProfile);
+    public LocalPlayerMixin(Level level, GameProfile gameProfile) {
+        super(level, gameProfile);
     }
 
     @ModifyReturnValue(method = "getViewYRot", at = @At("RETURN"))
