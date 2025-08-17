@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.2 - 2025-08-18
+- Fixed Horse stats tooltip not showing up when holding horse food items.
+
 ## 1.5.1 - 2025-08-05
 - Ported to 1.21.8.
 

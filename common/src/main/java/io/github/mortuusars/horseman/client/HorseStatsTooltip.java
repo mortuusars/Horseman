@@ -4,6 +4,9 @@ import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.FormattedCharSequence;
@@ -14,6 +17,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class HorseStatsTooltip {
     public static void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -53,7 +57,8 @@ public class HorseStatsTooltip {
 
         int x = minecraft.getWindow().getGuiScaledWidth() / 2 + 8;
         int y = minecraft.getWindow().getGuiScaledHeight() / 2 - (int)(lines.size() / 2f * 9f);
-        guiGraphics.setTooltipForNextFrame(minecraft.font, lines, x, y + 10);
+        guiGraphics.renderTooltip(minecraft.font, lines.stream().map(ClientTooltipComponent::create).collect(Collectors.toList()),
+                x, y + 10, DefaultTooltipPositioner.INSTANCE, null);
     }
 
     private static double getJumpHeight(double jumpStrength) {
