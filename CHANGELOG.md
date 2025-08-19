@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.2.1 - 2025-08-20
+- Added ex_mx translation (cerealconjugo)
+
 ## 1.5.2 - 2025-08-20
 - When calling a hitched horse that's in a walking range with a Copper Horn, it will be unhitched and come to the player.
   - Horses leashed the usual way will stay in place as before.
