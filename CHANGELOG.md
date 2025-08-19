@@ -1,6 +1,8 @@
 # Changelog
 
 ## UNRELEASED
+- When calling a hitched horse, it will unhitch itself and come to the player.
+  - Horses leashed the usual way will stay in place as before.
 - Fixed Look Around not rotation the horse correctly at some negative angles of player Y rotation.
 
 ## 1.5.2 - 2025-08-18
