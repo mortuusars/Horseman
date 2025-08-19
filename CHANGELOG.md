@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+- Fixed Look Around not rotation the horse correctly at some negative angles of player Y rotation.
+
 ## 1.5.1 - 2025-07-30
 - Added Trader Llama to `horseman:cannot_be_hitched` tag.
 
