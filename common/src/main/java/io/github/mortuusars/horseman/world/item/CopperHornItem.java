@@ -142,6 +142,10 @@ public class CopperHornItem extends InstrumentItem {
     }
 
     protected @Nullable Component getCallResultMessage(CallResult result) {
+        if (!Config.Server.COPPER_HORN_ERROR_MESSAGES.get()) {
+            return null;
+        }
+
         return switch (result) {
             case SUCCESS -> null;
             case NO_BOUND_HORSE -> Component.translatable("gui.horseman.summoning.cannot_summon.no_bound_horse");

@@ -40,6 +40,7 @@ public class Config {
         public static final ModConfigSpec.DoubleValue HORSE_SUMMONING_WALK_MOVEMENT_SPEED;
         public static final ModConfigSpec.EnumValue<SummonDimensionHandling> HORSE_SUMMONING_DIMENSION_HANDLING;
         public static final ModConfigSpec.ConfigValue<List<? extends String>> HORSE_SUMMONING_DIMENSIONS;
+        public static final ModConfigSpec.BooleanValue COPPER_HORN_ERROR_MESSAGES;
 
         // Free Camera
         public static final ModConfigSpec.BooleanValue HORSE_FREE_CAMERA;
@@ -141,6 +142,10 @@ public class Config {
                         .comment("Cooldown in ticks for Copper Horn. ",
                                 "If set to '-1' - will use same cooldown as Goat Horn.")
                         .defineInRange("copper_horn_cooldown", -1, -1, Integer.MAX_VALUE);
+
+                COPPER_HORN_ERROR_MESSAGES = builder
+                        .comment("When summoning/binding a horse with Copper Horn fails, error message will show above the hotbar.")
+                        .define("copper_horn_error_messages", true);
 
                 HORSE_SUMMONING_MAX_DISTANCE = builder
                         .comment("Furthest distance in blocks from a player where a horse can still be summoned.",
