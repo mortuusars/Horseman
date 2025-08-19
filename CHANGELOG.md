@@ -1,7 +1,7 @@
 # Changelog
 
-## UNRELEASED
-- When calling a hitched horse, it will unhitch itself and come to the player.
+## 1.5.2 - 2025-08-20
+- When calling a hitched horse that's in a walking range with a Copper Horn, it will be unhitched and come to the player.
   - Horses leashed the usual way will stay in place as before.
 - Added 'copper_horn_error_messages' config option.
 - Fixed Look Around not rotating the horse correctly at some negative angles of player Y rotation.
