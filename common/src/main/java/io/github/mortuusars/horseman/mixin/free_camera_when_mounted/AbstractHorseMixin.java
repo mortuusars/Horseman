@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.mixin.free_camera_when_mounted;
 
 import io.github.mortuusars.horseman.Config;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
@@ -26,15 +27,18 @@ public abstract class AbstractHorseMixin extends Animal {
             return;
         }
 
+        float playerYRot = Mth.wrapDegrees(player.getYRot());
         float threshold = Config.Server.HORSE_FREE_CAMERA_ANGLE_THRESHOLD.get().floatValue();
 
-        float rotationDifference = (player.getYRot() - horse.getYRot() + 540) % 360 - 180;
+        float rotationDifference = (playerYRot - horse.getYRot() + 540) % 360 - 180;
 
         if (Math.abs(rotationDifference) > threshold) {
             // Rotate the horse following player's rotation, with offset
-            cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, player.getYRot() - Math.signum(rotationDifference) * threshold));
-        }
-        else {
+            float y = playerYRot - Math.signum(rotationDifference) * threshold;
+            y = Mth.wrapDegrees(y); // Does not really change much, but the value seems to change sign back and forth without it, idk.
+            cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, y));
+        } else {
+            // Keep horse rotation as it is:
             cir.setReturnValue(new Vec2(player.getXRot() * 0.5f, horse.getYRot()));
         }
     }

@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+- Fixed Look Around not rotation the horse correctly at some negative angles of player Y rotation.
+
 ## 1.5.2 - 2025-08-18
 - Fixed Horse stats tooltip not showing up when holding horse food items.
 
