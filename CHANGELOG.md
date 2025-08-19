@@ -1,13 +1,12 @@
 # Changelog
 
-## 1.5.2.1 - 2025-08-20
-- Added ex_mx translation (cerealconjugo)
-
-## 1.5.2 - 2025-08-20
+## 1.5.3 - 2025-08-20
 - When calling a hitched horse that's in a walking range with a Copper Horn, it will be unhitched and come to the player.
   - Horses leashed the usual way will stay in place as before.
 - Added 'copper_horn_error_messages' config option.
+- Removed 'transparent_horse' and 'jeb_horse' config options as the features are currently not present in the recent releases.
 - Fixed Look Around not rotating the horse correctly at some negative angles of player Y rotation.
+- Added ex_mx translation (cerealconjugo)
 
 ## 1.5.2 - 2025-08-18
 - Fixed Horse stats tooltip not showing up when holding horse food items.

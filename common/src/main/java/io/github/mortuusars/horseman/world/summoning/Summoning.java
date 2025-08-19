@@ -127,7 +127,7 @@ public class Summoning {
         // Leashed horses would not react to calling. So we are unhitching to allow it to move.
         // (but only hitched, regular leashed will stay, to not drop leash far away from player)
         if (horse instanceof HitchableHorse hitchableHorse && HitchableHorse.isHitched(hitchableHorse)) {
-            horse.dropLeash(true, false);
+            horse.removeLeash();
         }
 
         AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);

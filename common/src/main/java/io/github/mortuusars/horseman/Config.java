@@ -289,12 +289,12 @@ public class Config {
         public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_X;
         public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
 
-        public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
+        // public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
+        // public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
+        // public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
+        // public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
-        public static final ModConfigSpec.BooleanValue JEB_HORSE;
+        // public static final ModConfigSpec.BooleanValue JEB_HORSE;
 
         public static final ModConfigSpec.BooleanValue COPPER_HORN_SHOW_TOOLTIP_DETAILS;
 
@@ -352,7 +352,7 @@ public class Config {
                 builder.pop();
             }
 
-            {
+            /*{
                 builder.push("transparent_horse");
 
                 TRANSPARENT_HORSE_ENABLED = builder
@@ -371,7 +371,7 @@ public class Config {
                         .defineInRange("end_angle", 70, -90, 90);
 
                 builder.pop();
-            }
+            }*/
 
             {
                 builder.push("integration");
@@ -383,9 +383,9 @@ public class Config {
                 builder.pop();
             }
 
-            JEB_HORSE = builder
+            /*JEB_HORSE = builder
                     .comment("Makes horse-type mobs that named 'jeb_' render with rainbow effect, like sheep. Default: true.")
-                    .define("jeb_horse", true);
+                    .define("jeb_horse", true);*/
 
             COPPER_HORN_SHOW_TOOLTIP_DETAILS = builder
                     .comment("Copper Horn tooltip will show details.")
