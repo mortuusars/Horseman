@@ -3,6 +3,7 @@ package io.github.mortuusars.horseman.world.summoning;
 import com.google.common.base.Preconditions;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
+import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -119,6 +120,12 @@ public class Summoning {
     }
 
     protected CallResult walkToPlayer(ServerPlayer player, AbstractHorse horse) {
+        // Leashed horses would not react to calling. So we are unhitching to allow it to move.
+        // (but only hitched, regular leashed will stay, to not drop leash far away from player)
+        if (horse instanceof HitchableHorse hitchableHorse && HitchableHorse.isHitched(hitchableHorse)) {
+            horse.dropLeash(true, false);
+        }
+
         AttributeInstance followRangeAttribute = horse.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRangeAttribute != null) {
             followRangeAttribute.setBaseValue(Config.Server.HORSE_SUMMONING_MAX_WALKING_DISTANCE.get());
