@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.4 - 2025-09-05
+- Camels are now summonable with Copper Horn by default (added to `horseman:summonable` tag).
+- Fixed Copper Horn binding not working on Camels even if manually added to `horseman:summonable` tag.
+
 ## 1.5.3 - 2025-08-20
 - When calling a hitched horse that's in a walking range with a Copper Horn, it will be unhitched and come to the player.
   - Horses leashed the usual way will stay in place as before.
