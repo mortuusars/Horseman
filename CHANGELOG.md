@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.4 - 2025-09-05
+- Camels are now summonable with Copper Horn by default (added to `horseman:summonable` tag).
+- Fixed Copper Horn binding not working on Camels even if manually added to `horseman:summonable` tag.
+- Bumped version to align with version number of the mod on newer MC versions.
+
 ## 1.5.2.1 - 2025-08-20
 - Added ex_mx translation (cerealconjugo)
 
