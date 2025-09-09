@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.12 - 2025-09-09
+- [Forge] Fixed startup crash with `I'm Fast` mod.
+
 ## 1.3.11 - 2025-07-30
 - Fixed Trader Llama missing from `horseman:cannot_be_hitched` tag. (it doesn't support hitching)
 
