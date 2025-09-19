@@ -20,7 +20,9 @@ public class HorsemanForgeMixinPlugin implements IMixinConfigPlugin {
             "io.github.mortuusars.horseman.forge.mixin.realistic_horse_genetics.HorseGUIMixin",
             () -> LoadingModList.get().getModFileById("horse_colors") != null,
             "io.github.mortuusars.horseman.forge.mixin.fix_moved_wrongly.ServerGamePacketListenerImplMixin",
-            () -> LoadingModList.get().getModFileById("horsebuff") == null && LoadingModList.get().getModFileById("imfast") == null
+            () -> !PlatformHelperImpl.isModLoading("horsebuff")
+                    && !PlatformHelperImpl.isModLoading("imfast")
+                    && !PlatformHelperImpl.isModLoading("horseshoes")
     );
 
     @Override

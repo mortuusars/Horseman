@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.13 - 2025-09-19
+- [Forge] Fixed loading crash with `Horseshoes` mod.
+
 ## 1.3.12 - 2025-09-09
 - [Forge] Fixed startup crash with `I'm Fast` mod.
 
