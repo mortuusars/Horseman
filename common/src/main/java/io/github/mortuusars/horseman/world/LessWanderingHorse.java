@@ -38,6 +38,6 @@ public interface LessWanderingHorse {
     }
 
     static int getAnchorUpdateThreshold() {
-        return 12;
+        return 20;
     }
 }
