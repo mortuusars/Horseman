@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.5 - 2025-09-24
+- Increased 'anchorUpdateThreshold' of a 'less wander' feature, to potentially fix horses sometimes wandering off where they shouldn't.
+
 ## 1.5.4 - 2025-09-05
 - Camels are now summonable with Copper Horn by default (added to `horseman:summonable` tag).
 - Fixed Copper Horn binding not working on Camels even if manually added to `horseman:summonable` tag.
