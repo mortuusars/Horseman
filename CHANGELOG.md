@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.14 - 2025-09-30
+- Fixed loading crash with `CobblemonRider` mod.
+
 ## 1.3.13 - 2025-09-19
 - [Forge] Fixed loading crash with `Horseshoes` mod.
 

@@ -23,6 +23,7 @@ public class HorsemanForgeMixinPlugin implements IMixinConfigPlugin {
             () -> !PlatformHelperImpl.isModLoading("horsebuff")
                     && !PlatformHelperImpl.isModLoading("imfast")
                     && !PlatformHelperImpl.isModLoading("horseshoes")
+                    && !PlatformHelperImpl.isModLoading("cobblemonrider")
     );
 
     @Override

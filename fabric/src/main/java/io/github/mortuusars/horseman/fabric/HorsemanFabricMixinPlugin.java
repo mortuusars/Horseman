@@ -14,7 +14,9 @@ import java.util.function.Supplier;
 public class HorsemanFabricMixinPlugin implements IMixinConfigPlugin {
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
             "io.github.mortuusars.horseman.fabric.mixin.fix_moved_wrongly.ServerGamePacketListenerImplMixin",
-            () -> !PlatformHelper.isModLoading("horsebuff") && !PlatformHelper.isModLoading("imfast")
+            () -> !PlatformHelper.isModLoading("horsebuff")
+                    && !PlatformHelper.isModLoading("imfast")
+                    && !PlatformHelper.isModLoading("cobblemonrider")
     );
 
     @Override
