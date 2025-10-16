@@ -70,5 +70,18 @@
   "item.horseman.copper_horn.tooltip.summon": "§8[§7Використайте§8], щоб покликати коня.",
   "item.horseman.tooltip.hold_shift_for_details": "§8Утримуйте [§7Shift§8] для подробиць",
   "subtitles.horseman.item.lead.break": "Вузол повідця рветься",
-  "subtitles.horseman.item.lead.untied": "Вузол повідця відв’язано"
+  "subtitles.horseman.item.lead.untied": "Вузол повідця відв’язано",
+
+  "horseman.configuration.copper_horn_details_tooltip": "Інформація у підказці Мідного рогу",
+  "horseman.configuration.jei_information": "Інформація у JEI",
+  "horseman.configuration.copper_horn_sound_range": "Дистанція звуку Мідного рогу",
+  "horseman.configuration.walk_movement_speed": "Швидкість ходьби",
+  "horseman.configuration.copper_horn_error_messages": "Показувати помилки Мідного рогу",
+  "horseman.configuration.dimensions": "Виміри",
+  "horseman.configuration.max_walking_distance": "Максимальна дистанція ходьби",
+  "horseman.configuration.copper_horn_cooldown": "Кулдаун Мідного рогу",
+  "horseman.configuration.max_summoning_distance": "Максимальна дистанція виклику",
+  "horseman.configuration.dimension_handling": "Поводження з вимірами",
+  "horseman.configuration.integration": "Інтеграція",
+  "horseman.configuration.horse_stats_tooltip": "Підказка показників коня"
 }

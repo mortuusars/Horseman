@@ -70,5 +70,18 @@
   "item.horseman.copper_horn.tooltip.summon": "§8[§7Use§8] to summon a horse.",
   "item.horseman.tooltip.hold_shift_for_details": "§8Hold [§7Shift§8] for details",
   "subtitles.horseman.item.lead.break": "Leash Knot snaps",
-  "subtitles.horseman.item.lead.untied": "Leash Knot untied"
+  "subtitles.horseman.item.lead.untied": "Leash Knot untied",
+
+  "horseman.configuration.copper_horn_details_tooltip": "Copper Horn Details Tooltip",
+  "horseman.configuration.jei_information": "JEI Information",
+  "horseman.configuration.copper_horn_sound_range": "Copper Horn Sound Range",
+  "horseman.configuration.walk_movement_speed": "Walk Movement Speed",
+  "horseman.configuration.copper_horn_error_messages": "Copper Horn Error Messages",
+  "horseman.configuration.dimensions": "Dimensions",
+  "horseman.configuration.max_walking_distance": "Max Walking Distance",
+  "horseman.configuration.copper_horn_cooldown": "Copper Horn Cooldown",
+  "horseman.configuration.max_summoning_distance": "Max Summoning Distance",
+  "horseman.configuration.dimension_handling": "Dimension Handling",
+  "horseman.configuration.integration": "Integration",
+  "horseman.configuration.horse_stats_tooltip": "Horse Stats Tooltip"
 }
