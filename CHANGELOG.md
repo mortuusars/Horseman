@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+- Fixed `switch_inventory.enabled` config not disabling the feature when turned off.
+
 ## 1.5.5 - 2025-09-24
 - Increased 'anchorUpdateThreshold' of a 'less wander' feature, to potentially fix horses sometimes wandering off where they shouldn't.
 

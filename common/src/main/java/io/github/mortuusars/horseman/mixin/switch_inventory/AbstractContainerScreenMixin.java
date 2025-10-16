@@ -34,6 +34,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void onKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        if (!Config.Client.INVENTORY_SWITCH_ENABLED.get()) return;
+
         if (((AbstractContainerScreen<?>) (Object) this) instanceof HorseInventoryScreen
                 && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
                 && Screen.hasControlDown()) {
@@ -54,6 +56,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void onInit(CallbackInfo ci) {
+        if (!Config.Client.INVENTORY_SWITCH_ENABLED.get()) return;
         if (Minecraft.getInstance().gameMode == null) return;
 
         if (((Object) this) instanceof HorseInventoryScreen) {
@@ -64,8 +67,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 SwitchInventory.mouseY = null;
             }
 
-            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_Y.get(), 14, 15,
+            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_X.get(),
+                    topPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_Y.get(), 14, 15,
                     SwitchInventory.SWITCH_BUTTON_SPRITES,
                     b -> SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this)));
 
@@ -79,8 +82,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         if (((AbstractContainerScreen<?>)(Object) this) instanceof InventoryScreen
             && Minecraft.getInstance().gameMode.isServerControlledInventory()) {
 
-            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_Y.get(), 14, 15,
+            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_SWITCH_PLAYER_BUTTON_X.get(),
+                    topPos + Config.Client.INVENTORY_SWITCH_PLAYER_BUTTON_Y.get(), 14, 15,
                     SwitchInventory.SWITCH_BUTTON_SPRITES,
                     b -> SwitchInventory.switchFromInventory(((AbstractContainerScreen<?>)(Object) this)));
 
