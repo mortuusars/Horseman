@@ -283,11 +283,11 @@ public class Config {
 
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
 
-        public static final ModConfigSpec.BooleanValue INVENTORY_TOGGLE_ENABLED;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_X;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_PLAYER_BUTTON_Y;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_X;
-        public static final ModConfigSpec.IntValue INVENTORY_TOGGLE_HORSE_BUTTON_Y;
+        public static final ModConfigSpec.BooleanValue INVENTORY_SWITCH_ENABLED;
+        public static final ModConfigSpec.IntValue INVENTORY_SWITCH_PLAYER_BUTTON_X;
+        public static final ModConfigSpec.IntValue INVENTORY_SWITCH_PLAYER_BUTTON_Y;
+        public static final ModConfigSpec.IntValue INVENTORY_SWITCH_HORSE_BUTTON_X;
+        public static final ModConfigSpec.IntValue INVENTORY_SWITCH_HORSE_BUTTON_Y;
 
         // public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
         // public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
@@ -331,21 +331,21 @@ public class Config {
             {
                 builder.push("switch_inventory");
 
-                INVENTORY_TOGGLE_ENABLED = builder
+                INVENTORY_SWITCH_ENABLED = builder
                         .comment("Adds button and hotkey to switch between player and horse inventory. Default: true")
                         .define("enabled", true);
 
-                INVENTORY_TOGGLE_PLAYER_BUTTON_X = builder
+                INVENTORY_SWITCH_PLAYER_BUTTON_X = builder
                         .comment("X position of the button in player's inventory. Default: -14.")
                         .defineInRange("player_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                INVENTORY_TOGGLE_PLAYER_BUTTON_Y = builder
+                INVENTORY_SWITCH_PLAYER_BUTTON_Y = builder
                         .comment("Y position of the button in player's inventory. Default: 9.")
                         .defineInRange("player_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
-                INVENTORY_TOGGLE_HORSE_BUTTON_X = builder
+                INVENTORY_SWITCH_HORSE_BUTTON_X = builder
                         .comment("X position of the button in mount's inventory. Default: -14.")
                         .defineInRange("horse_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                INVENTORY_TOGGLE_HORSE_BUTTON_Y = builder
+                INVENTORY_SWITCH_HORSE_BUTTON_Y = builder
                         .comment("Y position of the button in mount's inventory. Default: 9.")
                         .defineInRange("horse_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
