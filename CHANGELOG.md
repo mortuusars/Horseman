@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.8 - 2025-12-21
+- [Fabric] Attempt to fix weird crashing with fabric mixin.
+
 ## 1.5.7 - 2025-12-16
 - [Fabric] Attempt to fix crash with `I'm Fast` again, due to not disabling Horseman's mixin correctly.
 
