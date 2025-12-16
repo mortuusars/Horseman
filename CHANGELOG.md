@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.7 - 2025-12-16
+- [Fabric] Attempt to fix crash with `I'm Fast` again, due to not disabling Horseman's mixin correctly.
+
 ## 1.5.6 - 2025-10-16
 - Fixed `switch_inventory.enabled` config not disabling the feature when turned off.
 - Added missing config translations.
