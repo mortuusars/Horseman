@@ -42,7 +42,7 @@ public abstract class AbstractChestedHorseMixin extends AbstractHorse implements
 
         ItemStack itemInHand = player.getItemInHand(hand);
         if (PlatformHelper.canShear(itemInHand)) {
-            if (level().isClientSide) {
+            if (level().isClientSide()) {
                 cir.setReturnValue(InteractionResult.SUCCESS);
                 return;
             }

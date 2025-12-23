@@ -32,7 +32,7 @@ public abstract class HorseMixin extends AbstractHorse {
                 && !isSaddled()
                 && !isTamed()
                 && !isBaby()) {
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 tameWithName(player);
             }
             cir.setReturnValue(InteractionResult.SUCCESS_SERVER);

@@ -36,12 +36,13 @@ public class HorsemanFabric implements ModInitializer {
         Horseman.Stats.register();
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
-            content.getContext().holders()
-                    .lookup(Registries.INSTRUMENT)
-                    .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
-                    .ifPresent(named -> named.stream()
-                            .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
-                            .forEach(itemStack -> content.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
+            content.accept(Horseman.Items.COPPER_HORN.get());
+//            content.getContext().holders()
+//                    .lookup(Registries.INSTRUMENT)
+//                    .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
+//                    .ifPresent(named -> named.stream()
+//                            .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
+//                            .forEach(itemStack -> content.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {

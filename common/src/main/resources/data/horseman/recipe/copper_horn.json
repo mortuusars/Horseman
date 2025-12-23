@@ -1,7 +1,8 @@
 {
-  "type": "horseman:component_transferring",
-  "source": "minecraft:goat_horn",
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
+    "minecraft:goat_horn",
     "minecraft:copper_ingot",
     "minecraft:copper_ingot",
     "minecraft:copper_ingot"

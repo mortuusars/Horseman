@@ -27,7 +27,7 @@ public class SwitchInventory {
 
         // Move cursor to previous position, as setScreen resets it to center every time:
         Minecraft.getInstance().execute(() -> {
-            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), cursorX, cursorY);
+            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), cursorX, cursorY);
         });
     }
 

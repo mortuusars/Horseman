@@ -1,11 +1,5 @@
 package io.github.mortuusars.horseman.client;
 
-import io.github.mortuusars.horseman.Config;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-
 public class HorseRenderUtils {
     /*public static boolean isJeb(LivingEntity entity) {
         return Config.Client.JEB_HORSE.get() && entity.getCustomName() != null && entity.getCustomName().getString().equals("jeb_");

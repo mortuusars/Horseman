@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -33,12 +34,12 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    private void onKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    private void onKeyPressed(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
         if (!Config.Client.INVENTORY_SWITCH_ENABLED.get()) return;
 
         if (((AbstractContainerScreen<?>) (Object) this) instanceof HorseInventoryScreen
-                && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
-                && Screen.hasControlDown()) {
+                && Minecraft.getInstance().options.keyInventory.matches(event)
+                && Minecraft.getInstance().hasControlDown()) {
             SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this));
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
@@ -46,8 +47,8 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
         if (((Object) this) instanceof InventoryScreen
                 && Minecraft.getInstance().player != null && Minecraft.getInstance().player.jumpableVehicle() instanceof AbstractHorse
-                && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
-                && Screen.hasControlDown()) {
+                && Minecraft.getInstance().options.keyInventory.matches(event)
+                && Minecraft.getInstance().hasControlDown()) {
             SwitchInventory.switchFromInventory((AbstractContainerScreen<?>)(Object) this);
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
@@ -61,7 +62,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
         if (((Object) this) instanceof HorseInventoryScreen) {
             if (SwitchInventory.mouseX != null && SwitchInventory.mouseY != null) {
-                GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), SwitchInventory.mouseX, SwitchInventory.mouseY);
+                GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), SwitchInventory.mouseX, SwitchInventory.mouseY);
                 // Clear remembered cursor pos after setting, to not apply it again when not needed:
                 SwitchInventory.mouseX = null;
                 SwitchInventory.mouseY = null;
@@ -101,4 +102,3 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         }
     }
 }
-

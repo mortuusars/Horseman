@@ -38,7 +38,7 @@ public class HorsemanNeoForge {
         RegisterImpl.PARTICLE_TYPES.register(modEventBus);
         RegisterImpl.CUSTOM_STATS.register(modEventBus);
 
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             HorsemanNeoForgeClient.init(container);
         }
     }

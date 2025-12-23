@@ -52,12 +52,13 @@ public class NeoForgeCommonEvents {
     @SubscribeEvent
     public static void buildCreativeTabs(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
-            event.getParameters().holders()
-                    .lookup(Registries.INSTRUMENT)
-                    .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
-                    .ifPresent(named -> named.stream()
-                            .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
-                            .forEach(itemStack -> event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
+            event.accept(Horseman.Items.COPPER_HORN.get());
+//            event.getParameters().holders()
+//                    .lookup(Registries.INSTRUMENT)
+//                    .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
+//                    .ifPresent(named -> named.stream()
+//                            .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
+//                            .forEach(itemStack -> event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
         }
     }
 

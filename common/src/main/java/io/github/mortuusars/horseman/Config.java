@@ -16,7 +16,6 @@ public class Config {
         public static final ModConfigSpec SPEC;
 
         // Movement
-        public static final ModConfigSpec.BooleanValue FIX_HORSE_MOVED_WRONGLY;
         public static final ModConfigSpec.DoubleValue HORSE_STEP_HEIGHT_MODIFIER;
         public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN;
         public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
@@ -62,10 +61,6 @@ public class Config {
 
             {
                 builder.push("movement");
-
-                FIX_HORSE_MOVED_WRONGLY = builder
-                        .comment("Fix horse jitter and reset back when riding up blocks (especially stairs) Mojang bug: MC-100830. Default: true")
-                        .define("fix_horse_moved_wrongly", true);
 
                 HORSE_STEP_HEIGHT_MODIFIER = builder
                         .comment("Additional step height added to horses. If set to 1 - horse will be able to step up two blocks. Set to 0 for vanilla behavior. Default 0.1.")

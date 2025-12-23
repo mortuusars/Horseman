@@ -4,8 +4,6 @@ import com.google.common.base.Preconditions;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.world.HitchableHorse;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,7 +15,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Instrument;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.ValueInput;
 import org.jetbrains.annotations.NotNull;
@@ -40,20 +37,12 @@ public class Summoning {
         return horse.getHorsemanBoundData() != null;
     }
 
-    public @Nullable StoredBoundHorse getBoundHorse(UUID owner, ResourceKey<Instrument> instrument) {
-        return getStorage().getBoundHorses().getOrDefault(owner, Collections.emptyMap()).get(instrument);
+    public @Nullable StoredBoundHorse getHorseBoundTo(UUID owner) {
+        return getStorage().getBoundHorses().get(owner);
     }
 
-    public @Nullable StoredBoundHorse getBoundHorse(Player owner, ResourceKey<Instrument> instrument) {
-        return getBoundHorse(owner.getUUID(), instrument);
-    }
-
-    public Map<ResourceKey<Instrument>, StoredBoundHorse> getStoredHorsesOf(UUID owner) {
-        return getStorage().getBoundHorses().computeIfAbsent(owner, id -> new HashMap<>());
-    }
-
-    public Map<ResourceKey<Instrument>, StoredBoundHorse> getStoredHorsesOf(Player owner) {
-        return getStoredHorsesOf(owner.getUUID());
+    public @Nullable StoredBoundHorse getHorseBoundTo(Player owner) {
+        return getHorseBoundTo(owner.getUUID());
     }
 
     protected void addOrUpdateBoundHorse(AbstractHorse horse) {
@@ -62,21 +51,22 @@ public class Summoning {
             Horseman.LOGGER.warn("Tried to update a horse that does not have a bound data. Horse: {}", horse);
             return;
         }
-        getStoredHorsesOf(data.owner()).put(data.instrument(), new StoredBoundHorse(horse));
+        getStorage().getBoundHorses().put(data.owner(), new StoredBoundHorse(horse));
         getStorage().setDirty();
+        Horseman.LOGGER.info("Updated Stored Horse to [{}]", horse.getUUID());
     }
 
     // --
 
-    public void bind(ServerLevel level, AbstractHorse horse, Player player, ResourceKey<Instrument> instrument) {
-        unbindExistingHorse(level, player, instrument);
-        horse.setHorsemanBoundData(new BoundData(player, instrument));
+    public void bind(ServerLevel level, AbstractHorse horse, Player player) {
+        unbindExistingHorse(level, player);
+        horse.setHorsemanBoundData(new BoundData(player));
         addOrUpdateBoundHorse(horse);
     }
 
     public void unbindHorse(ServerLevel level, StoredBoundHorse boundHorse) {
         boundHorse.boundData().ifPresent(data -> {
-            getStoredHorsesOf(data.owner()).remove(data.instrument());
+            getStorage().getBoundHorses().remove(data.owner());
         });
         if (tryFindLoadedHorse(level, boundHorse.uuid()) instanceof AbstractHorse loadedHorse) {
             loadedHorse.setHorsemanBoundData(null);
@@ -86,8 +76,8 @@ public class Summoning {
         getStorage().setDirty();
     }
 
-    public void unbindExistingHorse(ServerLevel level, Player player, ResourceKey<Instrument> instrument) {
-        @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
+    public void unbindExistingHorse(ServerLevel level, Player player) {
+        @Nullable StoredBoundHorse boundHorse = getHorseBoundTo(player);
         if (boundHorse != null) {
             unbindHorse(level, boundHorse);
         }
@@ -95,9 +85,9 @@ public class Summoning {
 
     // -- Calling
 
-    public CallResult call(ServerPlayer player, ResourceKey<Instrument> instrument) {
+    public CallResult call(ServerPlayer player) {
         ServerLevel level = player.level();
-        @Nullable StoredBoundHorse boundHorse = getBoundHorse(player, instrument);
+        @Nullable StoredBoundHorse boundHorse = getHorseBoundTo(player);
 
         if (boundHorse == null) return CallResult.NO_BOUND_HORSE;
         if (boundHorse.isDead()) return CallResult.HORSE_IS_DEAD;
@@ -109,7 +99,7 @@ public class Summoning {
             }
 
             addOrUpdateBoundHorse(existingHorse); // Update before calling to have the latest state
-            boundHorse = getBoundHorse(player, instrument); // Re-query updated state
+            boundHorse = getHorseBoundTo(player); // Re-query updated state
             Preconditions.checkNotNull(boundHorse); // Should not be null as we check if the horse isBound above.
         }
 
@@ -166,12 +156,13 @@ public class Summoning {
 
         if (!hasSpaceFor(level, player, newHorse)) return CallResult.NO_SPACE;
 
-        player.level().addFreshEntity(newHorse);
-
         removeOldBoundHorse(level, boundHorse);
         addOrUpdateBoundHorse(newHorse);
 
+        player.level().addFreshEntity(newHorse);
         Horseman.CriteriaTriggers.HORSE_SUMMONED.get().trigger(player, newHorse);
+
+        Horseman.LOGGER.info("Summoned Horse [{}]", newHorse.getUUID());
 
         return CallResult.SUCCESS;
     }
@@ -231,18 +222,21 @@ public class Summoning {
         UUID entityUUID = horse.getUUID();
 
         if (getStorage().getHorsesToRemove().contains(entityUUID)) {
+            horse.setHorsemanBoundData(null); // Remove data to avoid re-updating in onHorseUnloaded
             getStorage().getHorsesToRemove().remove(entityUUID);
             getStorage().getUnboundHorses().remove(entityUUID);
+            getStorage().setDirty();
             horse.ejectPassengers();
+            Horseman.LOGGER.info("Horse [{}] is discarded", entityUUID);
             return true; // Prevent loading
         }
 
         if (getStorage().getUnboundHorses().contains(entityUUID)) {
             horse.setHorsemanBoundData(null);
             getStorage().getUnboundHorses().remove(entityUUID);
+            getStorage().setDirty();
+            Horseman.LOGGER.info("Unbound Horse [{}] data is cleared.", entityUUID);
         }
-
-        getStorage().setDirty();
 
         return false;
     }
@@ -276,6 +270,7 @@ public class Summoning {
             @Nullable Entity existingHorse = dimension.getEntity(boundHorse.uuid());
             if (existingHorse != null) {
                 existingHorse.discard();
+                Horseman.LOGGER.info("Loaded Bound Horse [{}] is discarded", boundHorse.uuid());
                 removed = true;
                 break;
             }
@@ -284,8 +279,8 @@ public class Summoning {
         if (!removed) {
             // Old entity will be removed when it tries to load:
             getStorage().getHorsesToRemove().add(boundHorse.uuid());
+            getStorage().setDirty();
+            Horseman.LOGGER.info("Bound Horse [{}] is scheduled to be removed next time it loads into the world.", boundHorse.uuid());
         }
-
-        getStorage().setDirty();
     }
 }

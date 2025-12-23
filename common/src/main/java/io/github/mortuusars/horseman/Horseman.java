@@ -13,7 +13,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
-import net.minecraft.tags.InstrumentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Instruments;
@@ -96,6 +95,8 @@ public class Horseman {
     }
 
     public static class SoundEvents {
+        public static final Supplier<SoundEvent> COPPER_HORN = register("item", "copper_horn.toot");
+
         private static Supplier<SoundEvent> register(String category, String key) {
             Preconditions.checkState(category != null && !category.isEmpty(), "'category' should not be empty.");
             Preconditions.checkState(key != null && !key.isEmpty(), "'key' should not be empty.");

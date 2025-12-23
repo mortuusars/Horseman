@@ -30,7 +30,7 @@ public interface LeashableMixin {
         boolean hitched = HitchableHorse.isHitched(horse);
 
         HitchableHorse.setHitched(horse, false);
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             HitchableHorse.syncHorseDataToTrackingClients(horse);
         }
 

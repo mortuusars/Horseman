@@ -27,7 +27,7 @@ public class HorsemanJeiPlugin implements IModPlugin {
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         // Adds all horns with all instruments to JEI. Otherwise, only one will show up.
-        registration.registerSubtypeInterpreter(Horseman.Items.COPPER_HORN.get(), InstrumentSubtypeInterpreter.INSTANCE);
+//        registration.registerSubtypeInterpreter(Horseman.Items.COPPER_HORN.get(), InstrumentSubtypeInterpreter.INSTANCE);
     }
 
     @Override
@@ -35,13 +35,12 @@ public class HorsemanJeiPlugin implements IModPlugin {
         if (Config.Client.SHOW_JEI_INFORMATION.get()) {
             registration.addItemStackInfo(List.of(new ItemStack(Horseman.Items.COPPER_HORN.get())),
                     Component.translatable("horseman.jei.info.copper_horn1"),
-                    Component.translatable("horseman.jei.info.copper_horn2"),
-                    Component.translatable("horseman.jei.info.copper_horn3"));
+                    Component.translatable("horseman.jei.info.copper_horn2"));
         }
     }
 
     @Override
     public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
-        registration.getCraftingCategory().addExtension(ComponentTransferringRecipe.class, new ComponentTransferringCategoryExtension());
+//        registration.getCraftingCategory().addExtension(ComponentTransferringRecipe.class, new ComponentTransferringCategoryExtension());
     }
 }

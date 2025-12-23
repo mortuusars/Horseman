@@ -1,0 +1,8 @@
+{
+  "item.copper_horn.toot": {
+    "sounds": [
+      "horseman:item/copper_horn"
+    ],
+    "subtitle": "subtitles.item.copper_horn.play"
+  }
+}

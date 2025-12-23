@@ -1,7 +1,5 @@
 package io.github.mortuusars.horseman.network;
 
-
-import com.google.common.base.Preconditions;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import io.github.mortuusars.horseman.network.packet.Packet;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,8 +38,7 @@ public class Packets {
     }
 
     public static void sendToClients(Packet packet, ServerPlayer origin, Predicate<ServerPlayer> filter) {
-        Preconditions.checkState(origin.getServer() != null, "Server cannot be null");
-        for (ServerPlayer player : origin.getServer().getPlayerList().getPlayers()) {
+        for (ServerPlayer player : origin.level().getServer().getPlayerList().getPlayers()) {
             if (filter.test(player))
                 sendToClient(packet, player);
         }

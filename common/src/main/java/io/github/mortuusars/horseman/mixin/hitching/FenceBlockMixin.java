@@ -27,7 +27,7 @@ public class FenceBlockMixin {
                 && HitchableHorse.canHitch(hitchableHorse)) {
             horse.setLeashedTo(player, true);
             HitchableHorse.setHitched(hitchableHorse, true);
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 InteractionResult result = LeadItem.bindPlayerMobs(player, level, pos);
                 HitchableHorse.syncHorseDataToTrackingClients(hitchableHorse);
                 cir.setReturnValue(result);

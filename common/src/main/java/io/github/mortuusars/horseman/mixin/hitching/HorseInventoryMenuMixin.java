@@ -53,7 +53,7 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenu {
             @Override
             public boolean isActive() {
                 // Making it active on client to keep rendering the slot.
-                return horse.level().isClientSide || HitchableHorse.isLeadSlotActive(hitchableHorse);
+                return horse.level().isClientSide() || HitchableHorse.isLeadSlotActive(hitchableHorse);
             }
         });
     }

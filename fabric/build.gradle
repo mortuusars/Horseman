@@ -37,24 +37,23 @@ loom {
     }
 }
 
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+}
+
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     modImplementation("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_port_version}")
 
-//    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    modRuntimeOnly("maven.modrinth:jade:${jade_version}+fabric") { transitive = false }
 
-//    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
-//    modRuntimeOnly("maven.modrinth:sodium:mc1.21.4-0.6.13-fabric")
-//    modRuntimeOnly("maven.modrinth:iris:1.8.8+1.21.4-fabric")
-//    modRuntimeOnly("maven.modrinth:modmenu:13.0.3")
-
-//    modRuntimeOnly("maven.modrinth:horseshoes:1.2.5")
-//    modRuntimeOnly("maven.modrinth:swimming-horses:PubCp8NK")
-//    modRuntimeOnly("maven.modrinth:better-mount-hud:yyJushgo")
-
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }
 
@@ -65,16 +64,5 @@ shadowJar {
 
 remapJar {
     injectAccessWidener = true
-    inputFile.set shadowJar.archiveFile
+    input.set shadowJar.archiveFile
 }
-
-//shadowJar {
-//    configurations = [project.configurations.shadowBundle]
-//    archiveClassifier = 'dev-shadow'
-//}
-//
-//remapJar {
-//    injectAccessWidener = true
-//    input.set shadowJar.archiveFile
-//    dependsOn shadowJar
-//}

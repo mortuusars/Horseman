@@ -28,9 +28,9 @@ public abstract class EntityMixin {
 
     @Shadow @Nullable public abstract Entity getVehicle();
 
-    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z",
+    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;ZZ)Z",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;addPassenger(Lnet/minecraft/world/entity/Entity;)V"))
-    private void startRiding(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
+    private void startRiding(Entity vehicle, boolean force, boolean sendGameEvent, CallbackInfoReturnable<Boolean> cir) {
         if (!(((Entity)(Object) this) instanceof ServerPlayer player)) return;
 
         if (vehicle instanceof AbstractHorse horse) {

@@ -32,7 +32,7 @@ public abstract class AbstractChestedHorseMixin extends AbstractHorse {
                 && !isSaddled()
                 && !isTamed()
                 && !isBaby()) {
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 tameWithName(player);
             }
             cir.setReturnValue(InteractionResult.SUCCESS);
