@@ -3,7 +3,7 @@ package io.github.mortuusars.horseman.mixin.hitching;
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.LeadItem;
 import net.minecraft.world.level.Level;

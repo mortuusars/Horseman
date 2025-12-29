@@ -8,13 +8,13 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncHorseDataS2CP(int entityId, ItemStack leadStack, boolean isHitched) implements Packet {
-    public static final ResourceLocation ID = Horseman.resource("sync_horse_data");
+    public static final Identifier ID = Horseman.resource("sync_horse_data");
     public static final Type<SyncHorseDataS2CP> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncHorseDataS2CP> STREAM_CODEC = StreamCodec.composite(

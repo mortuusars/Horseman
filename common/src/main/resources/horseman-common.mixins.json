@@ -7,11 +7,10 @@
   "client": [
     "fix_camera_lag.LocalPlayerMixin",
     "fix_water_jump_meter.LocalPlayerMixin",
-    "hitching.HorseInventoryScreenMixin",
+    "hitching.AbstractMountInventoryScreenMixin",
     "lower_horse_head.AbstractEquineModelMixin",
     "lower_horse_head.AbstractHorseRendererMixin",
     "lower_horse_head.EquineRenderStateMixin",
-    "swim.AbstractHorseMixin",
     "switch_inventory.AbstractContainerScreenMixin"
   ],
   "mixins": [
@@ -24,6 +23,7 @@
     "fix_running_back.EntityMixin",
     "free_camera_when_mounted.AbstractHorseMixin",
     "hitching.AbstractHorseMixin",
+    "hitching.AbstractMountInventoryMenuMixin",
     "hitching.FenceBlockMixin",
     "hitching.HorseInventoryMenuMixin",
     "hitching.LeashableMixin",
@@ -38,7 +38,7 @@
     "no_rearing.AbstractHorseMixin",
     "ride_though_leaves.BlockBehaviourMixin",
     "rotate_horse_when_mounting.AbstractHorseMixin",
-    "shears_remove_chest.AbstractChestedHorseMixin",
+    "shears_remove_chest.EntityMixin",
     "summoning.AbstractHorseMixin",
     "summoning.CamelMixin"
   ],

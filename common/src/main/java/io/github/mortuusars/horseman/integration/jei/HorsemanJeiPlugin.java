@@ -6,7 +6,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,10 +14,10 @@ import java.util.List;
 
 @JeiPlugin
 public class HorsemanJeiPlugin implements IModPlugin {
-    private static final ResourceLocation ID = Horseman.resource("jei_plugin");
+    private static final Identifier ID = Horseman.resource("jei_plugin");
 
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
+    public @NotNull Identifier getPluginUid() {
         return ID;
     }
 

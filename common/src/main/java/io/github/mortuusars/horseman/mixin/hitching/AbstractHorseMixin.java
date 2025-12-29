@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -59,7 +59,6 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
 
     // --
 
-    // Drops the Lead if it's not in inventory (slot is disabled)
     @Inject(method = "dropEquipment", at = @At(value = "RETURN"))
     private void onDropEquipment(ServerLevel level, CallbackInfo ci) {
         if (HitchableHorse.hasLead(this)) {
@@ -101,7 +100,7 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
             }
 
             @Override
-            public void setTheItem(ItemStack item) {
+            public void setTheItem(@NotNull ItemStack item) {
                 ((HitchableHorse) horse).horseman$setLead(item);
             }
 
@@ -110,8 +109,8 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
             }
 
             @Override
-            public boolean stillValid(Player player) {
-                return player.getVehicle() == ownerHorse || player.canInteractWithEntity(ownerHorse, 4.0);
+            public boolean stillValid(@NotNull Player player) {
+                return player.getVehicle() == ownerHorse || player.isWithinEntityInteractionRange(ownerHorse, 4.0);
             }
         };
     }

@@ -2,7 +2,7 @@ package io.github.mortuusars.horseman;
 
 import io.github.mortuusars.horseman.world.LeavesCollisionMode;
 import io.github.mortuusars.horseman.world.summoning.SummonDimensionHandling;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.Collections;
@@ -21,7 +21,6 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_FAST_STEP_DOWN_TWO_BLOCKS;
         public static final ModConfigSpec.BooleanValue INCREASE_HORSE_AIRBORNE_SPEED;
         public static final ModConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
-        public static final ModConfigSpec.BooleanValue HORSE_SWIM_WHEN_RIDDEN;
         public static final ModConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
         public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
         public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
@@ -87,10 +86,6 @@ public class Config {
                             "Note: there is still small initial slowdown when running off a block (start falling), after which speed increases to proper value.",
                             "Default: 0.5")
                       .defineInRange("increase_horse_airborne_speed_amount", 0.5, 0.0, 1.0);
-
-                HORSE_SWIM_WHEN_RIDDEN = builder
-                      .comment("Horse-type mobs are able to swim when ridden by holding a jump key. Exact types that cannot swim can be controlled by '#horseman:cannot_swim' entity tag. Default: true.")
-                      .define("horse_swim_when_ridden", true);
 
                 ROTATE_HORSE_INSTEAD_OF_PLAYER = builder
                       .comment("When mounting a horse, rotate it to match player looking direction, instead of rotating the player. Default: true")
@@ -176,7 +171,7 @@ public class Config {
                       .defineListAllowEmpty("dimensions", Collections.emptyList(), () -> "modid:dimension_id", o -> {
                           if (o instanceof String str) {
                               try {
-                                  ResourceLocation.parse(str);
+                                  Identifier.parse(str);
                                   return true;
                               } catch (Exception ignored) {
                               }

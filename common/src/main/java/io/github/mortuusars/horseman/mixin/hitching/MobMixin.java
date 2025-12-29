@@ -43,7 +43,7 @@ public abstract class MobMixin extends LivingEntity {
                 ItemStack leadStack = HitchableHorse.getLead(horse);
                 spawnAtLocation(serverLevel, leadStack);
             }
-            level().playSound(player, player, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 0.8f, 1f);
+            level().playSound(player, player, SoundEvents.SHEARS_SNIP, SoundSource.PLAYERS, 0.8f, 1f);
             HitchableHorse.setLead(horse, ItemStack.EMPTY);
             if (!level().isClientSide()) {
                 HitchableHorse.syncHorseDataToTrackingClients(horse);

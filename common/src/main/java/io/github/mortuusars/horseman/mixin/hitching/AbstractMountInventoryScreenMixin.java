@@ -5,34 +5,31 @@ import io.github.mortuusars.horseman.world.HitchableHorse;
 import io.github.mortuusars.horseman.world.menu.LeadSlot;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractMountInventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.HorseInventoryMenu;
+import net.minecraft.world.inventory.AbstractMountInventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Items;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(HorseInventoryScreen.class)
-public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<HorseInventoryMenu> {
-    @Shadow
-    @Final
-    private AbstractHorse horse;
+@Mixin(AbstractMountInventoryScreen.class)
+public abstract class AbstractMountInventoryScreenMixin<T extends AbstractMountInventoryMenu> extends AbstractContainerScreen<T> {
+    @Shadow protected LivingEntity mount;
 
-    public HorseInventoryScreenMixin(HorseInventoryMenu menu, Inventory playerInventory, Component title) {
+    public AbstractMountInventoryScreenMixin(T menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/HorseInventoryScreen;renderTooltip(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractMountInventoryScreen;renderTooltip(Lnet/minecraft/client/gui/GuiGraphics;II)V"))
     private void onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (!(this.horse instanceof HitchableHorse hitchableHorse)) return;
+        if (!(this.mount instanceof HitchableHorse hitchableHorse)) return;
 
         if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
             if (!HitchableHorse.isHitched(hitchableHorse)) return;
@@ -46,13 +43,13 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
                 }
             }
         } else if (HitchableHorse.requiresLead() && HitchableHorse.hasLead(hitchableHorse)) {
-            LeadOnHorse.renderInventory(guiGraphics, mouseX, mouseY, partialTick, leftPos, topPos, this.horse);
+            LeadOnHorse.renderInventory(guiGraphics, mouseX, mouseY, partialTick, leftPos, topPos, hitchableHorse.horseman$asHorse());
         }
     }
 
     @Inject(method = "renderBg", at = @At(value = "RETURN"))
     private void onRenderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY, CallbackInfo ci) {
-        if (!(this.horse instanceof HitchableHorse hitchableHorse)) return;
+        if (!(this.mount instanceof HitchableHorse hitchableHorse)) return;
 
         if (HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) {
             int leftPos = (this.width - this.imageWidth) / 2;

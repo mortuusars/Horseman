@@ -6,7 +6,7 @@ import io.github.mortuusars.horseman.network.Packets;
 import io.github.mortuusars.horseman.network.packet.client.SyncHorseDataS2CP;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 

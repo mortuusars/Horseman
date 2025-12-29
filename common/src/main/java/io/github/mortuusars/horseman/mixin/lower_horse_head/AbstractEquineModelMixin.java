@@ -2,8 +2,8 @@ package io.github.mortuusars.horseman.mixin.lower_horse_head;
 
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.client.HorseRenderUtils;
-import net.minecraft.client.model.AbstractEquineModel;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.animal.equine.AbstractEquineModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
 import org.spongepowered.asm.mixin.Final;

@@ -2,7 +2,7 @@ package io.github.mortuusars.horseman.mixin.fix_running_back;
 
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

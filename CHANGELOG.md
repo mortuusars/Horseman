@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0 - 1.21.11 - 2025-12-29
+- Ported to 1.21.11.
+
 ## 1.6.0 - 1.21.10 - 2025-12-29
 - Ported to 1.21.10.
 - **Copper Horn** no longer has different instruments and plays single unique sound instead.

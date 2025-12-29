@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.AbstractHorseRenderer;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EquineRenderState;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +22,7 @@ public abstract class AbstractHorseRendererMixin <T extends AbstractHorse, S ext
         super(context, adultModel, babyModel, scale);
     }
 
-    @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V",
+    @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/equine/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V",
             at = @At("RETURN"))
     private void extractRenderState(T abstractHorse, S equineRenderState, float f, CallbackInfo ci) {
         if (equineRenderState instanceof HorseRenderUtils.HorsemanEquineRenderState horsemanState) {

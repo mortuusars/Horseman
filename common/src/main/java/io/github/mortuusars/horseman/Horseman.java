@@ -9,7 +9,7 @@ import io.github.mortuusars.horseman.world.item.crafting.recipe.serializer.Compo
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.TagKey;
@@ -42,13 +42,13 @@ public class Horseman {
     /**
      * Creates resource location in the mod namespace with the given path.
      */
-    public static ResourceLocation resource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ID, path);
+    public static Identifier resource(String path) {
+        return Identifier.fromNamespaceAndPath(ID, path);
     }
 
     public static class EntityAttributes {
-        public static final ResourceLocation MOUNTED_STEP_HEIGHT = Horseman.resource("mounted-step-height");
-        public static final ResourceLocation MOUNTED_BREAK_SPEED = Horseman.resource("mounted-break-speed");
+        public static final Identifier MOUNTED_STEP_HEIGHT = Horseman.resource("mounted-step-height");
+        public static final Identifier MOUNTED_BREAK_SPEED = Horseman.resource("mounted-break-speed");
     }
 
     public static class Blocks {
@@ -104,9 +104,9 @@ public class Horseman {
     }
 
     public static class Stats {
-        private static final Map<ResourceLocation, StatFormatter> STATS = new HashMap<>();
+        private static final Map<Identifier, StatFormatter> STATS = new HashMap<>();
 
-        private static ResourceLocation register(ResourceLocation location, StatFormatter formatter) {
+        private static Identifier register(Identifier location, StatFormatter formatter) {
             STATS.put(location, formatter);
             return location;
         }

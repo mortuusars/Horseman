@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.ValueInput;
@@ -174,12 +174,12 @@ public class Summoning {
             case ANY -> true;
             case SAME -> boundHorse.isInSameDimension(player);
             case WHITELIST -> {
-                String playerDimension = player.level().dimension().location().toString();
+                String playerDimension = player.level().dimension().identifier().toString();
                 yield Config.Server.HORSE_SUMMONING_DIMENSIONS.get().stream()
                         .anyMatch(dimension -> dimension.equals(playerDimension));
             }
             case BLACKLIST -> {
-                String playerDimension = player.level().dimension().location().toString();
+                String playerDimension = player.level().dimension().identifier().toString();
                 yield Config.Server.HORSE_SUMMONING_DIMENSIONS.get().stream()
                         .noneMatch(dimension -> dimension.equals(playerDimension));
             }
