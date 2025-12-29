@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.0 - 1.21.10 - 2025-12-29
+- Ported to 1.21.10.
+- **Copper Horn** no longer has different instruments and plays single unique sound instead.
+  - Different sound will be played if summoning is failed.
+  - This also means that you can only bind **one** horse now.
+- Fixed several horse summoning errors and horse duplication cases.
+- Removed unused config options.
+
 ## 1.5.7 - 2025-12-16
 - [Fabric] Attempt to fix crash with `I'm Fast` again, due to not disabling Horseman's mixin correctly.
 

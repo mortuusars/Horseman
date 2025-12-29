@@ -4,5 +4,17 @@
       "horseman:item/copper_horn"
     ],
     "subtitle": "subtitles.item.copper_horn.play"
+  },
+  "item.copper_horn.toot_fail": {
+    "sounds": [
+      {
+        "name": "horseman:item/copper_horn_fail",
+        "weight": 20
+      },
+      {
+        "name": "horseman:item/copper_horn_fail_special"
+      }
+    ],
+    "subtitle": "subtitles.item.copper_horn.play"
   }
 }

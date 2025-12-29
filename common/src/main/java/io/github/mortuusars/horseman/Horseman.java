@@ -7,7 +7,6 @@ import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.ComponentTransferringRecipe;
 import io.github.mortuusars.horseman.world.item.crafting.recipe.serializer.ComponentTransferringRecipeSerializer;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,10 +14,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Instruments;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.component.InstrumentComponent;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.slf4j.Logger;
 
@@ -65,11 +62,8 @@ public class Horseman {
     }
 
     public static class Items {
-        @SuppressWarnings("deprecation")
         public static final Supplier<CopperHornItem> COPPER_HORN = Register.item("copper_horn",
-                CopperHornItem::new, new Item.Properties()
-                        .stacksTo(1).rarity(Rarity.UNCOMMON)
-                        .component(DataComponents.INSTRUMENT, new InstrumentComponent(Instruments.PONDER_GOAT_HORN)));
+                CopperHornItem::new, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 
         static void init() {
         }
@@ -95,7 +89,8 @@ public class Horseman {
     }
 
     public static class SoundEvents {
-        public static final Supplier<SoundEvent> COPPER_HORN = register("item", "copper_horn.toot");
+        public static final Supplier<SoundEvent> COPPER_HORN_TOOT = register("item", "copper_horn.toot");
+        public static final Supplier<SoundEvent> COPPER_HORN_TOOT_FAIL = register("item", "copper_horn.toot_fail");
 
         private static Supplier<SoundEvent> register(String category, String key) {
             Preconditions.checkState(category != null && !category.isEmpty(), "'category' should not be empty.");
@@ -125,7 +120,7 @@ public class Horseman {
     }
 
     public static class CriteriaTriggers {
-        public static Supplier<HorseSummonedTrigger> HORSE_SUMMONED = Register.criterionTrigger("horse_summoned", HorseSummonedTrigger::new);
+        public static final Supplier<HorseSummonedTrigger> HORSE_SUMMONED = Register.criterionTrigger("horse_summoned", HorseSummonedTrigger::new);
 
         public static void init() {
         }

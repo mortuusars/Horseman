@@ -3,13 +3,12 @@ package io.github.mortuusars.horseman.world.item;
 import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanServer;
-import io.github.mortuusars.horseman.world.summoning.CallResult;
+import io.github.mortuusars.horseman.world.summoning.HorseSummoningResult;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -23,7 +22,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -54,18 +52,18 @@ public class CopperHornItem extends Item {
         if (!(player.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
 
         if (horse.getHorsemanBoundData() != null) {
-            if (horse.getHorsemanBoundData().isBoundTo(player)) {
-                // Update bind just in case
-                HorsemanServer.getSummoning().bind(level, horse, player);
-                horse.standIfPossible();
-                level.playSound(null, horse, SoundEvents.HORSE_AMBIENT, SoundSource.NEUTRAL, 1, 1);
-                cooldown(player, stack);
-                return InteractionResult.SUCCESS;
-            } else {
+            if (!horse.getHorsemanBoundData().isBoundTo(player)) {
                 player.displayClientMessage(Component.translatable(
-                        "gui.horseman.summoning.cannot_bind.already_bound_to_someone_else"), true);
+                        "gui.horseman.summoning.cannot_bind.already_bound_to_another_player"), true);
                 return InteractionResult.FAIL;
             }
+
+            // Update bind just in case
+            HorsemanServer.getSummoning().bind(level, horse, player);
+            horse.standIfPossible();
+            level.playSound(null, horse, SoundEvents.HORSE_AMBIENT, SoundSource.NEUTRAL, 1, 1);
+            addCooldown(player, stack);
+            return InteractionResult.SUCCESS;
         }
 
         HorsemanServer.getSummoning().bind(level, horse, player);
@@ -76,8 +74,7 @@ public class CopperHornItem extends Item {
 
         player.startUsingItem(usedHand);
         play(player.level(), player, 1.2F);
-        cooldown(player, stack);
-        player.awardStat(Stats.ITEM_USED.get(this));
+        addCooldown(player, stack);
 
         return InteractionResult.SUCCESS;
     }
@@ -89,58 +86,33 @@ public class CopperHornItem extends Item {
         player.startUsingItem(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            CallResult callResult = HorsemanServer.getSummoning().call(serverPlayer);
-            @Nullable Component message = getCallResultMessage(callResult);
-            if (message != null) {
+            HorseSummoningResult result = HorsemanServer.getSummoning().summonBoundHorseTo(serverPlayer);
+
+            if (Config.Server.COPPER_HORN_ERROR_MESSAGES.get() && result.getMessage() instanceof Component message) {
                 player.displayClientMessage(message, true);
             }
-            play(level, player, getSoundPitchFromCallResult(callResult));
+
+            if ((result != HorseSummoningResult.SUCCESS && result != HorseSummoningResult.HORSE_IS_DEAD)
+                  && Config.Server.COPPER_HORN_FAIL_SOUND.get()) {
+                level.playSound(null, player, Horseman.SoundEvents.COPPER_HORN_TOOT_FAIL.get(),
+                      SoundSource.PLAYERS, 1f, player.getRandom().nextFloat() * 0.1f + 0.95f);
+            } else {
+                play(level, player, player.getRandom().nextFloat() * 0.1f + 0.95f);
+            }
         }
 
-        cooldown(player, itemInHand);
+        addCooldown(player, itemInHand);
         player.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResult.CONSUME;
     }
 
-    protected void cooldown(Player player, ItemStack stack) {
-        int cooldown = Config.Server.COPPER_HORN_COOLDOWN.get();
-        if (cooldown < 0) {
-            cooldown = 100;
-        }
-        player.getCooldowns().addCooldown(stack, cooldown);
-    }
-
-    protected @Nullable Component getCallResultMessage(CallResult result) {
-        if (!Config.Server.COPPER_HORN_ERROR_MESSAGES.get()) {
-            return null;
-        }
-
-        return switch (result) {
-            case SUCCESS -> null;
-            case NO_BOUND_HORSE -> Component.translatable("gui.horseman.summoning.cannot_summon.no_bound_horse");
-            case HORSE_IS_DEAD -> Component.translatable("gui.horseman.summoning.cannot_summon.dead");
-            case TOO_FAR -> Component.translatable("gui.horseman.summoning.cannot_summon.too_far");
-            case INVALID_DIMENSION ->
-                    Component.translatable("gui.horseman.summoning.cannot_summon.in_other_dimension");
-            case NO_SPACE -> Component.translatable("gui.horseman.summoning.cannot_summon.no_space");
-            case ERROR_HORSE_IS_NOT_BOUND, ERROR_ENTITY_NOT_CREATED ->
-                    Component.translatable("gui.horseman.summoning.cannot_summon.wrong_or_defective_horse");
-        };
-    }
-
-    protected float getSoundPitchFromCallResult(CallResult result) {
-        return switch (result) {
-            case SUCCESS -> 1.0F;
-            case HORSE_IS_DEAD -> 0.6F;
-            case TOO_FAR, INVALID_DIMENSION, NO_BOUND_HORSE, NO_SPACE -> 0.85F;
-            case ERROR_HORSE_IS_NOT_BOUND, ERROR_ENTITY_NOT_CREATED -> 0.9F;
-        };
+    protected void addCooldown(Player player, ItemStack stack) {
+        player.getCooldowns().addCooldown(stack, Config.Server.COPPER_HORN_COOLDOWN.get());
     }
 
     protected void play(Level level, Player player, float pitch) {
-        SoundEvent soundEvent = Horseman.SoundEvents.COPPER_HORN.get();
         float volume = Config.Server.COPPER_HORN_SOUND_RANGE.get() / 16.0F;
-        level.playSound(null, player, soundEvent, SoundSource.RECORDS, volume, pitch);
+        level.playSound(null, player, Horseman.SoundEvents.COPPER_HORN_TOOT.get(), SoundSource.PLAYERS, volume, pitch);
         level.gameEvent(GameEvent.INSTRUMENT_PLAY, player.position(), GameEvent.Context.of(player));
     }
 }

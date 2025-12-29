@@ -1,11 +1,12 @@
 package io.github.mortuusars.horseman.client;
 
 public class HorseRenderUtils {
-    /*public static boolean isJeb(LivingEntity entity) {
+    /* Disabled in modern mc versions as I haven't found a way to implement it.
+    public static boolean isJeb(LivingEntity entity) {
         return Config.Client.JEB_HORSE.get() && entity.getCustomName() != null && entity.getCustomName().getString().equals("jeb_");
-    }*/
+    }
 
-    /*public static float getAlpha(LivingEntity entity) {
+    public static float getAlpha(LivingEntity entity) {
         if (!Config.Client.TRANSPARENT_HORSE_ENABLED.get()) return 1.0f;
 
         if (!Config.Client.TRANSPARENT_HORSE_ENABLED.get()
@@ -26,7 +27,8 @@ public class HorseRenderUtils {
 
         float delta = (Math.min(angle, endAngle) - startAngle) / (endAngle - startAngle);
         return Mth.lerp(delta, 1.0f, maxTransparency);
-    }*/
+    }
+    */
 
     public interface HorsemanEquineRenderState {
         boolean getHorsemanRiddenByPlayerInFirstPerson();

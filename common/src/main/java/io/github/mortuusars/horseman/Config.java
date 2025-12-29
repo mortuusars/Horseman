@@ -34,6 +34,7 @@ public class Config {
         // Summoning
         public static final ModConfigSpec.IntValue COPPER_HORN_SOUND_RANGE;
         public static final ModConfigSpec.IntValue COPPER_HORN_COOLDOWN;
+        public static final ModConfigSpec.BooleanValue COPPER_HORN_FAIL_SOUND;
         public static final ModConfigSpec.IntValue HORSE_SUMMONING_MAX_DISTANCE;
         public static final ModConfigSpec.DoubleValue HORSE_SUMMONING_MAX_WALKING_DISTANCE;
         public static final ModConfigSpec.DoubleValue HORSE_SUMMONING_WALK_MOVEMENT_SPEED;
@@ -51,7 +52,6 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
         public static final ModConfigSpec.DoubleValue MOUNTED_BLOCK_BREAK_SPEED_MODIFIER;
         public static final ModConfigSpec.EnumValue<LeavesCollisionMode> LEAVES_COLLISION_MODE_WHEN_MOUNTED;
-        public static final ModConfigSpec.BooleanValue LEASH_KNOT_SOUNDS;
         public static final ModConfigSpec.BooleanValue DISMOUNT_TOWARDS_VIEW_DIRECTION;
         public static final ModConfigSpec.BooleanValue FIX_RUNNING_BACK_AFTER_DISMOUNT;
         public static final ModConfigSpec.BooleanValue LEATHER_HORSE_ARMOR_POWDER_SNOW;
@@ -63,46 +63,46 @@ public class Config {
                 builder.push("movement");
 
                 HORSE_STEP_HEIGHT_MODIFIER = builder
-                        .comment("Additional step height added to horses. If set to 1 - horse will be able to step up two blocks. Set to 0 for vanilla behavior. Default 0.1.")
-                        .defineInRange("horse_step_height_modifier", 0.1, -1.0, 10);
+                      .comment("Additional step height added to horses. If set to 1 - horse will be able to step up two blocks. Set to 0 for vanilla behavior. Default 0.1.")
+                      .defineInRange("horse_step_height_modifier", 0.1, -1.0, 10);
 
                 HORSE_FAST_STEP_DOWN = builder
-                        .comment("Make horse step down one block faster by adding downwards velocity.",
-                                "Reduces slowdown when riding off a block, making riding much smoother. Default: true")
-                        .define("horse_fast_step_down", true);
+                      .comment("Make horse step down one block faster by adding downwards velocity.",
+                            "Reduces slowdown when riding off a block, making riding much smoother. Default: true")
+                      .define("horse_fast_step_down", true);
 
                 HORSE_FAST_STEP_DOWN_TWO_BLOCKS = builder
-                        .comment("Makes 'horse_fast_step_down' work when stepping down two blocks.",
-                                "Makes fast step down work better for steep staircases, but may introduce some unwanted behavior elsewhere. Default: false")
-                        .define("horse_fast_step_down_two_blocks", false);
+                      .comment("Makes 'horse_fast_step_down' work when stepping down two blocks.",
+                            "Makes fast step down work better for steep staircases, but may introduce some unwanted behavior elsewhere. Default: false")
+                      .define("horse_fast_step_down_two_blocks", false);
 
                 INCREASE_HORSE_AIRBORNE_SPEED = builder
-                        .comment("Make horse airborne speed faster. Improves jumping distance (horizontal) and speed walking off heights. Default: true")
-                        .define("increase_horse_airborne_speed", true);
+                      .comment("Make horse airborne speed faster. Improves jumping distance (horizontal) and speed walking off heights. Default: true")
+                      .define("increase_horse_airborne_speed", true);
 
                 INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT = builder
-                        .comment("Controls how much 'increase_horse_airborne_speed' increases over vanilla.",
-                                "0 - vanilla speed",
-                                "1 - full speed (same as running on the ground)",
-                                "Note: there is still small initial slowdown when running off a block (start falling), after which speed increases to proper value.",
-                                "Default: 0.5")
-                        .defineInRange("increase_horse_airborne_speed_amount", 0.5, 0.0, 1.0);
+                      .comment("Controls how much 'increase_horse_airborne_speed' increases over vanilla.",
+                            "0 - vanilla speed",
+                            "1 - full speed (same as running on the ground)",
+                            "Note: there is still small initial slowdown when running off a block (start falling), after which speed increases to proper value.",
+                            "Default: 0.5")
+                      .defineInRange("increase_horse_airborne_speed_amount", 0.5, 0.0, 1.0);
 
                 HORSE_SWIM_WHEN_RIDDEN = builder
-                        .comment("Horse-type mobs are able to swim when ridden by holding a jump key. Exact types that cannot swim can be controlled by '#horseman:cannot_swim' entity tag. Default: true.")
-                        .define("horse_swim_when_ridden", true);
+                      .comment("Horse-type mobs are able to swim when ridden by holding a jump key. Exact types that cannot swim can be controlled by '#horseman:cannot_swim' entity tag. Default: true.")
+                      .define("horse_swim_when_ridden", true);
 
                 ROTATE_HORSE_INSTEAD_OF_PLAYER = builder
-                        .comment("When mounting a horse, rotate it to match player looking direction, instead of rotating the player. Default: true")
-                        .define("rotate_horse_instead_of_player", true);
+                      .comment("When mounting a horse, rotate it to match player looking direction, instead of rotating the player. Default: true")
+                      .define("rotate_horse_instead_of_player", true);
 
                 SADDLED_HORSE_WANDER_RADIUS = builder
-                        .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 for vanilla behavior. Default: 16")
-                        .defineInRange("saddled_horse_wander_radius", 16, -1, 64);
+                      .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 for vanilla behavior. Default: 16")
+                      .defineInRange("saddled_horse_wander_radius", 16, -1, 64);
 
                 HORSE_PREVENT_REARING_WHEN_RIDING = builder
-                        .comment("Prevents rearing (horse stopping and standing up) when it's being ridden. Default: true.")
-                        .define("ridden_horse_prevent_rearing", true);
+                      .comment("Prevents rearing (horse stopping and standing up) when it's being ridden. Default: true.")
+                      .define("ridden_horse_prevent_rearing", true);
 
                 builder.pop();
             }
@@ -111,17 +111,17 @@ public class Config {
                 builder.push("hitching");
 
                 HORSE_HITCH = builder
-                        .comment("Right-clicking a fence while riding will leash the horse to it. Default: true")
-                        .define("enabled", true);
+                      .comment("Right-clicking a fence while riding will leash the horse to it. Default: true")
+                      .define("enabled", true);
 
                 HORSE_HITCH_REQUIRES_LEAD = builder
-                        .comment("Hitching requires Lead item to be present on a horse. If disabled, 'horse_hitch_lead_slot' will be disabled as well. Default: true")
-                        .define("requires_lead", true);
+                      .comment("Hitching requires Lead item to be present on a horse. If disabled, 'horse_hitch_lead_slot' will be disabled as well. Default: true")
+                      .define("requires_lead", true);
 
                 HORSE_HITCH_INVENTORY_SLOT = builder
-                        .comment("Slot for a lead will be added to horse inventory menu. Default: true",
-                                "If disabled, Lead should be added by Sneak+Right-Clicking a Horse with an item. Default: true")
-                        .define("lead_slot", true);
+                      .comment("Slot for a lead will be added to horse inventory menu. Default: true",
+                            "If disabled, Lead should be added by Sneak+Right-Clicking a Horse with an item. Default: true")
+                      .define("lead_slot", true);
 
                 builder.pop();
             }
@@ -130,56 +130,59 @@ public class Config {
                 builder.push("summoning");
 
                 COPPER_HORN_SOUND_RANGE = builder
-                        .comment("Range in blocks where Copper Horn tooting sound can be heard by other players. Goat Horn has range of 256.")
-                        .defineInRange("copper_horn_sound_range", 256, 16, 256);
+                      .comment("Range in blocks where Copper Horn tooting sound can be heard by other players. Goat Horn has range of 256.")
+                      .defineInRange("copper_horn_sound_range", 256, 16, 256);
 
                 COPPER_HORN_COOLDOWN = builder
-                        .comment("Cooldown in ticks for Copper Horn. ",
-                                "If set to '-1' - will use same cooldown as Goat Horn.")
-                        .defineInRange("copper_horn_cooldown", -1, -1, Integer.MAX_VALUE);
+                      .comment("Cooldown in ticks after using a Copper Horn.")
+                      .defineInRange("copper_horn_cooldown", 200, 1, Integer.MAX_VALUE);
+
+                COPPER_HORN_FAIL_SOUND = builder
+                      .comment("Copper Horn will play a different sound if summoning has failed. Set to 'false' to play usual sound regardless of outcome.", "Default: true")
+                      .define("copper_horn_fail_sound", true);
 
                 COPPER_HORN_ERROR_MESSAGES = builder
-                        .comment("When summoning/binding a horse with Copper Horn fails, error message will show above the hotbar.")
-                        .define("copper_horn_error_messages", true);
+                      .comment("When summoning/binding a horse with Copper Horn fails, error message will show above the hotbar.")
+                      .define("copper_horn_error_messages", true);
 
                 HORSE_SUMMONING_MAX_DISTANCE = builder
-                        .comment("Furthest distance in blocks from a player where a horse can still be summoned.",
-                                "Set to -1 to allow any distance.")
-                        .defineInRange("max_summoning_distance", -1, -1, Integer.MAX_VALUE);
+                      .comment("Furthest distance in blocks from a player where a horse can still be summoned.",
+                            "Set to -1 to allow any distance.")
+                      .defineInRange("max_summoning_distance", -1, -1, Integer.MAX_VALUE);
 
                 HORSE_SUMMONING_MAX_WALKING_DISTANCE = builder
-                        .comment("Furthest distance in blocks from a player from where a horse will walk instead of teleporting.",
-                                "Set to '0' to always teleport.",
-                                "Default: 32")
-                        .defineInRange("max_walking_distance", 32.0, 0.0, 1024.0);
+                      .comment("Furthest distance in blocks from a player from where a horse will walk instead of teleporting.",
+                            "Set to '0' to always teleport.",
+                            "Default: 32")
+                      .defineInRange("max_walking_distance", 32.0, 0.0, 1024.0);
 
                 HORSE_SUMMONING_WALK_MOVEMENT_SPEED = builder
-                        .comment("Horse movement speed when it walks to the player when summoned.")
-                        .defineInRange("walk_movement_speed", 2, 0.1, 2.5);
+                      .comment("Horse movement speed when it walks to the player when summoned.")
+                      .defineInRange("walk_movement_speed", 2, 0.1, 2.5);
 
                 HORSE_SUMMONING_DIMENSION_HANDLING = builder
-                        .comment("Summoning behavior depending on dimension.",
-                                "ANY: can summon in any dimension.",
-                                "SAME: can only summon when horse is in the same dimension as the player.",
-                                "WHITELIST: can only summon when the player is in one of the dimensions defined in 'dimensions' list.",
-                                "BLACKLIST: can only summon when the player is NOT in one of the dimensions defined in 'dimensions' list.",
-                                "Default: ANY")
-                        .defineEnum("dimension_handling", SummonDimensionHandling.ANY);
+                      .comment("Summoning behavior depending on dimension.",
+                            "ANY: can summon in any dimension.",
+                            "SAME: can only summon when horse is in the same dimension as the player.",
+                            "WHITELIST: can only summon when the player is in one of the dimensions defined in 'dimensions' list.",
+                            "BLACKLIST: can only summon when the player is NOT in one of the dimensions defined in 'dimensions' list.",
+                            "Default: ANY")
+                      .defineEnum("dimension_handling", SummonDimensionHandling.ANY);
 
                 HORSE_SUMMONING_DIMENSIONS = builder
-                        .comment("Dimensions whitelist or blacklist, depending on the 'dimension_handling' setting.",
-                                "Format: [\"minecraft:overworld\", \"minecraft:the_end\"]",
-                                "Default: [] (empty)")
-                        .defineListAllowEmpty("dimensions", Collections.emptyList(), () -> "modid:dimension_id", o -> {
-                            if (o instanceof String str) {
-                                try {
-                                    ResourceLocation.parse(str);
-                                    return true;
-                                } catch (Exception ignored) {
-                                }
-                            }
-                            return false;
-                        });
+                      .comment("Dimensions whitelist or blacklist, depending on the 'dimension_handling' setting.",
+                            "Format: [\"minecraft:overworld\", \"minecraft:the_end\"]",
+                            "Default: [] (empty)")
+                      .defineListAllowEmpty("dimensions", Collections.emptyList(), () -> "modid:dimension_id", o -> {
+                          if (o instanceof String str) {
+                              try {
+                                  ResourceLocation.parse(str);
+                                  return true;
+                              } catch (Exception ignored) {
+                              }
+                          }
+                          return false;
+                      });
 
                 builder.pop();
             }
@@ -188,12 +191,12 @@ public class Config {
                 builder.push("free_camera");
 
                 HORSE_FREE_CAMERA = builder
-                        .comment("While horse is stationary - allow moving camera freely, without rotating the horse. Default: true")
-                        .define("enabled", true);
+                      .comment("While horse is stationary - allow moving camera freely, without rotating the horse. Default: true")
+                      .define("enabled", true);
 
                 HORSE_FREE_CAMERA_ANGLE_THRESHOLD = builder
-                        .comment("Threshold in degrees after which horse will follow player rotation. Default: 100")
-                        .defineInRange("angle_threshold", 100.0, 0.0, 180.0);
+                      .comment("Threshold in degrees after which horse will follow player rotation. Default: 100")
+                      .defineInRange("angle_threshold", 100.0, 0.0, 180.0);
 
                 builder.pop();
             }
@@ -202,44 +205,40 @@ public class Config {
                 builder.push("misc");
 
                 MOUNTED_BLOCK_BREAK_SPEED_MODIFIER = builder
-                        .comment("Additional block breaking speed added when mounted. Set to 0 for vanilla behavior. Default 5 (regular breaking speed).")
-                        .defineInRange("mounted_block_break_speed_modifier", 5.0, 0.0, 5.0);
+                      .comment("Additional block breaking speed added when mounted. Set to 0 for vanilla behavior. Default 5 (regular breaking speed).")
+                      .defineInRange("mounted_block_break_speed_modifier", 5.0, 0.0, 5.0);
 
                 HORSE_IN_BOAT = builder
-                        .comment("Horse-type mobs are able to fit in boats. Default: true.")
-                        .define("horse_fits_in_boat", true);
+                      .comment("Horse-type mobs are able to fit in boats. Default: true.")
+                      .define("horse_fits_in_boat", true);
 
                 HORSE_SHEARS_REMOVE_CHEST = builder
-                        .comment("Right-clicking a Mule, Donkey or Llama that has chest with shears will remove the chest and drop its items. Default: true")
-                        .define("shears_remove_chest", true);
+                      .comment("Right-clicking a Mule, Donkey or Llama that has chest with shears will remove the chest and drop its items. Default: true")
+                      .define("shears_remove_chest", true);
 
                 HORSE_CREATIVE_TAMING = builder
-                        .comment("Using Saddle on untamed horse-type mob while in creative mode tames it instantly. Default: true.")
-                        .define("horse_creative_taming", true);
+                      .comment("Using Saddle on untamed horse-type mob while in creative mode tames it instantly. Default: true.")
+                      .define("horse_creative_taming", true);
 
                 LEAVES_COLLISION_MODE_WHEN_MOUNTED = builder
-                        .comment("Controls collision of leaves block when riding a horse.",
-                                "FULL: full collision, same as in vanilla.",
-                                "IGNORE_LOWEST_BLOCK: lowest block of leaves will have no collision.",
-                                "IGNORE_ALL: no collision in all leaves blocks.",
-                                "Default: IGNORE_LOWEST_BLOCK (enough to make riding through forests viable).")
-                        .defineEnum("leaves_collision_mode_when_mounted", LeavesCollisionMode.IGNORE_LOWEST_BLOCK);
-
-                LEASH_KNOT_SOUNDS = builder
-                        .comment("Untying or breaking a leash knot now has a sound (backported from 1.21.6). Default: true")
-                        .define("leash_knot_sounds", true);
+                      .comment("Controls collision of leaves block when riding a horse.",
+                            "FULL: full collision, same as in vanilla.",
+                            "IGNORE_LOWEST_BLOCK: lowest block of leaves will have no collision.",
+                            "IGNORE_ALL: no collision in all leaves blocks.",
+                            "Default: IGNORE_LOWEST_BLOCK (enough to make riding through forests viable).")
+                      .defineEnum("leaves_collision_mode_when_mounted", LeavesCollisionMode.IGNORE_LOWEST_BLOCK);
 
                 DISMOUNT_TOWARDS_VIEW_DIRECTION = builder
-                        .comment("Dismounting from a horse will place a player towards their view direction. Default: true")
-                        .define("dismount_towards_view_direction", true);
+                      .comment("Dismounting from a horse will place a player towards their view direction. Default: true")
+                      .define("dismount_towards_view_direction", true);
 
                 FIX_RUNNING_BACK_AFTER_DISMOUNT = builder
-                        .comment("Fixes horse running back after player dismounts it (occurs when horse was leashed before mounting). Default: true")
-                        .define("fix_running_back_after_dismount", true);
+                      .comment("Fixes horse running back after player dismounts it (occurs when horse was leashed before mounting). Default: true")
+                      .define("fix_running_back_after_dismount", true);
 
                 LEATHER_HORSE_ARMOR_POWDER_SNOW = builder
-                        .comment("Horse with Leather Horse Armor equipped can walk on a Powder Snow like a player with Leather Boots. Default: true")
-                        .define("leather_horse_armor_powder_snow", true);
+                      .comment("Horse with Leather Horse Armor equipped can walk on a Powder Snow like a player with Leather Boots. Default: true")
+                      .define("leather_horse_armor_powder_snow", true);
 
                 builder.pop();
             }
@@ -257,8 +256,8 @@ public class Config {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
             HORSE_STATS_TOOLTIP = builder
-                    .comment("Tooltip with horse stats will be shown when looking at a horse when holding a food item that animal likes.")
-                    .define("horse_stats_tooltip", true);
+                  .comment("Tooltip with horse stats will be shown when looking at a horse when holding a food item that animal likes.")
+                  .define("horse_stats_tooltip", true);
 
             SPEC = builder.build();
         }
@@ -284,12 +283,14 @@ public class Config {
         public static final ModConfigSpec.IntValue INVENTORY_SWITCH_HORSE_BUTTON_X;
         public static final ModConfigSpec.IntValue INVENTORY_SWITCH_HORSE_BUTTON_Y;
 
-        // public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        // public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
-        // public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
-        // public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
+        /* Not easily achievable in modern versions. At least I haven't found a way.
+        public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
+        public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
+        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
+        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
 
-        // public static final ModConfigSpec.BooleanValue JEB_HORSE;
+        public static final ModConfigSpec.BooleanValue JEB_HORSE;
+        */
 
         public static final ModConfigSpec.BooleanValue COPPER_HORN_SHOW_TOOLTIP_DETAILS;
 
@@ -300,54 +301,55 @@ public class Config {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
             IMPROVED_MOUNT_GUI = builder
-                    .comment("Adjusts gui to render hunger bar, xp bar and xp level. Makes horse jump bar render only when jumping. Default: true")
-                    .define("improved_mount_gui", true);
+                  .comment("Adjusts gui to render hunger bar, xp bar and xp level. Makes horse jump bar render only when jumping. Default: true")
+                  .define("improved_mount_gui", true);
 
             FIX_MOUNTED_CAMERA_LAG = builder
-                    .comment("Fixes small delay when moving camera horizontally while mounted - MC-259512. Default: true")
-                    .define("fix_mounted_camera_lag", true);
+                  .comment("Fixes small delay when moving camera horizontally while mounted - MC-259512. Default: true")
+                  .define("fix_mounted_camera_lag", true);
 
             PREVENT_JUMPING_IN_WATER = builder
-                    .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
-                    .define("prevent_jumping_in_water", true);
+                  .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
+                  .define("prevent_jumping_in_water", true);
 
             HORSE_HEAD_PITCH_OFFSET = builder
-                    .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view. Default: 20")
-                    .defineInRange("horse_model_head_offset", 20, 0, 45);
+                  .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view. Default: 20")
+                  .defineInRange("horse_model_head_offset", 20, 0, 45);
 
             HORSE_HEAD_Y_OFFSET = builder
-                    .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view. Default: true")
-                    .defineInRange("horse_model_y_offset", 2, 0, 4);
+                  .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view. Default: true")
+                  .defineInRange("horse_model_y_offset", 2, 0, 4);
 
             HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT = builder
-                    .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen. Default: true")
-                    .define("render_lead_indication_without_slot", true);
+                  .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen. Default: true")
+                  .define("render_lead_indication_without_slot", true);
 
             {
                 builder.push("switch_inventory");
 
                 INVENTORY_SWITCH_ENABLED = builder
-                        .comment("Adds button and hotkey to switch between player and horse inventory. Default: true")
-                        .define("enabled", true);
+                      .comment("Adds button and hotkey to switch between player and horse inventory. Default: true")
+                      .define("enabled", true);
 
                 INVENTORY_SWITCH_PLAYER_BUTTON_X = builder
-                        .comment("X position of the button in player's inventory. Default: -14.")
-                        .defineInRange("player_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                      .comment("X position of the button in player's inventory. Default: -14.")
+                      .defineInRange("player_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 INVENTORY_SWITCH_PLAYER_BUTTON_Y = builder
-                        .comment("Y position of the button in player's inventory. Default: 9.")
-                        .defineInRange("player_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                      .comment("Y position of the button in player's inventory. Default: 9.")
+                      .defineInRange("player_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                 INVENTORY_SWITCH_HORSE_BUTTON_X = builder
-                        .comment("X position of the button in mount's inventory. Default: -14.")
-                        .defineInRange("horse_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                      .comment("X position of the button in mount's inventory. Default: -14.")
+                      .defineInRange("horse_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 INVENTORY_SWITCH_HORSE_BUTTON_Y = builder
-                        .comment("Y position of the button in mount's inventory. Default: 9.")
-                        .defineInRange("horse_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                      .comment("Y position of the button in mount's inventory. Default: 9.")
+                      .defineInRange("horse_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                 builder.pop();
             }
 
-            /*{
+            /*See comment on field definitions
+            {
                 builder.push("transparent_horse");
 
                 TRANSPARENT_HORSE_ENABLED = builder
@@ -372,19 +374,21 @@ public class Config {
                 builder.push("integration");
 
                 SHOW_JEI_INFORMATION = builder
-                        .comment("Useful information about some items will be shown in JEI description category. Default: true")
-                        .define("jei_information", true);
+                      .comment("Useful information about some items will be shown in JEI description category. Default: true")
+                      .define("jei_information", true);
 
                 builder.pop();
             }
 
-            /*JEB_HORSE = builder
+            /*See comment on field definition
+            JEB_HORSE = builder
                     .comment("Makes horse-type mobs that named 'jeb_' render with rainbow effect, like sheep. Default: true.")
-                    .define("jeb_horse", true);*/
+                    .define("jeb_horse", true);
+                    */
 
             COPPER_HORN_SHOW_TOOLTIP_DETAILS = builder
-                    .comment("Copper Horn tooltip will show details.")
-                    .define("copper_horn_details_tooltip", true);
+                  .comment("Copper Horn tooltip will show details.")
+                  .define("copper_horn_details_tooltip", true);
 
             SPEC = builder.build();
         }

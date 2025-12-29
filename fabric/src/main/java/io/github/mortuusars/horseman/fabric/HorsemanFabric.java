@@ -6,17 +6,13 @@ import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanServer;
 import io.github.mortuusars.horseman.network.fabric.FabricC2SPackets;
 import io.github.mortuusars.horseman.network.fabric.FabricS2CPackets;
-import io.github.mortuusars.horseman.world.item.CopperHornItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.fml.config.ModConfig;
 import org.jetbrains.annotations.Nullable;
@@ -37,12 +33,6 @@ public class HorsemanFabric implements ModInitializer {
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
             content.accept(Horseman.Items.COPPER_HORN.get());
-//            content.getContext().holders()
-//                    .lookup(Registries.INSTRUMENT)
-//                    .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
-//                    .ifPresent(named -> named.stream()
-//                            .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
-//                            .forEach(itemStack -> content.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
         });
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
@@ -62,7 +52,7 @@ public class HorsemanFabric implements ModInitializer {
                     }
                 }
             } catch (Exception e) {
-                Horseman.LOGGER.warn("Cannot handle Horseman's entityJoinLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
+                Horseman.LOGGER.warn("Failed to handle Horseman's entityLoad event. {}.", e.getMessage());
             }
         });
 
@@ -72,7 +62,7 @@ public class HorsemanFabric implements ModInitializer {
                     HorsemanServer.getSummoning().onHorseUnloaded(level, horse);
                 }
             } catch (Exception e) {
-                Horseman.LOGGER.warn("Cannot handle Horseman's entityLeaveLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
+                Horseman.LOGGER.warn("Failed to handle Horseman's entityUnload event. {}.", e.getMessage());
             }
         });
 

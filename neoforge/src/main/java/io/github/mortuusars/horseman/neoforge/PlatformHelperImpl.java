@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.LoadingModList;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.ItemAbilities;
 
 import java.util.function.Consumer;
@@ -24,6 +24,6 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isModLoading(String modId) {
-        return LoadingModList.get().getModFileById(modId) != null;
+        return FMLLoader.getCurrent().getLoadingModList().getModFileById(modId) != null;
     }
 }

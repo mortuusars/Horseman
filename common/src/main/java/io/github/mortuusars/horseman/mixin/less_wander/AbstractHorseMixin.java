@@ -1,7 +1,6 @@
 package io.github.mortuusars.horseman.mixin.less_wander;
 
 import io.github.mortuusars.horseman.world.LessWanderingHorse;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;

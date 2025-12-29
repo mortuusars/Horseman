@@ -7,13 +7,10 @@ import io.github.mortuusars.horseman.network.packet.C2SPackets;
 import io.github.mortuusars.horseman.network.packet.CommonPackets;
 import io.github.mortuusars.horseman.network.packet.Packet;
 import io.github.mortuusars.horseman.network.packet.S2CPackets;
-import io.github.mortuusars.horseman.world.item.CopperHornItem;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -53,12 +50,6 @@ public class NeoForgeCommonEvents {
     public static void buildCreativeTabs(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
             event.accept(Horseman.Items.COPPER_HORN.get());
-//            event.getParameters().holders()
-//                    .lookup(Registries.INSTRUMENT)
-//                    .flatMap(registryLookup -> registryLookup.get(InstrumentTags.GOAT_HORNS))
-//                    .ifPresent(named -> named.stream()
-//                            .map(holder -> CopperHornItem.create(Horseman.Items.COPPER_HORN.get(), holder))
-//                            .forEach(itemStack -> event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS)));
         }
     }
 
@@ -81,7 +72,7 @@ public class NeoForgeCommonEvents {
                 event.setCanceled(true);
             }
         } catch (Exception e) {
-            Horseman.LOGGER.warn("Cannot handle Horseman's entityJoinLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
+            Horseman.LOGGER.warn("Failed to handle Horseman's entityJoinLevel event. {}.", e.getMessage());
         }
     }
 
@@ -93,7 +84,7 @@ public class NeoForgeCommonEvents {
                 HorsemanServer.getSummoning().onHorseUnloaded(serverLevel, horse);
             }
         } catch (Exception e) {
-            Horseman.LOGGER.warn("Cannot handle Horseman's entityLeaveLevel event. {}. But it shouldn't be a big deal.", e.getMessage());
+            Horseman.LOGGER.warn("Failed to handle Horseman's entityLeaveLevel event. {}.", e.getMessage());
         }
     }
 }
