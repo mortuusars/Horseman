@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.0 - 2026-01-18
+- Added back `Transparent Mount` feature.
+- Switch Inventory now works with other mounts as well, like Nautilus.
+- Added config option to not require an empty hand when taming a horse. _(disabled by default)_
+- Fixed `improved mount gui` not working well with Nautilus.  
+- Fixed Camel Husk not being summonable with Copper Horn.
+- Removed unused `horseman:cannot_swim` entity tag.
+
 ## 1.6.0 - 1.21.11 - 2025-12-29
 - Ported to 1.21.11.
 
