@@ -11,7 +11,13 @@
     "lower_horse_head.AbstractEquineModelMixin",
     "lower_horse_head.AbstractHorseRendererMixin",
     "lower_horse_head.EquineRenderStateMixin",
-    "switch_inventory.AbstractContainerScreenMixin"
+    "switch_inventory.AbstractContainerScreenMixin",
+    "transparent_mount.EntityRenderDispatcherMixin",
+    "transparent_mount.EntityRendererMixin",
+    "transparent_mount.EquipmentLayerRendererMixin",
+    "transparent_mount.HorseMarkingLayerMixin",
+    "transparent_mount.LivingEntityRendererMixin",
+    "transparent_mount.LivingEntityRenderStateMixin"
   ],
   "mixins": [
     "attribute_modifiers.EntityMixin",

@@ -59,6 +59,7 @@
   "horseman.configuration.misc": "Misc",
   "horseman.configuration.mounted_block_break_speed_modifier": "Mounted block break speed",
   "horseman.configuration.movement": "Movement",
+  "horseman.configuration.only_horses": "Only Horses",
   "horseman.configuration.player_button_position_x": "Inventory button X",
   "horseman.configuration.player_button_position_y": "Inventory button Y",
   "horseman.configuration.prevent_jumping_in_water": "Prevent jumping in water",

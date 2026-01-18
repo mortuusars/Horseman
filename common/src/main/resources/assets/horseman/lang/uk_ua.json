@@ -59,6 +59,7 @@
   "horseman.configuration.misc": "Різне",
   "horseman.configuration.mounted_block_break_speed_modifier": "Швидкість ламання блоків верхи",
   "horseman.configuration.movement": "Рух",
+  "horseman.configuration.only_horses": "Тільки для коней",
   "horseman.configuration.player_button_position_x": "Гравець - позиція кнопки X",
   "horseman.configuration.player_button_position_y": "Гравець - позиція кнопки Y",
   "horseman.configuration.prevent_jumping_in_water": "Вимкнути стрибок у воді",

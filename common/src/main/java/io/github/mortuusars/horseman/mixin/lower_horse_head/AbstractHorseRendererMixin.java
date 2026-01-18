@@ -1,6 +1,6 @@
 package io.github.mortuusars.horseman.mixin.lower_horse_head;
 
-import io.github.mortuusars.horseman.client.HorseRenderUtils;
+import io.github.mortuusars.horseman.client.RiddenEquineRenderState;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -25,10 +25,10 @@ public abstract class AbstractHorseRendererMixin <T extends AbstractHorse, S ext
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/equine/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V",
             at = @At("RETURN"))
     private void extractRenderState(T abstractHorse, S equineRenderState, float f, CallbackInfo ci) {
-        if (equineRenderState instanceof HorseRenderUtils.HorsemanEquineRenderState horsemanState) {
+        if (equineRenderState instanceof RiddenEquineRenderState state) {
             boolean riddenByPlayerInFirstPerson = Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON
                     && Minecraft.getInstance().player != null && abstractHorse.hasPassenger(Minecraft.getInstance().player);
-            horsemanState.setHorsemanRiddenByPlayerInFirstPerson(riddenByPlayerInFirstPerson);
+            state.horseman$setRiddenByPlayerInFirstPerson(riddenByPlayerInFirstPerson);
         }
     }
 }

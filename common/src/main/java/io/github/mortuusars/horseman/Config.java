@@ -277,117 +277,113 @@ public class Config {
 
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT;
 
+        // Inventory Switch
         public static final ModConfigSpec.BooleanValue INVENTORY_SWITCH_ENABLED;
         public static final ModConfigSpec.IntValue INVENTORY_SWITCH_PLAYER_BUTTON_X;
         public static final ModConfigSpec.IntValue INVENTORY_SWITCH_PLAYER_BUTTON_Y;
         public static final ModConfigSpec.IntValue INVENTORY_SWITCH_HORSE_BUTTON_X;
         public static final ModConfigSpec.IntValue INVENTORY_SWITCH_HORSE_BUTTON_Y;
 
-        /* Not easily achievable in modern versions. At least I haven't found a way.
-        public static final ModConfigSpec.BooleanValue TRANSPARENT_HORSE_ENABLED;
-        public static final ModConfigSpec.DoubleValue TRANSPARENT_HORSE_MAX_OPACITY;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_START_ANGLE;
-        public static final ModConfigSpec.IntValue TRANSPARENT_HORSE_END_ANGLE;
-
-        public static final ModConfigSpec.BooleanValue JEB_HORSE;
-        */
+        // Transparent Mount
+        public static final ModConfigSpec.BooleanValue TRANSPARENT_MOUNT_ENABLED;
+        public static final ModConfigSpec.BooleanValue TRANSPARENT_MOUNT_ONLY_HORSES;
+        public static final ModConfigSpec.DoubleValue TRANSPARENT_MOUNT_MAX_OPACITY;
+        public static final ModConfigSpec.IntValue TRANSPARENT_MOUNT_START_ANGLE;
+        public static final ModConfigSpec.IntValue TRANSPARENT_MOUNT_END_ANGLE;
 
         public static final ModConfigSpec.BooleanValue COPPER_HORN_SHOW_TOOLTIP_DETAILS;
 
-        // INTEGRATION
+        // Integration
         public static final ModConfigSpec.BooleanValue SHOW_JEI_INFORMATION;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
             IMPROVED_MOUNT_GUI = builder
-                  .comment("Adjusts gui to render hunger bar, xp bar and xp level. Makes horse jump bar render only when jumping. Default: true")
+                  .comment("Adjusts gui to render hunger bar, xp bar and xp level. Makes horse jump bar render only when jumping.", "Default: true")
                   .define("improved_mount_gui", true);
 
             FIX_MOUNTED_CAMERA_LAG = builder
-                  .comment("Fixes small delay when moving camera horizontally while mounted - MC-259512. Default: true")
+                  .comment("Fixes small delay when moving camera horizontally while mounted - MC-259512.", "Default: true")
                   .define("fix_mounted_camera_lag", true);
 
             PREVENT_JUMPING_IN_WATER = builder
-                  .comment("Prevents horse jump meter from filling up when mount is in the water. Default: true")
+                  .comment("Prevents horse jump meter from filling up when mount is in the water.", "Default: true")
                   .define("prevent_jumping_in_water", true);
 
             HORSE_HEAD_PITCH_OFFSET = builder
-                  .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view. Default: 20")
+                  .comment("Offset to horse model head pitch while riding. Lowers the head so it's not blocking the view.")
                   .defineInRange("horse_model_head_offset", 20, 0, 45);
 
             HORSE_HEAD_Y_OFFSET = builder
-                  .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view. Default: true")
+                  .comment("Offset to horse model head y position while riding. Lowers the head so it's not blocking the view.", "Default: true")
                   .defineInRange("horse_model_y_offset", 2, 0, 4);
 
             HORSE_HITCH_RENDER_LEAD_WITHOUT_SLOT = builder
-                  .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen. Default: true")
+                  .comment("If Lead slot is disabled, but lead is still required for hitching, indication of whether the Lead is equipped will be rendered in Horse inventory screen.", "Default: true")
                   .define("render_lead_indication_without_slot", true);
 
             {
                 builder.push("switch_inventory");
 
                 INVENTORY_SWITCH_ENABLED = builder
-                      .comment("Adds button and hotkey to switch between player and horse inventory. Default: true")
+                      .comment("Adds button and hotkey to switch between player and horse inventory.", "Default: true")
                       .define("enabled", true);
 
                 INVENTORY_SWITCH_PLAYER_BUTTON_X = builder
-                      .comment("X position of the button in player's inventory. Default: -14.")
+                      .comment("X position of the button in player's inventory.")
                       .defineInRange("player_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 INVENTORY_SWITCH_PLAYER_BUTTON_Y = builder
-                      .comment("Y position of the button in player's inventory. Default: 9.")
+                      .comment("Y position of the button in player's inventory.")
                       .defineInRange("player_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                 INVENTORY_SWITCH_HORSE_BUTTON_X = builder
-                      .comment("X position of the button in mount's inventory. Default: -14.")
+                      .comment("X position of the button in mount's inventory.")
                       .defineInRange("horse_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 INVENTORY_SWITCH_HORSE_BUTTON_Y = builder
-                      .comment("Y position of the button in mount's inventory. Default: 9.")
+                      .comment("Y position of the button in mount's inventory.")
                       .defineInRange("horse_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                 builder.pop();
             }
 
-            /*See comment on field definitions
             {
                 builder.push("transparent_horse");
 
-                TRANSPARENT_HORSE_ENABLED = builder
-                        .comment("Makes horse transparent depending on player's look angle. Default: true")
+                TRANSPARENT_MOUNT_ENABLED = builder
+                        .comment("Makes ridden mounts transparent depending on player's look angle.", "Default: true")
                         .define("enabled", true);
 
-                TRANSPARENT_HORSE_MAX_OPACITY = builder
-                        .comment("Maximum opacity (at the end angle). 0 - fully transparent. 1 - fully opaque. Default: 0.08.")
+                TRANSPARENT_MOUNT_ONLY_HORSES = builder
+                      .comment("If enabled, only horse-like mobs will be affected by the feature.", "Default: false")
+                      .define("only_horses", false);
+
+                TRANSPARENT_MOUNT_MAX_OPACITY = builder
+                        .comment("Maximum opacity (at the end angle). 0 - fully transparent. 1 - fully opaque.")
                         .defineInRange("max_opacity", 0.08, 0.0, 1.0);
 
-                TRANSPARENT_HORSE_START_ANGLE = builder
-                        .comment("Angle at which the horse will start to become transparent. Default: 30.")
+                TRANSPARENT_MOUNT_START_ANGLE = builder
+                        .comment("Angle at which the horse will start to become transparent.")
                         .defineInRange("start_angle", 30, -90, 90);
-                TRANSPARENT_HORSE_END_ANGLE = builder
-                        .comment("Angle at which the horse will reach maximum transparency. Default: 70.")
+                TRANSPARENT_MOUNT_END_ANGLE = builder
+                        .comment("Angle at which the horse will reach maximum transparency.")
                         .defineInRange("end_angle", 70, -90, 90);
 
                 builder.pop();
-            }*/
+            }
 
             {
                 builder.push("integration");
 
                 SHOW_JEI_INFORMATION = builder
-                      .comment("Useful information about some items will be shown in JEI description category. Default: true")
+                      .comment("Useful information about some items will be shown in JEI description category.", "Default: true")
                       .define("jei_information", true);
 
                 builder.pop();
             }
 
-            /*See comment on field definition
-            JEB_HORSE = builder
-                    .comment("Makes horse-type mobs that named 'jeb_' render with rainbow effect, like sheep. Default: true.")
-                    .define("jeb_horse", true);
-                    */
-
             COPPER_HORN_SHOW_TOOLTIP_DETAILS = builder
-                  .comment("Copper Horn tooltip will show details.")
+                  .comment("Copper Horn tooltip will show details.", "Default: true")
                   .define("copper_horn_details_tooltip", true);
 
             SPEC = builder.build();

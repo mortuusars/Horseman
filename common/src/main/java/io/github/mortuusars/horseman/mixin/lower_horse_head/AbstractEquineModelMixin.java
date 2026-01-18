@@ -1,7 +1,7 @@
 package io.github.mortuusars.horseman.mixin.lower_horse_head;
 
 import io.github.mortuusars.horseman.Config;
-import io.github.mortuusars.horseman.client.HorseRenderUtils;
+import io.github.mortuusars.horseman.client.RiddenEquineRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.animal.equine.AbstractEquineModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -23,8 +23,8 @@ public abstract class AbstractEquineModelMixin<T extends EquineRenderState> exte
 
     @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/EquineRenderState;)V", at = @At("RETURN"))
     private void onSetupAnim(T state, CallbackInfo ci) {
-        if (state instanceof HorseRenderUtils.HorsemanEquineRenderState horsemanState
-                && horsemanState.getHorsemanRiddenByPlayerInFirstPerson()) {
+        if (state instanceof RiddenEquineRenderState horsemanState
+                && horsemanState.horseman$getRiddenByPlayerInFirstPerson()) {
             int headXRotOffset = Config.Client.HORSE_HEAD_PITCH_OFFSET.get();
             if (headXRotOffset > 0) {
                 this.headParts.xRot = Math.min(this.headParts.xRot + (headXRotOffset / 100f), 1.5f);
