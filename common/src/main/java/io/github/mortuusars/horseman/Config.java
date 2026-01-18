@@ -47,6 +47,7 @@ public class Config {
         public static final ModConfigSpec.DoubleValue HORSE_FREE_CAMERA_ANGLE_THRESHOLD;
 
         // Misc
+        public static final ModConfigSpec.BooleanValue HORSE_ALLOW_TAMING_WITH_ITEM_IN_HAND;
         public static final ModConfigSpec.BooleanValue HORSE_SHEARS_REMOVE_CHEST;
         public static final ModConfigSpec.BooleanValue HORSE_CREATIVE_TAMING;
         public static final ModConfigSpec.BooleanValue HORSE_IN_BOAT;
@@ -205,6 +206,10 @@ public class Config {
 
             {
                 builder.push("misc");
+
+                HORSE_ALLOW_TAMING_WITH_ITEM_IN_HAND = builder
+                      .comment("Taming a horse does not require an empty hand. Default: false")
+                      .define("allow_taming_horse_with_item_in_hand", false);
 
                 MOUNTED_BLOCK_BREAK_SPEED_MODIFIER = builder
                         .comment("Additional block breaking speed added when mounted. Set to 0 for vanilla behavior. Default 5 (regular breaking speed).")
