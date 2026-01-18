@@ -4,16 +4,22 @@ import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 public class SwitchInventory {
-    public static final WidgetSprites SWITCH_BUTTON_SPRITES = new WidgetSprites(
-            Horseman.resource("switch_inventory_button"),
-            Horseman.resource("switch_inventory_button_disabled"),
-            Horseman.resource("switch_inventory_button_highlighted"));
+    public static final WidgetSprites SWITCH_BUTTON_LEFT_SPRITES = new WidgetSprites(
+            Horseman.resource("switch_inventory_button_left"),
+            Horseman.resource("switch_inventory_button_left_disabled"),
+            Horseman.resource("switch_inventory_button_left_highlighted"));
+
+    public static final WidgetSprites SWITCH_BUTTON_RIGHT_SPRITES = new WidgetSprites(
+          Horseman.resource("switch_inventory_button_right"),
+          Horseman.resource("switch_inventory_button_right_disabled"),
+          Horseman.resource("switch_inventory_button_right_highlighted"));
 
     public static @Nullable Double mouseX, mouseY;
 
@@ -37,7 +43,7 @@ public class SwitchInventory {
         });
     }
 
-    public static void switchToMount(AbstractContainerScreen<?> screen) {
+    public static void switchToMount(Screen screen) {
         if (Minecraft.getInstance().player == null) return;
         // Cannot move cursor like from mount, because screen is opened later due to it being sent from server.
         // So we remember pos here, and set it when screen is initialized.

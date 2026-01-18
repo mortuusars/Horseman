@@ -12,6 +12,7 @@
     "lower_horse_head.AbstractHorseRendererMixin",
     "lower_horse_head.EquineRenderStateMixin",
     "switch_inventory.AbstractContainerScreenMixin",
+    "switch_inventory.AbstractRecipeBookScreenMixin",
     "transparent_mount.EntityRenderDispatcherMixin",
     "transparent_mount.EntityRendererMixin",
     "transparent_mount.EquipmentLayerRendererMixin",
