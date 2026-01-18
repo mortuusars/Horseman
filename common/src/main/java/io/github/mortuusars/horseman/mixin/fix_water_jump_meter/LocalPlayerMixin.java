@@ -3,8 +3,8 @@ package io.github.mortuusars.horseman.mixin.fix_water_jump_meter;
 import com.mojang.authlib.GameProfile;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PlayerRideableJumping;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +29,7 @@ public abstract class LocalPlayerMixin extends Player {
     @Shadow private float jumpRidingScale;
     @Shadow private int jumpRidingTicks;
     @Unique
-    private long horseman$lastTickVehicleInWater = -1;
+    private long horseman$lastTickHorseInWater = -1;
 
     @Inject(method = "aiStep", at = @At(value = "RETURN"))
     private void aiStep(CallbackInfo ci) {
@@ -37,12 +37,12 @@ public abstract class LocalPlayerMixin extends Player {
 
         PlayerRideableJumping vehicle = jumpableVehicle();
 
-        if (vehicle instanceof LivingEntity entity) {
-            if (entity.isInWater()) {
-                horseman$lastTickVehicleInWater = level().getGameTime();
+        if (vehicle instanceof AbstractHorse horse) {
+            if (horse.isInWater()) {
+                horseman$lastTickHorseInWater = level().getGameTime();
             }
 
-            if (getJumpRidingScale() > 0 && level().getGameTime() - horseman$lastTickVehicleInWater < 10) {
+            if (getJumpRidingScale() > 0 && level().getGameTime() - horseman$lastTickHorseInWater < 10) {
                 jumpRidingScale = 0;
                 jumpRidingTicks = 0;
             }
