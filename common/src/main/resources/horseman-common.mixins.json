@@ -40,7 +40,8 @@
     "rotate_horse_when_mounting.AbstractHorseMixin",
     "shears_remove_chest.EntityMixin",
     "summoning.AbstractHorseMixin",
-    "summoning.CamelMixin"
+    "summoning.CamelMixin",
+    "tame_with_item.HorseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
