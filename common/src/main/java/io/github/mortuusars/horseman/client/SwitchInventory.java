@@ -1,5 +1,6 @@
 package io.github.mortuusars.horseman.client;
 
+import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -16,7 +17,12 @@ public class SwitchInventory {
 
     public static @Nullable Double mouseX, mouseY;
 
-    public static void switchFromHorse(AbstractContainerScreen<?> screen) {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isEnabled() {
+        return Config.Client.INVENTORY_SWITCH_ENABLED.get();
+    }
+
+    public static void switchToInventory(AbstractContainerScreen<?> screen) {
         if (Minecraft.getInstance().player == null) return;
 
         double cursorX = Minecraft.getInstance().mouseHandler.xpos();
@@ -31,7 +37,7 @@ public class SwitchInventory {
         });
     }
 
-    public static void switchFromInventory(AbstractContainerScreen<?> screen) {
+    public static void switchToMount(AbstractContainerScreen<?> screen) {
         if (Minecraft.getInstance().player == null) return;
         // Cannot move cursor like from mount, because screen is opened later due to it being sent from server.
         // So we remember pos here, and set it when screen is initialized.
@@ -40,5 +46,14 @@ public class SwitchInventory {
 
         screen.onClose();
         Minecraft.getInstance().player.sendOpenInventory();
+    }
+
+    public static void restoreMousePosIfNeeded() {
+        if (SwitchInventory.mouseX != null && SwitchInventory.mouseY != null) {
+            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), SwitchInventory.mouseX, SwitchInventory.mouseY);
+            // Clear remembered cursor pos after setting, to not apply it again when not needed:
+            SwitchInventory.mouseX = null;
+            SwitchInventory.mouseY = null;
+        }
     }
 }
