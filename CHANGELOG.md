@@ -2,7 +2,11 @@
 
 ## 1.7.0 - 2026-01-18
 - Added back `Transparent Mount` feature.
-- Switch Inventory now works with other mounts as well, like Nautilus.
+- `Switch Inventory`
+  - Changed the position and look of a button in player's inventory. It is now right aligned.
+    - For existing configs - `player_button_position_x` option will need to be updated manually to new position (176)
+  - Button now properly changes position when recipe book is open. 
+  - Switch Inventory now works with other mounts as well, like Nautilus.
 - Added config option to not require an empty hand when taming a horse. _(disabled by default)_
 - Fixed `improved mount gui` not working well with Nautilus.  
 - Fixed Camel Husk not being summonable with Copper Horn.
