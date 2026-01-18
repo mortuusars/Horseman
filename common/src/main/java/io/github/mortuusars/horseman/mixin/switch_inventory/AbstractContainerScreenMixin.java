@@ -10,6 +10,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractMountInventoryScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -67,10 +69,10 @@ public abstract class AbstractContainerScreenMixin extends Screen {
                 SwitchInventory.mouseY = null;
             }
 
-            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_Y.get(), 14, 15,
-                    SwitchInventory.SWITCH_BUTTON_SPRITES,
-                    b -> SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this)));
+            ImageButton switchButton = new ImageButton(leftPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_X.get(),
+                  topPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_Y.get(), 14, 15,
+                  SwitchInventory.SWITCH_BUTTON_LEFT_SPRITES,
+                  b -> SwitchInventory.switchToInventory(((AbstractContainerScreen<?>)(Object) this)));
 
             button.setTooltip(Tooltip.create(Component.translatable("gui.horseman.switch_inventory.button.from_horse.tooltip",
                 Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)
@@ -78,27 +80,20 @@ public abstract class AbstractContainerScreenMixin extends Screen {
 
             addRenderableWidget(button);
         }
+    }
 
-        if (((AbstractContainerScreen<?>)(Object) this) instanceof InventoryScreen
-            && Minecraft.getInstance().gameMode.isServerControlledInventory()) {
+    @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
+    private void onKeyPressed(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
+        if (!SwitchInventory.isEnabled()) return;
 
-            ImageButton button = new ImageButton(leftPos + Config.Client.INVENTORY_SWITCH_PLAYER_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_SWITCH_PLAYER_BUTTON_Y.get(), 14, 15,
-                    SwitchInventory.SWITCH_BUTTON_SPRITES,
-                    b -> SwitchInventory.switchFromInventory(((AbstractContainerScreen<?>)(Object) this)));
+        Minecraft minecraft = Minecraft.getInstance();
 
-            Component vehicleName = Minecraft.getInstance().player != null
-                    && Minecraft.getInstance().player.getVehicle() instanceof LivingEntity entity
-                    ? entity.getName()
-                    : Component.translatable("gui.horseman.switch_inventory.button.from_inventory..tooltip.mount");
-
-            button.setTooltip(Tooltip.create(Component.translatable("gui.horseman.switch_inventory.button.from_inventory.tooltip",
-                    vehicleName,
-                    Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)
-            )));
-
-            addRenderableWidget(button);
+        if (((AbstractContainerScreen<?>) (Object) this) instanceof AbstractMountInventoryScreen<?>
+                && minecraft.options.keyInventory.matches(event)
+                && minecraft.hasControlDown()) {
+            SwitchInventory.switchToInventory(((AbstractContainerScreen<?>)(Object) this));
+            minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
+            cir.setReturnValue(true);
         }
     }
 }
-

@@ -341,8 +341,8 @@ public class Config {
                         .define("enabled", true);
 
                 INVENTORY_SWITCH_PLAYER_BUTTON_X = builder
-                        .comment("X position of the button in player's inventory. Default: -14.")
-                        .defineInRange("player_button_position_x", -14, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                      .comment("X position of the button in player's inventory.")
+                      .defineInRange("player_button_position_x", 176, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 INVENTORY_SWITCH_PLAYER_BUTTON_Y = builder
                         .comment("Y position of the button in player's inventory. Default: 9.")
                         .defineInRange("player_button_position_y", 9, Integer.MIN_VALUE, Integer.MAX_VALUE);
