@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.9 - 2026-01-18
+- `Switch Inventory`
+  - Changed the position and look of a button in player's inventory. It is now right aligned.
+    - For existing configs - `player_button_position_x` option will need to be updated manually to new position (176)
+  - Button now properly changes position when recipe book is open.
+- Added config option to not require an empty hand when taming a horse. (disabled by default)
+
 ## 1.5.8 - 2025-12-21
 - [Fabric] Attempt to fix weird crashing with fabric mixin.
 

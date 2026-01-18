@@ -15,7 +15,7 @@
     "render.LlamaDecorLayerMixin",
     "swim.AbstractHorseMixin",
     "switch_inventory.AbstractContainerScreenMixin",
-    "switch_inventory.AbstractRecipeBookScreenMixin"
+    "switch_inventory.InventoryScreenMixin"
   ],
   "mixins": [
     "attribute_modifiers.EntityMixin",

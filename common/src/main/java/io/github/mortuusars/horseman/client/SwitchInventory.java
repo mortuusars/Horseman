@@ -1,5 +1,6 @@
 package io.github.mortuusars.horseman.client;
 
+import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.Horseman;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -38,7 +39,7 @@ public class SwitchInventory {
 
         // Move cursor to previous position, as setScreen resets it to center every time:
         Minecraft.getInstance().execute(() -> {
-            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), cursorX, cursorY);
+            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), cursorX, cursorY);
         });
     }
 
@@ -55,7 +56,7 @@ public class SwitchInventory {
 
     public static void restoreMousePosIfNeeded() {
         if (SwitchInventory.mouseX != null && SwitchInventory.mouseY != null) {
-            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), SwitchInventory.mouseX, SwitchInventory.mouseY);
+            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().getWindow(), SwitchInventory.mouseX, SwitchInventory.mouseY);
             // Clear remembered cursor pos after setting, to not apply it again when not needed:
             SwitchInventory.mouseX = null;
             SwitchInventory.mouseY = null;

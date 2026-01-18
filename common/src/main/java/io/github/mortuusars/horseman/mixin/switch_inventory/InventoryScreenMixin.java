@@ -8,16 +8,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.RecipeBookMenu;
+import net.minecraft.world.inventory.InventoryMenu;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,12 +24,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(AbstractRecipeBookScreen.class)
-public abstract class AbstractRecipeBookScreenMixin<T extends RecipeBookMenu> extends AbstractContainerScreen<T> {
+@Mixin(InventoryScreen.class)
+public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu> {
     @Unique
     private @Nullable ImageButton horseman$playerInventorySwitchButton;
 
-    public AbstractRecipeBookScreenMixin(T menu, Inventory playerInventory, Component title) {
+    public InventoryScreenMixin(InventoryMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
@@ -76,7 +74,7 @@ public abstract class AbstractRecipeBookScreenMixin<T extends RecipeBookMenu> ex
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-    private void onKeyPressed(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
+    private void onKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if (!SwitchInventory.isEnabled()
               || Minecraft.getInstance().gameMode == null
               || !Minecraft.getInstance().gameMode.isServerControlledInventory()) {
@@ -87,8 +85,8 @@ public abstract class AbstractRecipeBookScreenMixin<T extends RecipeBookMenu> ex
 
         //noinspection ConstantValue
         if (((Screen)this instanceof InventoryScreen)
-              && minecraft.options.keyInventory.matches(event)
-              && minecraft.hasControlDown()) {
+              && minecraft.options.keyInventory.matches(keyCode, scanCode)
+              && Screen.hasControlDown()) {
             SwitchInventory.switchToMount(this);
             minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
