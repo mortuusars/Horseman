@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.1 - 2026-01-19
+- [Fabric] Fixed crash at startup.
+
 ## 1.7.0 - 2026-01-18
 - Added back `Transparent Mount` feature.
 - `Switch Inventory`

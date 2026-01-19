@@ -29,7 +29,7 @@ public abstract class GuiMixin {
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.
     }
 
-    @ModifyVariable(method = "renderVehicleHealth", at = @At(value = "STORE"), name = "k")
+    @ModifyVariable(method = "renderVehicleHealth", at = @At(value = "STORE"), ordinal = 2)
     private int renderVehicleHealth(int y) {
         if (Config.Client.IMPROVED_MOUNT_GUI.get()
                 && Minecraft.getInstance().gameMode != null
@@ -47,7 +47,7 @@ public abstract class GuiMixin {
                 && minecraft.player.jumpableVehicle() != null ? rows + 2 : rows;
     }
 
-    @ModifyVariable(method = "nextContextualInfoState", at = @At(value = "STORE"), name = "bl2")
+    @ModifyVariable(method = "nextContextualInfoState", at = @At(value = "STORE"), ordinal = 1)
     private boolean shouldChooseJumpBar(boolean willChooseJumpBar) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get() || (minecraft.player != null && minecraft.player.isCreative())) {
             return willChooseJumpBar;

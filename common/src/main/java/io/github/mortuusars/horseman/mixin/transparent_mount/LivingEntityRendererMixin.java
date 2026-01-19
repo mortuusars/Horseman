@@ -24,7 +24,7 @@ public class LivingEntityRendererMixin {
                 target = "Lnet/minecraft/client/model/EntityModel;renderType(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/rendertype/RenderType;"),
           cancellable = true)
     private void getRenderType(LivingEntityRenderState renderState, boolean visible, boolean translucent, boolean glowing,
-                                 CallbackInfoReturnable<RenderType> cir, @Local(name = "identifier") Identifier identifier) {
+                                 CallbackInfoReturnable<RenderType> cir, @Local Identifier identifier) {
         if (renderState instanceof TransparentMount.RenderState state) {
             float opacity = state.horseman$getOpacity();
             if (opacity > 0f || opacity < 1f) {
