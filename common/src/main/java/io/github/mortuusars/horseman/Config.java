@@ -23,7 +23,7 @@ public class Config {
         public static final ModConfigSpec.DoubleValue INCREASE_HORSE_AIRBORNE_SPEED_AMOUNT;
         public static final ModConfigSpec.BooleanValue ROTATE_HORSE_INSTEAD_OF_PLAYER;
         public static final ModConfigSpec.IntValue SADDLED_HORSE_WANDER_RADIUS;
-        public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
+        // public static final ModConfigSpec.BooleanValue HORSE_PREVENT_REARING_WHEN_RIDING;
 
         // Hitching
         public static final ModConfigSpec.BooleanValue HORSE_HITCH;
@@ -96,9 +96,10 @@ public class Config {
                       .comment("Max distance (in blocks) from last dismount position that saddled horse can wander to. Set to -1 for vanilla behavior. Default: 16")
                       .defineInRange("saddled_horse_wander_radius", 16, -1, 64);
 
-                HORSE_PREVENT_REARING_WHEN_RIDING = builder
-                      .comment("Prevents rearing (horse stopping and standing up) when it's being ridden. Default: true.")
-                      .define("ridden_horse_prevent_rearing", true);
+                // Removed for the time being as I'm not sure if it is needed that much. Horse doesn't seem to be rearing when riding anyway.
+//                HORSE_PREVENT_REARING_WHEN_RIDING = builder
+//                      .comment("Prevents rearing (horse stopping and standing up) when it's being ridden. Default: true.")
+//                      .define("ridden_horse_prevent_rearing", true);
 
                 builder.pop();
             }

@@ -12,21 +12,24 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = AbstractHorse.class, priority = 950)
 public abstract class AbstractHorseMixin extends LivingEntity {
-    @Shadow public abstract boolean isTamed();
-    @Shadow public abstract LivingEntity getControllingPassenger();
+//    @Shadow public abstract boolean isTamed();
+//    @Shadow public abstract LivingEntity getControllingPassenger();
+//
+//    @Shadow
+//    protected float playerJumpPendingScale;
 
     protected AbstractHorseMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
     }
 
-    @ModifyReturnValue(method = "isStanding", at = @At("RETURN"))
-    private boolean isStanding(boolean original) {
-        if (Config.Server.HORSE_PREVENT_REARING_WHEN_RIDING.get()
-            && !isJumping()
-            && isTamed()
-            && getControllingPassenger() != null) {
-            return false;
-        }
-        return original;
-    }
+//    @ModifyReturnValue(method = "isStanding", at = @At("RETURN"))
+//    private boolean isStanding(boolean original) {
+//        if (Config.Server.HORSE_PREVENT_REARING_WHEN_RIDING.get()
+//            && playerJumpPendingScale <= 0
+//            && isTamed()
+//            && getControllingPassenger() != null) {
+//            return false;
+//        }
+//        return original;
+//    }
 }

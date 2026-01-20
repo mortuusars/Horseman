@@ -1,6 +1,8 @@
 # Changelog
 
 ## UNRELEASED
+- Removed `prevent rearing when riding` feature for the time being, as it's usefulness is questionable. 
+  - This also fixes horse jump animation not playing.
 - Fixed crash when Ender Dragon is rendered.
 - [Fabric] Fixed player air bubbles rendering one row higher than intended in some cases. 
 
