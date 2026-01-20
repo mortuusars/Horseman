@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,9 +17,22 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = Gui.class)
 public abstract class GuiMixin {
-    @Shadow @Final private Minecraft minecraft;
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
-    @Shadow protected abstract boolean willPrioritizeJumpInfo();
+    @Shadow
+    protected abstract boolean willPrioritizeJumpInfo();
+
+    @Shadow
+    protected abstract int getVisibleVehicleHeartRows(int vehicleHealth);
+
+    @Shadow
+    protected abstract int getVehicleMaxHearts(@Nullable LivingEntity vehicle);
+
+    @Shadow
+    @Nullable
+    protected abstract LivingEntity getPlayerVehicleWithHealth();
 
     @Unique
     private long horseman$lastTickHorseInWater = -1;
@@ -32,8 +46,8 @@ public abstract class GuiMixin {
     @ModifyVariable(method = "renderVehicleHealth", at = @At(value = "STORE"), ordinal = 2)
     private int renderVehicleHealth(int y) {
         if (Config.Client.IMPROVED_MOUNT_GUI.get()
-                && Minecraft.getInstance().gameMode != null
-                && Minecraft.getInstance().gameMode.canHurtPlayer()) {
+              && Minecraft.getInstance().gameMode != null
+              && Minecraft.getInstance().gameMode.canHurtPlayer()) {
             y -= 10; // Make room for hunger bar
         }
         return y;
@@ -41,10 +55,13 @@ public abstract class GuiMixin {
 
     @WrapOperation(method = "getAirBubbleYLine", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVisibleVehicleHeartRows(I)I"))
     private int getAirYLine(Gui instance, int vehicleHealth, Operation<Integer> original) {
-        int rows = original.call(instance, vehicleHealth);
-        return Config.Client.IMPROVED_MOUNT_GUI.get()
-                && minecraft.player != null
-                && minecraft.player.jumpableVehicle() != null ? rows + 2 : rows;
+        if (!Config.Client.IMPROVED_MOUNT_GUI.get()
+              || minecraft.player == null
+              || minecraft.player.jumpableVehicle() == null) {
+            return original.call(instance, vehicleHealth);
+        }
+
+        return getVisibleVehicleHeartRows(getVehicleMaxHearts(getPlayerVehicleWithHealth()));
     }
 
     @ModifyVariable(method = "nextContextualInfoState", at = @At(value = "STORE"), ordinal = 1)

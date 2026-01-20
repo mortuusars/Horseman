@@ -2,6 +2,7 @@
 
 ## UNRELEASED
 - Fixed crash when Ender Dragon is rendered.
+- [Fabric] Fixed player air bubbles rendering one row higher than intended in some cases. 
 
 ## 1.7.1 - 2026-01-19
 - [Fabric] Fixed crash at startup.
