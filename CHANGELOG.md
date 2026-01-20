@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+- Fixed crash when Ender Dragon is rendered.
+
 ## 1.7.1 - 2026-01-19
 - [Fabric] Fixed crash at startup.
 

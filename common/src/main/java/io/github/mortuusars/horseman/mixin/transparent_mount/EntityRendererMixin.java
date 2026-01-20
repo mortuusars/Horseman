@@ -16,9 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin {
     @Inject(method = "extractRenderState", at = @At("TAIL"))
-    private void extractRenderState(Entity entity, EntityRenderState state, float partialTick, CallbackInfo ci) {
-        if (Minecraft.getInstance().player != null && entity instanceof LivingEntity livingEntity) {
-            ((TransparentMount.RenderState)state).horseman$setOpacity(TransparentMount.getOpacity(livingEntity));
+    private void extractRenderState(Entity entity, EntityRenderState renderState, float partialTick, CallbackInfo ci) {
+        if (Minecraft.getInstance().player != null
+              && entity instanceof LivingEntity livingEntity
+              && renderState instanceof TransparentMount.RenderState state) {
+            state.horseman$setOpacity(TransparentMount.getOpacity(livingEntity));
         }
     }
 
