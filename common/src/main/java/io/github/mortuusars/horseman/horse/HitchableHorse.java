@@ -94,6 +94,13 @@ public interface HitchableHorse {
         }
     }
 
+    static int getPackagedLeadSlotIndex(HitchableHorse horse){
+        Preconditions.checkState(shouldHaveLeadSlot(horse),
+                "Tried to get lead slot index when the hitching is disabled or horse cannot be hitched.");
+
+        return horse.horseman$asHorse().inventory.getContainerSize() - 1;
+    }
+
     static boolean mayPlaceInLeadSlot(HitchableHorse horse, ItemStack stack) {
         return stack.is(Items.LEAD);
     }

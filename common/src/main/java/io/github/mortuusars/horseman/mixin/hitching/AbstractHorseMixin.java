@@ -50,7 +50,7 @@ public abstract class AbstractHorseMixin extends Animal implements HitchableHors
     @Override
     public void horseman$setLead(ItemStack stack) {
         if (HitchableHorse.shouldHaveLeadSlot(this)) {
-            inventory.setItem(HitchableHorse.getLeadSlotIndex(this), stack);
+            inventory.setItem(HitchableHorse.getPackagedLeadSlotIndex(this), stack);
         } else {
             horseman$builtInLead = stack;
         }
