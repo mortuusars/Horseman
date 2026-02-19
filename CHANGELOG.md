@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.15 - 2026-02-19
+- Fixed error in log when donkey with chest is loaded. 
+
 ## 1.3.14 - 2025-09-30
 - Fixed loading crash with `CobblemonRider` mod.
 
