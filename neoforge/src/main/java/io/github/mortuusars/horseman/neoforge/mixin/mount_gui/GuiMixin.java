@@ -23,7 +23,7 @@ public abstract class GuiMixin {
     @Unique
     private long horseman$lastTickHorseInWater = -1;
 
-    @WrapOperation(method = "renderFoodLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
+    @WrapOperation(method = "extractFoodLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
     private int renderFoodLevel_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicle);
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.

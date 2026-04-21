@@ -22,6 +22,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
@@ -32,8 +33,8 @@ public class CopperHornItem extends Item {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
-                                Consumer<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext context, @NonNull TooltipDisplay tooltipDisplay,
+                                @NonNull Consumer<Component> tooltip, @NonNull TooltipFlag flag) {
         if (Config.Client.COPPER_HORN_SHOW_TOOLTIP_DETAILS.get()) {
             if (Minecraft.getInstance().hasShiftDown()) {
                 tooltip.accept(Component.translatable("item.horseman.copper_horn.tooltip.bind"));
@@ -45,17 +46,17 @@ public class CopperHornItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand usedHand) {
+    public @NotNull InteractionResult interactLivingEntity(@NonNull ItemStack stack, Player player, @NonNull LivingEntity target, @NonNull InteractionHand usedHand) {
         if (!player.isSecondaryUseActive() || !(target instanceof AbstractHorse horse)) return InteractionResult.PASS;
         if (player.getCooldowns().isOnCooldown(stack)) return InteractionResult.FAIL;
-        if (!horse.getType().is(Horseman.Tags.EntityTypes.SUMMONABLE)) return InteractionResult.PASS;
+        if (!horse.is(Horseman.Tags.EntityTypes.SUMMONABLE)) return InteractionResult.PASS;
         if (!horse.isTamed()) return InteractionResult.PASS;
         if (!(player.level() instanceof ServerLevel level)) return InteractionResult.SUCCESS;
 
         if (horse.getHorsemanBoundData() != null) {
             if (!horse.getHorsemanBoundData().isBoundTo(player)) {
-                player.displayClientMessage(Component.translatable(
-                        "gui.horseman.summoning.cannot_bind.already_bound_to_another_player"), true);
+                player.sendSystemMessage(Component.translatable(
+                        "gui.horseman.summoning.cannot_bind.already_bound_to_another_player"));
                 return InteractionResult.FAIL;
             }
 
@@ -81,7 +82,7 @@ public class CopperHornItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResult use(@NonNull Level level, Player player, @NonNull InteractionHand usedHand) {
         ItemStack itemInHand = player.getItemInHand(usedHand);
 
         player.startUsingItem(usedHand);
@@ -90,7 +91,7 @@ public class CopperHornItem extends Item {
             HorseSummoningResult result = HorsemanServer.getSummoning().summonBoundHorseTo(serverPlayer);
 
             if (Config.Server.COPPER_HORN_ERROR_MESSAGES.get() && result.getMessage() instanceof Component message) {
-                player.displayClientMessage(message, true);
+                player.sendSystemMessage(message);
             }
 
             if ((result != HorseSummoningResult.SUCCESS && result != HorseSummoningResult.HORSE_IS_DEAD)

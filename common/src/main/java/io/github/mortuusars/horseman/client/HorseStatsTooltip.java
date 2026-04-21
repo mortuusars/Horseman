@@ -3,9 +3,7 @@ package io.github.mortuusars.horseman.client;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.FormattedCharSequence;
@@ -16,11 +14,10 @@ import net.minecraft.world.phys.EntityHitResult;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class HorseStatsTooltip {
-    public static void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (!Config.Common.HORSE_STATS_TOOLTIP.get()) return;
+    public static boolean extract(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
+        if (!Config.Common.HORSE_STATS_TOOLTIP.get()) return false;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.options.hideGui
                 || minecraft.level == null
@@ -31,7 +28,7 @@ public class HorseStatsTooltip {
                 || !(entityHitResult.getEntity() instanceof Horse horse)
                 || (!minecraft.player.getMainHandItem().is(ItemTags.HORSE_FOOD)
                     && !minecraft.player.getOffhandItem().is(ItemTags.HORSE_FOOD))) {
-            return;
+            return false;
         }
 
         NumberFormat numberFormat = DecimalFormat.getNumberInstance();
@@ -56,8 +53,11 @@ public class HorseStatsTooltip {
 
         int x = minecraft.getWindow().getGuiScaledWidth() / 2 + 8;
         int y = minecraft.getWindow().getGuiScaledHeight() / 2 - (int)(lines.size() / 2f * 9f);
-        guiGraphics.renderTooltip(minecraft.font, lines.stream().map(ClientTooltipComponent::create).collect(Collectors.toList()),
-                x, y + 10, DefaultTooltipPositioner.INSTANCE, null);
+
+        guiGraphics.setTooltipForNextFrame(minecraft.font, lines, x, y + 10);
+        guiGraphics.extractDeferredElements(0, 0, 0); // Renders the tooltip
+
+        return true;
     }
 
     private static double getJumpHeight(double jumpStrength) {

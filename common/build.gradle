@@ -3,7 +3,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/horseman.accesswidener")
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
 }
 
 configurations {
@@ -14,11 +14,10 @@ dependencies {
     // We depend on Fabric Loader here to use the Fabric @Environment annotations,
     // which get remapped to the correct annotations on each platform.
     // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
-    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${forge_config_api_port_version}"
-
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    api "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:${forge_config_api_port_version}"
+    compileOnlyApi "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
 
     testImplementation(platform("org.junit:junit-bom:${project.property("jupiterVersion")}"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -29,5 +28,13 @@ dependencies {
 tasks {
     test {
         useJUnitPlatform()
+    }
+}
+
+// Makes datagenerated resources usable:
+sourceSets {
+    main {
+        // We are using NeoForge to datagen, and it outputs to the 'common/src/generated' folder
+        resources.srcDir file("src/generated")
     }
 }

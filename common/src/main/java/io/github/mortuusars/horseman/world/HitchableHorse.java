@@ -43,7 +43,7 @@ public interface HitchableHorse {
     static boolean isHitchable(HitchableHorse horse) {
         return horse.horseman$asHorse().isTamed()
                 && !horse.horseman$asHorse().isBaby()
-                && !horse.horseman$asHorse().getType().is(Horseman.Tags.EntityTypes.CANNOT_BE_HITCHED);
+                && !horse.horseman$asHorse().is(Horseman.Tags.EntityTypes.CANNOT_BE_HITCHED);
     }
 
     // --

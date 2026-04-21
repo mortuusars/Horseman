@@ -4,7 +4,7 @@ import io.github.mortuusars.horseman.Config;
 import io.github.mortuusars.horseman.client.SwitchInventory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -67,8 +67,8 @@ public abstract class AbstractRecipeBookScreenMixin<T extends RecipeBookMenu> ex
         }
     }
 
-    @Inject(method = "render", at = @At("HEAD"))
-    private void onRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+    @Inject(method = "extractRenderState", at = @At("HEAD"))
+    private void onExtractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         if (horseman$playerInventorySwitchButton != null) {
             // Update button pos to adjust to recipe book ui opening/closing
             horseman$playerInventorySwitchButton.setX(leftPos + Config.Client.INVENTORY_SWITCH_PLAYER_BUTTON_X.get());

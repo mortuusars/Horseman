@@ -12,14 +12,14 @@ import org.lwjgl.glfw.GLFW;
 
 public class SwitchInventory {
     public static final WidgetSprites SWITCH_BUTTON_LEFT_SPRITES = new WidgetSprites(
-            Horseman.resource("switch_inventory_button_left"),
-            Horseman.resource("switch_inventory_button_left_disabled"),
-            Horseman.resource("switch_inventory_button_left_highlighted"));
+            Horseman.identifier("switch_inventory_button_left"),
+            Horseman.identifier("switch_inventory_button_left_disabled"),
+            Horseman.identifier("switch_inventory_button_left_highlighted"));
 
     public static final WidgetSprites SWITCH_BUTTON_RIGHT_SPRITES = new WidgetSprites(
-          Horseman.resource("switch_inventory_button_right"),
-          Horseman.resource("switch_inventory_button_right_disabled"),
-          Horseman.resource("switch_inventory_button_right_highlighted"));
+          Horseman.identifier("switch_inventory_button_right"),
+          Horseman.identifier("switch_inventory_button_right_disabled"),
+          Horseman.identifier("switch_inventory_button_right_highlighted"));
 
     public static @Nullable Double mouseX, mouseY;
 

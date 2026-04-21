@@ -37,13 +37,13 @@ public abstract class GuiMixin {
     @Unique
     private long horseman$lastTickHorseInWater = -1;
 
-    @WrapOperation(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
+    @WrapOperation(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
     private int renderPlayerHealth_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicle);
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.
     }
 
-    @ModifyVariable(method = "renderVehicleHealth", at = @At(value = "STORE"), ordinal = 2)
+    @ModifyVariable(method = "extractVehicleHealth", at = @At(value = "STORE"), ordinal = 2)
     private int renderVehicleHealth(int y) {
         if (Config.Client.IMPROVED_MOUNT_GUI.get()
               && Minecraft.getInstance().gameMode != null

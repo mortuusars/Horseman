@@ -14,7 +14,7 @@ import java.util.List;
 
 @JeiPlugin
 public class HorsemanJeiPlugin implements IModPlugin {
-    private static final Identifier ID = Horseman.resource("jei_plugin");
+    private static final Identifier ID = Horseman.identifier("jei_plugin");
 
     @Override
     public @NotNull Identifier getPluginUid() {

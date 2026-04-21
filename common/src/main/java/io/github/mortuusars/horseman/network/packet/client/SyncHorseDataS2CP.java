@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncHorseDataS2CP(int entityId, ItemStack leadStack, boolean isHitched) implements Packet {
-    public static final Identifier ID = Horseman.resource("sync_horse_data");
+    public static final Identifier ID = Horseman.identifier("sync_horse_data");
     public static final Type<SyncHorseDataS2CP> TYPE = new Type<>(ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncHorseDataS2CP> STREAM_CODEC = StreamCodec.composite(

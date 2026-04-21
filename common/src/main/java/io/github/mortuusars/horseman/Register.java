@@ -9,6 +9,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -53,7 +54,7 @@ public class Register {
     }
 
     @ExpectPlatform
-    public static <T extends Item> Supplier<T> item(String id, Function<Item.Properties, T> func, Item.Properties properties) {
+    public static <T extends Item> Supplier<T> item(String id, Function<Identifier, T> func) {
         throw new AssertionError();
     }
 
@@ -72,11 +73,6 @@ public class Register {
 
     @ExpectPlatform
     public static <T extends SoundEvent> Supplier<T> soundEvent(String id, Supplier<T> supplier) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static <T extends MenuType<E>, E extends AbstractContainerMenu> Supplier<T> menuType(String id, MenuTypeSupplier<E> supplier) {
         throw new AssertionError();
     }
 

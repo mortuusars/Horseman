@@ -62,8 +62,8 @@ public class RegisterImpl {
         return new BlockEntityType<>(blockEntitySupplier::create, validBlocks);
     }
 
-    public static <T extends Item> Supplier<T> item(String id, Function<Item.Properties, T> func, Item.Properties properties) {
-        return ITEMS.registerItem(id, func, properties);
+    public static <T extends Item> Supplier<T> item(String id, Function<Identifier, T> func) {
+        return ITEMS.register(id, func);
     }
 
     public static <T extends Entity> Supplier<EntityType<T>> entityType(String name, EntityType.EntityFactory<T> factory, MobCategory category,
@@ -73,7 +73,7 @@ public class RegisterImpl {
                 .clientTrackingRange(clientTrackingRange)
                 .setShouldReceiveVelocityUpdates(velocityUpdates)
                 .updateInterval(updateInterval)
-                .build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(name))));
+                .build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.identifier(name))));
     }
 
     public static <T extends Entity> Supplier<EntityType<T>> entityType(String name, EntityType.EntityFactory<T> factory, MobCategory category, boolean receiveVelocityUpdates, Consumer<EntityType.Builder<T>> typeBuilder) {
@@ -81,7 +81,7 @@ public class RegisterImpl {
             EntityType.Builder<T> builder = EntityType.Builder.of(factory, category);
             builder.setShouldReceiveVelocityUpdates(receiveVelocityUpdates);
             typeBuilder.accept(builder);
-            return builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(name)));
+            return builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.identifier(name)));
         });
     }
 

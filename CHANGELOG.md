@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.2 - 2026-04-21
+- Port to 26.1.
+
 ## 1.7.2 - 2026-01-20
 - Removed `prevent rearing when riding` feature for the time being, as it's usefulness is questionable. 
   - This also fixes horse jump animation not playing.

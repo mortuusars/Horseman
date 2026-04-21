@@ -18,6 +18,6 @@ public class NeoForgeClientEvents {
 
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
-        HorseStatsTooltip.render(event.getGuiGraphics(), event.getPartialTick());
+        HorseStatsTooltip.extract(event.getGuiGraphics(), event.getPartialTick());
     }
 }

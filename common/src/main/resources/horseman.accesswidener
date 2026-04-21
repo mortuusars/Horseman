@@ -1,4 +1,4 @@
-accessWidener   v2  named
+accessWidener v2 official
 accessible field net/minecraft/world/entity/LivingEntity jumping Z
 accessible field net/minecraft/world/entity/animal/equine/AbstractHorse inventory Lnet/minecraft/world/SimpleContainer;
 accessible method net/minecraft/world/entity/animal/equine/AbstractHorse createInventory ()V

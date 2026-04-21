@@ -1,7 +1,7 @@
 {
   "accessWidener": "horseman.accesswidener",
   "injected_interfaces": {
-    "net/minecraft/class_1496": [
+    "net/minecraft/world/entity/animal/equine/AbstractHorse": [
       "io/github/mortuusars/horseman/world/summoning/SummonableHorse"
     ]
   }

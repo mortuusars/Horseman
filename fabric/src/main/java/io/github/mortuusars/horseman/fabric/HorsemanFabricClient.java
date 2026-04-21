@@ -3,10 +3,10 @@ package io.github.mortuusars.horseman.fabric;
 import fuzs.forgeconfigapiport.fabric.api.v5.client.ConfigScreenFactoryRegistry;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.HorsemanClient;
-import io.github.mortuusars.horseman.client.HorseStatsTooltip;
+import io.github.mortuusars.horseman.fabric.client.render.HorseStatsTooltipElement;
 import io.github.mortuusars.horseman.network.fabric.FabricS2CPacketHandler;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 
 public class HorsemanFabricClient implements ClientModInitializer {
@@ -16,7 +16,6 @@ public class HorsemanFabricClient implements ClientModInitializer {
         FabricS2CPacketHandler.register();
 
         ConfigScreenFactoryRegistry.INSTANCE.register(Horseman.ID, ConfigurationScreen::new);
-        //noinspection deprecation
-        HudRenderCallback.EVENT.register(HorseStatsTooltip::render);
+        HudElementRegistry.addLast(Horseman.identifier("horse_stats_tooltip"), new HorseStatsTooltipElement());
     }
 }

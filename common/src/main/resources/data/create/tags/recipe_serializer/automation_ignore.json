@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    {
-      "id": "horseman:component_transferring",
-      "required": false
-    }
-  ]
-}

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +31,7 @@ public abstract class LeashKnotEntityMixin extends BlockAttachedEntity {
      * Hitch a horse to an existing knot, without removing it first.
      */
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    private void onInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    private void onInteract(Player player, InteractionHand hand, Vec3 location, CallbackInfoReturnable<InteractionResult> cir) {
         if (player.getRootVehicle() instanceof AbstractHorse horse
                 && horse instanceof HitchableHorse hitchableHorse) {
             if (HitchableHorse.isHitched(hitchableHorse)) {

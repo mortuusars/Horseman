@@ -1,12 +1,15 @@
 package io.github.mortuusars.horseman.mixin.hitching;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import io.github.mortuusars.horseman.world.HitchableHorse;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Leashable;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.ItemLike;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,9 +40,9 @@ public interface LeashableMixin {
         preventDrop.set(hitched);
     }
 
-    @WrapWithCondition(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;"))
-    private static boolean preventLeadDrop(Entity instance, ServerLevel level, ItemLike item, @Share("preventDrop") LocalBooleanRef preventDrop) {
-        return !preventDrop.get();
+    @WrapOperation(method = "dropLeash(Lnet/minecraft/world/entity/Entity;ZZ)V", at = @At(value = "INVOKE",
+          target = "Lnet/minecraft/world/entity/Entity;spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;"))
+    private static ItemEntity preventLeadDrop(Entity instance, ServerLevel level, ItemLike item, Operation<ItemEntity> original, @Share("preventDrop") LocalBooleanRef preventDrop) {
+        return !preventDrop.get() ? original.call(instance, level, item) : null;
     }
 }

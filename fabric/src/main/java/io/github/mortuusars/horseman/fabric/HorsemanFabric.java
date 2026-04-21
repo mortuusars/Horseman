@@ -7,9 +7,9 @@ import io.github.mortuusars.horseman.HorsemanServer;
 import io.github.mortuusars.horseman.network.fabric.FabricC2SPackets;
 import io.github.mortuusars.horseman.network.fabric.FabricS2CPackets;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
@@ -31,7 +31,7 @@ public class HorsemanFabric implements ModInitializer {
 
         Horseman.Stats.register();
 
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
             content.accept(Horseman.Items.COPPER_HORN.get());
         });
 

@@ -6,7 +6,6 @@ import io.github.mortuusars.horseman.Register;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.core.Registry;
@@ -17,6 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -40,12 +40,12 @@ import java.util.function.Supplier;
 
 public class RegisterImpl {
     public static <T extends Block> Supplier<T> block(String id, Supplier<T> supplier) {
-        T obj = Registry.register(BuiltInRegistries.BLOCK, Horseman.resource(id), supplier.get());
+        T obj = Registry.register(BuiltInRegistries.BLOCK, Horseman.identifier(id), supplier.get());
         return () -> obj;
     }
 
     public static <T extends BlockEntityType<E>, E extends BlockEntity> Supplier<T> blockEntityType(String id, Supplier<T> supplier) {
-        T obj = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Horseman.resource(id), supplier.get());
+        T obj = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Horseman.identifier(id), supplier.get());
         return () -> obj;
     }
 
@@ -53,23 +53,22 @@ public class RegisterImpl {
         return FabricBlockEntityTypeBuilder.create(blockEntitySupplier::create, validBlocks).build();
     }
 
-    public static <T extends Item> Supplier<T> item(String id, Function<Item.Properties, T> func, Item.Properties properties) {
-        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Horseman.resource(id));
-        T item = func.apply(properties.setId(itemKey));
-        T registeredItem = Registry.register(BuiltInRegistries.ITEM, itemKey, item);
-        return () -> registeredItem;
+    public static <T extends Item> Supplier<T> item(String id, Function<Identifier, T> func) {
+        Identifier rl = Horseman.identifier(id);
+        T obj = Registry.register(BuiltInRegistries.ITEM, rl, func.apply(rl));
+        return () -> obj;
     }
 
     public static <T extends Entity> Supplier<EntityType<T>> entityType(String id, EntityType.EntityFactory<T> factory,
                                                                         MobCategory category, float width, float height,
                                                                         int clientTrackingRange, boolean velocityUpdates, int updateInterval) {
-        EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, Horseman.resource(id),
+        EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, Horseman.identifier(id),
                 EntityType.Builder.of(factory, category)
                         .sized(width, height)
                         .clientTrackingRange(clientTrackingRange)
                         .alwaysUpdateVelocity(velocityUpdates)
                         .updateInterval(updateInterval)
-                        .build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(id))));
+                        .build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.identifier(id))));
         return () -> type;
     }
 
@@ -77,48 +76,33 @@ public class RegisterImpl {
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, category);
         typeBuilder.accept(builder);
         builder.alwaysUpdateVelocity(receiveVelocityUpdates);
-        EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, Horseman.resource(id), builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.resource(id))));
+        EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, Horseman.identifier(id), builder.build(ResourceKey.create(Registries.ENTITY_TYPE, Horseman.identifier(id))));
         return () -> type;
     }
 
     public static <T extends SoundEvent> Supplier<T> soundEvent(String id, Supplier<T> supplier) {
-        T obj = Registry.register(BuiltInRegistries.SOUND_EVENT, Horseman.resource(id), supplier.get());
+        T obj = Registry.register(BuiltInRegistries.SOUND_EVENT, Horseman.identifier(id), supplier.get());
         return () -> obj;
     }
 
-    public static <T extends MenuType<E>, E extends AbstractContainerMenu> Supplier<MenuType<E>> menuType(String id, Register.MenuTypeSupplier<E> supplier) {
-        ExtendedScreenHandlerType<E, byte[]> type = new ExtendedScreenHandlerType<>((syncId, inventory, data) -> {
-            RegistryFriendlyByteBuf buffer = new RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(data), inventory.player.registryAccess());
-            E menu = supplier.create(syncId, inventory, buffer);
-            buffer.release();
-            return menu;
-        }, ByteBufCodecs.BYTE_ARRAY.mapStream(Function.identity()));
-
-        Registry.register(BuiltInRegistries.MENU, Horseman.resource(id), type);
-
-        return () -> {
-            return type;
-        };
-    }
-
     public static Supplier<RecipeType<?>> recipeType(String id, Supplier<RecipeType<?>> supplier) {
-        RecipeType<?> obj = Registry.register(BuiltInRegistries.RECIPE_TYPE, Horseman.resource(id), supplier.get());
+        RecipeType<?> obj = Registry.register(BuiltInRegistries.RECIPE_TYPE, Horseman.identifier(id), supplier.get());
         return () -> obj;
     }
 
     public static <T extends CustomRecipe> Supplier<RecipeSerializer<T>> recipeSerializer(String name, Supplier<RecipeSerializer<T>> supplier) {
-        RecipeSerializer<T> obj = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Horseman.resource(name), supplier.get());
+        RecipeSerializer<T> obj = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Horseman.identifier(name), supplier.get());
         return () -> obj;
     }
 
     public static <T extends CriterionTrigger<?>> Supplier<T> criterionTrigger(String name, Supplier<T> supplier) {
-        T obj = Registry.register(BuiltInRegistries.TRIGGER_TYPES, Horseman.resource(name), supplier.get());
+        T obj = Registry.register(BuiltInRegistries.TRIGGER_TYPES, Horseman.identifier(name), supplier.get());
         return () -> obj;
     }
 
     public static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>, I extends ArgumentTypeInfo<A, T>>
     Supplier<ArgumentTypeInfo<A, T>> commandArgumentType(String id, Class<A> infoClass, I argumentTypeInfo) {
-        ArgumentTypeRegistry.registerArgumentType(Horseman.resource(id), infoClass, argumentTypeInfo);
+        ArgumentTypeRegistry.registerArgumentType(Horseman.identifier(id), infoClass, argumentTypeInfo);
         return () -> argumentTypeInfo;
     }
 
@@ -131,7 +115,7 @@ public class RegisterImpl {
         var builder = DataComponentType.<T>builder();
         builderConsumer.accept(builder);
         var componentType = builder.build();
-        return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Horseman.resource(name), componentType);
+        return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Horseman.identifier(name), componentType);
     }
 
     public static <T extends ParticleType<? extends ParticleOptions>> Supplier<T> particleType(String name, Supplier<T> supplier) {

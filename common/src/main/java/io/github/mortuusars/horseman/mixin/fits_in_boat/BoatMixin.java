@@ -23,6 +23,6 @@ public abstract class BoatMixin extends VehicleEntity {
     private boolean hasEnoughSpaceFor(boolean original, @Local(argsOnly = true) Entity entity) {
         return (Config.Server.HORSE_IN_BOAT.get()
                 && entity instanceof AbstractHorse
-                && !entity.getType().is(Horseman.Tags.EntityTypes.FORBIDS_HORSES)) || original;
+                && !entity.is(Horseman.Tags.EntityTypes.FORBIDS_HORSES)) || original;
     }
 }
