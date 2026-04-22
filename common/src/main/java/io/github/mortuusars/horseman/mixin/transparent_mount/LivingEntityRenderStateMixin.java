@@ -1,12 +1,12 @@
 package io.github.mortuusars.horseman.mixin.transparent_mount;
 
 import io.github.mortuusars.horseman.client.TransparentMount;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.state.EquineRenderState;
 import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(LivingEntityRenderState.class)
+@Mixin(EquineRenderState.class)
 public abstract class LivingEntityRenderStateMixin implements TransparentMount.RenderState {
     @Unique private float horseman$opacity = 1f;
 

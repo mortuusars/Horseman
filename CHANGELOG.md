@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.3 - 2026-04-22
+- Fixed Villagers being half-naked 🤨
+
 ## 1.7.2 - 2026-04-21
 - Port to 26.1.
 
