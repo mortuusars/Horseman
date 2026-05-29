@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.10 - 2026-05-29
+- [Fabric] Fixed rare horse duplication with summoning. (Thanks _ItsSyfe_) 
+
 ## 1.5.9 - 2026-01-18
 - `Switch Inventory`
   - Changed the position and look of a button in player's inventory. It is now right aligned.

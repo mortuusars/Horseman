@@ -67,8 +67,7 @@ public class HorsemanFabric implements ModInitializer {
 
         ServerEntityEvents.ENTITY_UNLOAD.register((entity, world) -> {
             try {
-                if (entity instanceof AbstractHorse horse && world instanceof ServerLevel level) {
-                    if (horse.isRemoved()) return;
+                if (world instanceof ServerLevel level && entity instanceof AbstractHorse horse && !horse.isRemoved()) {
                     HorsemanServer.getSummoning().onHorseUnloaded(level, horse);
                 }
             } catch (Exception e) {
