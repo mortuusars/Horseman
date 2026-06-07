@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/mortuusars/resources/main/media/horseman/main-512.png" width="256">
+  <img src="https://raw.githubusercontent.com/mortuusars/resources/main/media/horseman/main.png" width="256">
     <br>
   <img src="https://img.shields.io/badge/Forge/Fabric/Quilt-1.20.1-e04e14" alt="Forge/FabricQuilt - 1.20.1">
     <br>
