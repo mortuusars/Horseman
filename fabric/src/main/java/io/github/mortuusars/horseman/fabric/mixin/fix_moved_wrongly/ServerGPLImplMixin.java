@@ -1,24 +1,24 @@
 package io.github.mortuusars.horseman.fabric.mixin.fix_moved_wrongly;
 
 import io.github.mortuusars.horseman.Config;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public abstract class ServerGPLImplMixin {
     @Shadow
     public ServerPlayer player;
 
-    @ModifyConstant(method = "handleMoveVehicle", constant = @Constant(doubleValue = 0.0625))
-    private double onHandleMoveVehicle(double value) {
+    @ModifyExpressionValue(method = "handleMoveVehicle", at = @At(value = "CONSTANT", args = "doubleValue=0.0625"))
+    private double onHandleMoveVehicle(double original) {
         if (player.getRootVehicle() instanceof AbstractHorse && Config.Server.FIX_HORSE_MOVED_WRONGLY.get())
             return 0.36;
-        return value;
+        return original;
     }
 }
 
