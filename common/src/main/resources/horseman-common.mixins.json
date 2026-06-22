@@ -21,6 +21,7 @@
     "creative_taming.HorseMixin",
     "fits_in_boat.BoatMixin",
     "fits_in_boat.EntityMixin",
+    "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
     "free_camera_when_mounted.AbstractHorseMixin",
     "hitching.AbstractChestedHorseMixin",
     "hitching.AbstractHorseMixin",

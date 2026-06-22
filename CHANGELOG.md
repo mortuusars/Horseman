@@ -2,6 +2,7 @@
 
 ## 1.3.16 - 2026-06-22
 - Fixed not being able to disable 'switch_inventory' feature.
+- Internal change to potentially make "fix_moved_wrongly" feature more compatible with other mods that apply a similar fix.
 
 ## 1.3.15 - 2026-02-19
 - Fixed error in log when donkey with chest is loaded. 

@@ -47,10 +47,10 @@ dependencies {
     modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_version}"
 
     modCompileOnlyApi("curse.maven:jade-324717:${jade_fabric_id}")
-    modRuntimeOnly("curse.maven:jade-324717:${jade_fabric_id}") { transitive = false }
+    modLocalRuntime("curse.maven:jade-324717:${jade_fabric_id}") { transitive = false }
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+    modLocalRuntime("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
 //    modImplementation("maven.modrinth:horseshoes:1.0.3")
 //    modImplementation("maven.modrinth:immediatelyfast:6QvRWWbF")

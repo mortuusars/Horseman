@@ -9,7 +9,6 @@
   ],
   "mixins": [
     "break_speed.PlayerMixin",
-    "fix_moved_wrongly.ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1
