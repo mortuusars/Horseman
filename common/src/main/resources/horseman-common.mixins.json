@@ -24,6 +24,7 @@
     "dismount.AbstractHorseMixin",
     "fits_in_boat.BoatMixin",
     "fits_in_boat.EntityMixin",
+    "fix_moved_wrongly.ServerGamePacketListenerImplMixin",
     "fix_running_back.EntityMixin",
     "free_camera_when_mounted.AbstractHorseMixin",
     "hitching.AbstractHorseMixin",

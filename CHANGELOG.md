@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.11 - 2026-06-22
+- Internal change to potentially make "fix_moved_wrongly" feature more compatible with other mods that apply a similar fix.  
+
 ## 1.5.10 - 2026-05-29
 - [Fabric] Fixed rare horse duplication with summoning. (Thanks _ItsSyfe_) 
 

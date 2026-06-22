@@ -8,7 +8,6 @@
     "mount_gui.GuiMixin"
   ],
   "mixins": [
-    "fix_moved_wrongly.ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1
