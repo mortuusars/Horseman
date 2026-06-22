@@ -25,8 +25,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenMixin extends Screen {
-    @Shadow protected int leftPos;
-    @Shadow protected int topPos;
+    @Shadow
+    protected int leftPos;
+    @Shadow
+    protected int topPos;
 
     protected AbstractContainerScreenMixin(Component title) {
         super(title);
@@ -35,18 +37,20 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void onKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if (((AbstractContainerScreen<?>) (Object) this) instanceof HorseInventoryScreen
-                && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
-                && Screen.hasControlDown()) {
-            SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this));
+              && Config.Client.INVENTORY_TOGGLE_ENABLED.get()
+              && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
+              && Screen.hasControlDown()) {
+            SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>) (Object) this));
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
         }
 
         if (((Object) this) instanceof InventoryScreen
-                && Minecraft.getInstance().player != null && Minecraft.getInstance().player.jumpableVehicle() instanceof AbstractHorse
-                && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
-                && Screen.hasControlDown()) {
-            SwitchInventory.switchFromInventory((AbstractContainerScreen<?>)(Object) this);
+              && Config.Client.INVENTORY_TOGGLE_ENABLED.get()
+              && Minecraft.getInstance().player != null && Minecraft.getInstance().player.jumpableVehicle() instanceof AbstractHorse
+              && Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)
+              && Screen.hasControlDown()) {
+            SwitchInventory.switchFromInventory((AbstractContainerScreen<?>) (Object) this);
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1));
             cir.setReturnValue(true);
         }
@@ -55,6 +59,10 @@ public abstract class AbstractContainerScreenMixin extends Screen {
     @Inject(method = "init", at = @At("RETURN"))
     private void onInit(CallbackInfo ci) {
         if (Minecraft.getInstance().gameMode == null) return;
+
+        if (!Config.Client.INVENTORY_TOGGLE_ENABLED.get()) {
+            return;
+        }
 
         if (((Object) this) instanceof HorseInventoryScreen) {
             if (SwitchInventory.mouseX != null && SwitchInventory.mouseY != null) {
@@ -65,41 +73,41 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             }
 
             ImageButton button = new ImageButton(
-                    leftPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_Y.get(),
-                    14, 15,
-                    0, 0, 15,
-                    SwitchInventory.BUTTON_TEXTURE,
-                    256, 256,
-                    b -> SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>)(Object) this)));
+                  leftPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_X.get(),
+                  topPos + Config.Client.INVENTORY_TOGGLE_HORSE_BUTTON_Y.get(),
+                  14, 15,
+                  0, 0, 15,
+                  SwitchInventory.BUTTON_TEXTURE,
+                  256, 256,
+                  b -> SwitchInventory.switchFromHorse(((AbstractContainerScreen<?>) (Object) this)));
 
             button.setTooltip(Tooltip.create(Component.translatable("gui.horseman.switch_inventory.button.from_horse.tooltip",
-                Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)
+                  Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)
             )));
 
             addRenderableWidget(button);
         }
 
-        if (((AbstractContainerScreen<?>)(Object) this) instanceof InventoryScreen
-            && Minecraft.getInstance().gameMode.isServerControlledInventory()) {
+        if (((AbstractContainerScreen<?>) (Object) this) instanceof InventoryScreen
+              && Minecraft.getInstance().gameMode.isServerControlledInventory()) {
 
             ImageButton button = new ImageButton(
-                    leftPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_X.get(),
-                    topPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_Y.get(),
-                    14, 15,
-                    0, 0, 15,
-                    SwitchInventory.BUTTON_TEXTURE,
-                    256, 256,
-                    b -> SwitchInventory.switchFromInventory(((AbstractContainerScreen<?>)(Object) this)));
+                  leftPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_X.get(),
+                  topPos + Config.Client.INVENTORY_TOGGLE_PLAYER_BUTTON_Y.get(),
+                  14, 15,
+                  0, 0, 15,
+                  SwitchInventory.BUTTON_TEXTURE,
+                  256, 256,
+                  b -> SwitchInventory.switchFromInventory(((AbstractContainerScreen<?>) (Object) this)));
 
             Component vehicleName = Minecraft.getInstance().player != null
-                    && Minecraft.getInstance().player.getVehicle() instanceof LivingEntity entity
-                    ? entity.getName()
-                    : Component.translatable("gui.horseman.switch_inventory.button.from_inventory..tooltip.mount");
+                  && Minecraft.getInstance().player.getVehicle() instanceof LivingEntity entity
+                  ? entity.getName()
+                  : Component.translatable("gui.horseman.switch_inventory.button.from_inventory..tooltip.mount");
 
             button.setTooltip(Tooltip.create(Component.translatable("gui.horseman.switch_inventory.button.from_inventory.tooltip",
-                    vehicleName,
-                    Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)
+                  vehicleName,
+                  Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)
             )));
 
             addRenderableWidget(button);

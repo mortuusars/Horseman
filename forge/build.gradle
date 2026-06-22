@@ -69,13 +69,13 @@ dependencies {
     implementation(include("io.github.llamalad7:mixinextras-forge:0.4.1"))
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") { transitive = false }
+    modLocalRuntime("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") { transitive = false }
 
     modCompileOnlyApi("curse.maven:jade-324717:${jade_forge_id}")
-    modRuntimeOnly("curse.maven:jade-324717:${jade_forge_id}") { transitive = false }
+    modLocalRuntime("curse.maven:jade-324717:${jade_forge_id}") { transitive = false }
 
     modCompileOnly("curse.maven:realistic-horse-genetics-339184:${realistic_horse_genetics_file_id}")
-//    modRuntimeOnly("curse.maven:realistic-horse-genetics-339184:${realistic_horse_genetics_file_id}")
+    //modLocalRuntime("curse.maven:realistic-horse-genetics-339184:${realistic_horse_genetics_file_id}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
