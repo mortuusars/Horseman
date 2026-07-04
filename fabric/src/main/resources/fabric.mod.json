@@ -30,7 +30,7 @@
     "horseman-fabric.mixins.json"
   ],
   "depends": {
-    "minecraft": ">=26.1",
+    "minecraft": "${fabric_supported_minecraft_versions}",
     "fabric-api": "*",
     "fabricloader": ">=0.16.0",
     "forgeconfigapiport": ">=26.1"

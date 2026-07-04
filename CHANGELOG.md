@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+- Fixed required minecraft versions not being defined correctly.
+
 ## 1.7.3 - 2026-04-22
 - Fixed Villagers being half-naked 🤨
 
