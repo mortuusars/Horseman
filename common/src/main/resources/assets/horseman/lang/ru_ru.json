@@ -27,23 +27,32 @@
   "horseman.configuration.allow_taming_horse_with_item_in_hand": "Приручение лошади с предметом в руке",
   "horseman.configuration.allow_taming_horse_with_item_in_hand.tooltip": "Если включено, то вы сможете приручать лошадь, не заменяя активный слот на пустую руку.\n\nПо умолчанию: ВЫКЛ",
 
-  "horseman.configuration.angle_threshold": "Порог угла",  "horseman.configuration.angle_threshold.tooltip": "Порог в градусах, после которого лошадь будет следовать за вращением игрока.\n\nПо умолчанию: 100\nДиапазон: 0,0 ~ 180,0",
+  "horseman.configuration.angle_threshold": "Порог угла",
+  "horseman.configuration.angle_threshold.tooltip": "Порог в градусах, после которого лошадь будет следовать за вращением игрока.\n\nПо умолчанию: 100\nДиапазон: 0,0 ~ 180,0",
 
-  "horseman.configuration.copper_horn_cooldown": "Время восстановления",  "horseman.configuration.copper_horn_cooldown.tooltip": "Время восстановления в тиках после использования медного рога.\n\nПо умолчанию: 200\nДиапазон: > 1",
+  "horseman.configuration.copper_horn_cooldown": "Время восстановления",
+  "horseman.configuration.copper_horn_cooldown.tooltip": "Время восстановления в тиках после использования медного рога.\n\nПо умолчанию: 200\nДиапазон: > 1",
 
-  "horseman.configuration.copper_horn_details_tooltip": "Подробности о медном роге",  "horseman.configuration.copper_horn_details_tooltip.tooltip": "Всплывающая подсказка для медного рога отобразит полезную информацию.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.copper_horn_details_tooltip": "Подробности о медном роге",
+  "horseman.configuration.copper_horn_details_tooltip.tooltip": "Всплывающая подсказка для медного рога отобразит полезную информацию.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.copper_horn_error_messages": "Сообщения об ошибках",  "horseman.configuration.copper_horn_error_messages.tooltip": "Если при попытке призвать/привязать лошадь с помощью медного рога ничего не происходит, над панелью быстрого доступа появится сообщение об ошибке.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.copper_horn_error_messages": "Сообщения об ошибках",
+  "horseman.configuration.copper_horn_error_messages.tooltip": "Если при попытке призвать/привязать лошадь с помощью медного рога ничего не происходит, над панелью быстрого доступа появится сообщение об ошибке.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.copper_horn_fail_sound": "Звук ошибки",  "horseman.configuration.copper_horn_fail_sound.tooltip": "Если призыв не удался, медный рог издаст другой звук. Установите значение 'ВЫКЛ', чтобы звук был обычным независимо от результата.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.copper_horn_fail_sound": "Звук ошибки",
+  "horseman.configuration.copper_horn_fail_sound.tooltip": "Если призыв не удался, медный рог издаст другой звук. Установите значение 'ВЫКЛ', чтобы звук был обычным независимо от результата.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.copper_horn_sound_range": "Диапазон звучания",  "horseman.configuration.copper_horn_sound_range.tooltip": "Дальность, на которой другие игроки могут услышать звук медного рога. Дальность действия козьего составляет 256 блоков.\n\nПо умолчанию: 256\nДиапазон: 16 ~ 256",
+  "horseman.configuration.copper_horn_sound_range": "Диапазон звучания",
+  "horseman.configuration.copper_horn_sound_range.tooltip": "Дальность, на которой другие игроки могут услышать звук медного рога. Дальность действия козьего составляет 256 блоков.\n\nПо умолчанию: 256\nДиапазон: 16 ~ 256",
 
-  "horseman.configuration.dimension_handling": "Поведение в измерениях",  "horseman.configuration.dimension_handling.tooltip": "Поведение при призыве в зависимости от измерения.\n\nANY: можно призвать в любом измерении,\nSAME: можно призвать, только если лошадь находится в том же измерении, что и игрок,\nWHITELIST: можно призвать, только если игрок находится в одном из измерений, указанных в списке измерений,\nBLACKLIST: можно призвать, только если игрок НЕ находится в одном из измерений, указанных в списке\n\nПо умолчанию: ANY\nДопустимые значения: ANY, SAME, WHITELIST, BLACKLIST",
+  "horseman.configuration.dimension_handling": "Поведение в измерениях",
+  "horseman.configuration.dimension_handling.tooltip": "Поведение при призыве в зависимости от измерения.\n\nANY: можно призвать в любом измерении,\nSAME: можно призвать, только если лошадь находится в том же измерении, что и игрок,\nWHITELIST: можно призвать, только если игрок находится в одном из измерений, указанных в списке измерений,\nBLACKLIST: можно призвать, только если игрок НЕ находится в одном из измерений, указанных в списке\n\nПо умолчанию: ANY\nДопустимые значения: ANY, SAME, WHITELIST, BLACKLIST",
 
-  "horseman.configuration.dimensions": "Список измерений",  "horseman.configuration.dimensions.tooltip": "Белый или черный список измерений в зависимости от параметра 'dimension_handling'.\nФормат: ['minecraft:overworld', 'minecraft:the_end']\n\nПо умолчанию: [] (пустой список)",
+  "horseman.configuration.dimensions": "Список измерений",
+  "horseman.configuration.dimensions.tooltip": "Белый или черный список измерений в зависимости от параметра 'dimension_handling'.\nФормат: ['minecraft:overworld', 'minecraft:the_end']\n\nПо умолчанию: [] (пустой список)",
 
-  "horseman.configuration.dismount_towards_view_direction": "Спешиться в направлении взгляда",  "horseman.configuration.dismount_towards_view_direction.tooltip": "При спешивании игрок окажется лицом в направлении взгляда.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.dismount_towards_view_direction": "Спешиться в направлении взгляда",
+  "horseman.configuration.dismount_towards_view_direction.tooltip": "При спешивании игрок окажется лицом в направлении взгляда.\n\nПо умолчанию: ВКЛ",
 
   "horseman.configuration.enabled": "Включить",
   "horseman.configuration.enabled.tooltip": "Включает опцию. Вроде бы логично.",
@@ -53,9 +62,11 @@
 
   "horseman.configuration.fix_horse_moved_wrongly": "Исправить 'Moved Wrongly'",
 
-  "horseman.configuration.fix_mounted_camera_lag": "Исправление задержки камеры при езде",  "horseman.configuration.fix_mounted_camera_lag.tooltip": "Устраняет небольшую задержку при горизонтальном перемещении камеры во время езды — MC-259512.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.fix_mounted_camera_lag": "Исправление задержки камеры при езде",
+  "horseman.configuration.fix_mounted_camera_lag.tooltip": "Устраняет небольшую задержку при горизонтальном перемещении камеры во время езды — MC-259512.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.fix_running_back_after_dismount": "Исправление бега назад после спешивания",  "horseman.configuration.fix_running_back_after_dismount.tooltip": "Исправляет ошибку, из-за которой лошадь убегала назад после того, как игрок спешился (это происходило, если лошадь была на поводке перед посадкой).\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.fix_running_back_after_dismount": "Исправление бега назад после спешивания",
+  "horseman.configuration.fix_running_back_after_dismount.tooltip": "Исправляет ошибку, из-за которой лошадь убегала назад после того, как игрок спешился (это происходило, если лошадь была на поводке перед посадкой).\n\nПо умолчанию: ВКЛ",
 
   "horseman.configuration.free_camera": "Свободная камера",
   "horseman.configuration.hitching": "Привязывание",
@@ -65,23 +76,28 @@
   "horseman.configuration.horse_button_position_y": "Расположение кнопки в инвентаре лошади по Y",
   "horseman.configuration.horse_button_position_y.tooltip": "Расположение кнопки по оси Y в инвентаре ездового животного.\n\nПо умолчанию: 9\nДиапазон: > -2147483648",
 
-  "horseman.configuration.horse_creative_taming": "Приручение в творческом режиме",  "horseman.configuration.horse_creative_taming.tooltip": "Если в творческом режиме использовать седло на неприрученной лошади, то она мгновенно станет вашей.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.horse_creative_taming": "Приручение в творческом режиме",
+  "horseman.configuration.horse_creative_taming.tooltip": "Если в творческом режиме использовать седло на неприрученной лошади, то она мгновенно станет вашей.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.horse_fast_step_down": "Быстрый спуск",  "horseman.configuration.horse_fast_step_down.tooltip": "Увеличивает скорость спуска лошади на один блок быстрее.\nУменьшает замедление при съезде с блока, делая езду намного плавнее.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.horse_fast_step_down": "Быстрый спуск",
+  "horseman.configuration.horse_fast_step_down.tooltip": "Увеличивает скорость спуска лошади на один блок быстрее.\nУменьшает замедление при съезде с блока, делая езду намного плавнее.\n\nПо умолчанию: ВКЛ",
   "horseman.configuration.horse_fast_step_down_two_blocks": "Спуск на 2 блока",
   "horseman.configuration.horse_fast_step_down_two_blocks.tooltip": "Запускает функцию 'Быстрый спуск' при спуске на два блока. Лучше работает на крутых лестницах, но может привести к нежелательному поведению в других местах.\n\nПо умолчанию: ВЫКЛ",
 
   "horseman.configuration.horse_fits_in_boat": "Лошадь помещается в лодку",
   "horseman.configuration.horse_fits_in_boat.tooltip": "Лошади смогут поместиться в лодку.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.horse_model_head_offset": "Смещение наклона головы лошади",  "horseman.configuration.horse_model_head_offset.tooltip": "Смещение наклона головы модели лошади во время езды. Опускает голову, чтобы она не загораживала обзор.\n\nПо умолчанию: 20\nДиапазон: 0 ~ 45",
+  "horseman.configuration.horse_model_head_offset": "Смещение наклона головы лошади", 
+  "horseman.configuration.horse_model_head_offset.tooltip": "Смещение наклона головы модели лошади во время езды. Опускает голову, чтобы она не загораживала обзор.\n\nПо умолчанию: 20\nДиапазон: 0 ~ 45",
 
   "horseman.configuration.horse_model_y_offset": "Смещение головы лошади по Y",
   "horseman.configuration.horse_model_y_offset.tooltip": "Смещение относительно положения головы лошади по оси Y во время езды, предназначенное для того, чтобы опустить голову и не загораживать обзор.\n\nПо умолчанию: 2\nДиапазон: 0 ~ 4",
 
-  "horseman.configuration.horse_stats_tooltip": "Подсказка по статистике лошади",  "horseman.configuration.horse_stats_tooltip.tooltip": "Всплывающая подсказка со статистикой лошади появится, когда вы смотрите на лошадь и держите в руках корм, который ей нравится.",
+  "horseman.configuration.horse_stats_tooltip": "Подсказка по статистике лошади", 
+  "horseman.configuration.horse_stats_tooltip.tooltip": "Всплывающая подсказка со статистикой лошади появится, когда вы смотрите на лошадь и держите в руках корм, который ей нравится.",
 
-  "horseman.configuration.horse_step_height_modifier": "Модификатор высоты шага", "horseman.configuration.horse_step_height_modifier.tooltip": "У лошадей будет добавлена дополнительная высота шага.\nЕсли задано значение 1, лошадь сможет подниматься на два блока. Для ванильного поведения задайте 0.\n\nПо умолчанию 0,1\nДиапазон: -1,0 ~ 10,0",
+  "horseman.configuration.horse_step_height_modifier": "Модификатор высоты шага",
+  "horseman.configuration.horse_step_height_modifier.tooltip": "У лошадей будет добавлена дополнительная высота шага.\nЕсли задано значение 1, лошадь сможет подниматься на два блока. Для ванильного поведения задайте 0.\n\nПо умолчанию 0,1\nДиапазон: -1,0 ~ 10,0",
 
   "horseman.configuration.horse_swim_when_ridden": "Плаванье",
 
@@ -105,12 +121,14 @@
   "horseman.configuration.leather_horse_armor_powder_snow": "Кожаные конские доспехи позволяют ходить по рыхлому снегу",
   "horseman.configuration.leather_horse_armor_powder_snow.tooltip": "Лошадь в кожаной конской броне может ходить по рыхлому снегу так же, как игрок в кожаных ботинках.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.leaves_collision_mode_when_mounted": "Режим коллизии листьев при езде",  "horseman.configuration.leaves_collision_mode_when_mounted.tooltip": "Управляет столкновением с листьями при езде на лошади.\n\nFULL: полное столкновение, как в ванилле,\nIGNORE_LOWEST_BLOCK: столкновение с самым нижним слоем листьев игнорируется,\nIGNORE_ALL: столкновение со всеми слоями листьев игнорируются\n\nПо умолчанию: IGNORE_LOWEST_BLOCK (этого достаточно, чтобы езда по лесу была возможной),\nДопустимые значения: FULL, IGNORE_LOWEST_BLOCK, IGNORE_ALL",
+  "horseman.configuration.leaves_collision_mode_when_mounted": "Режим коллизии листьев при езде",
+  "horseman.configuration.leaves_collision_mode_when_mounted.tooltip": "Управляет столкновением с листьями при езде на лошади.\n\nFULL: полное столкновение, как в ванилле,\nIGNORE_LOWEST_BLOCK: столкновение с самым нижним слоем листьев игнорируется,\nIGNORE_ALL: столкновение со всеми слоями листьев игнорируются\n\nПо умолчанию: IGNORE_LOWEST_BLOCK (этого достаточно, чтобы езда по лесу была возможной),\nДопустимые значения: FULL, IGNORE_LOWEST_BLOCK, IGNORE_ALL",
 
   "horseman.configuration.max_opacity": "Максимальная непрозрачность",
   "horseman.configuration.max_opacity.tooltip": "Максимальная непрозрачность (в крайнем углу).\n0 — полностью прозрачный,\n1 — полностью непрозрачный.\n\nПо умолчанию: 0,08\nДиапазон: 0,0 ~ 1,0",
 
-  "horseman.configuration.max_summoning_distance": "Максимальное расстояние призыва",  "horseman.configuration.max_summoning_distance.tooltip": "Максимальное расстояние в блоках от игрока, на котором можно призвать лошадь.\nУстановите значение -1, чтобы разрешить любое расстояние.\n\nПо умолчанию: -1\nДиапазон: > -1",
+  "horseman.configuration.max_summoning_distance": "Максимальное расстояние призыва",
+  "horseman.configuration.max_summoning_distance.tooltip": "Максимальное расстояние в блоках от игрока, на котором можно призвать лошадь.\nУстановите значение -1, чтобы разрешить любое расстояние.\n\nПо умолчанию: -1\nДиапазон: > -1",
 
   "horseman.configuration.max_walking_distance": "Максимальное расстояние ходьбы",
   "horseman.configuration.max_walking_distance.tooltip": "Максимальное расстояние в блоках от игрока, на котором лошадь будет идти, а не телепортироваться.\nУстановите значение «0», чтобы лошадь всегда телепортировалась.\n\nПо умолчанию: 32\nДиапазон: 0,0 ~ 1024,0",
@@ -125,12 +143,16 @@
   "horseman.configuration.only_horses": "Только лошади",
   "horseman.configuration.only_horses.tooltip": "Если включено, то будет действовать только на мобов, похожих на лошадей.\n\nПо умолчанию: ВЫКЛ",
 
-  "horseman.configuration.player_button_position_x": "Расположение кнопки в инвентаре игрока по X",  "horseman.configuration.player_button_position_x.tooltip": "Расположение кнопки переключения по оси X в инвентаре игрока.\n\nПо умолчанию: 176\nДиапазон: > -2147483648",
-  "horseman.configuration.player_button_position_y": "Расположение кнопки в инвентаре игрока по Y",  "horseman.configuration.player_button_position_y.tooltip": "Расположение кнопки переключения по оси Y в инвентаре игрока.\n\nПо умолчанию: 9\nДиапазон: > -2147483648",
+  "horseman.configuration.player_button_position_x": "Расположение кнопки в инвентаре игрока по X",
+  "horseman.configuration.player_button_position_x.tooltip": "Расположение кнопки переключения по оси X в инвентаре игрока.\n\nПо умолчанию: 176\nДиапазон: > -2147483648",
+  "horseman.configuration.player_button_position_y": "Расположение кнопки в инвентаре игрока по Y",
+  "horseman.configuration.player_button_position_y.tooltip": "Расположение кнопки переключения по оси Y в инвентаре игрока.\n\nПо умолчанию: 9\nДиапазон: > -2147483648",
 
-  "horseman.configuration.prevent_jumping_in_water": "Предотвращать прыжки в воде",  "horseman.configuration.prevent_jumping_in_water.tooltip": "Предотвращает заполнение шкалы прыжков лошади, когда она находится в воде.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.prevent_jumping_in_water": "Предотвращать прыжки в воде",
+  "horseman.configuration.prevent_jumping_in_water.tooltip": "Предотвращает заполнение шкалы прыжков лошади, когда она находится в воде.\n\nПо умолчанию: ВКЛ",
 
-  "horseman.configuration.render_lead_indication_without_slot": "Индикатор поводка без слота",  "horseman.configuration.render_lead_indication_without_slot.tooltip": "Если слот для поводка отключен, но поводок все еще необходим для привязывания лошади, на экране инвентаря лошади будет отображаться информация о том, надет ли поводок.\n\nПо умолчанию: ВКЛ",
+  "horseman.configuration.render_lead_indication_without_slot": "Индикатор поводка без слота",
+  "horseman.configuration.render_lead_indication_without_slot.tooltip": "Если слот для поводка отключен, но поводок все еще необходим для привязывания лошади, на экране инвентаря лошади будет отображаться информация о том, надет ли поводок.\n\nПо умолчанию: ВКЛ",
 
   "horseman.configuration.requires_lead": "Требовать поводок",
   "horseman.configuration.requires_lead.tooltip": "При включении для привязки требует, чтобы на лошади был поводок. Если эта функция отключена, то также будет отключена функция 'Слот для поводка'.\n\nПо умолчанию: ВКЛ",
@@ -155,7 +177,8 @@
 
   "horseman.configuration.transparent_horse": "Прозрачная лошадь",
 
-  "horseman.configuration.walk_movement_speed": "Скорость передвижения при ходьбе",  "horseman.configuration.walk_movement_speed.tooltip": "Скорость передвижения лошади при приближении к игроку после призыва.\n\nПо умолчанию: 2.0\nДиапазон: 0.1 ~ 2.5",
+  "horseman.configuration.walk_movement_speed": "Скорость передвижения при ходьбе",
+  "horseman.configuration.walk_movement_speed.tooltip": "Скорость передвижения лошади при приближении к игроку после призыва.\n\nПо умолчанию: 2.0\nДиапазон: 0.1 ~ 2.5",
 
   "horseman.jei.info.copper_horn1": "Может быть использован для вызова лошади к вам.",
   "horseman.jei.info.copper_horn2": "Привяжите лошадь с помощью [Краться+Использовать], затем [Использовать], чтобы вызвать её.",
