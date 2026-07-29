@@ -4,8 +4,8 @@ import com.mojang.authlib.GameProfile;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PlayerRideableJumping;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +38,7 @@ public abstract class LocalPlayerMixin extends Player {
 
         PlayerRideableJumping vehicle = jumpableVehicle();
 
-        if (vehicle instanceof LivingEntity entity) {
+        if (vehicle instanceof AbstractHorse entity) {
             if (entity.isInWater()) {
                 horseman$lastTickVehicleInWater = level().getGameTime();
             }
