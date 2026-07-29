@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.12 - 2026-07-29
+- Only apply 'prevent jumping in water' fix to abstract horses.
+  - Fixes not being able to jump in water when riding other mobs.
+
 ## 1.5.11 - 2026-06-22
 - Internal change to potentially make "fix_moved_wrongly" feature more compatible with other mods that apply a similar fix.  
 
