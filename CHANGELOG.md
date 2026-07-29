@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## 1.7.4 - 2026-07-29
 - Fixed required minecraft versions not being defined correctly.
 
 ## 1.7.3 - 2026-04-22
