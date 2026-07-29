@@ -26,7 +26,7 @@ public abstract class HorseInventoryMenuMixin extends AbstractMountInventoryMenu
             at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/inventory/HorseInventoryMenu;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;",
             ordinal = 1, shift = At.Shift.AFTER))
-    private void onInit(int containerId, Inventory inventory, Container horseContainer, AbstractHorse horse, int columns, CallbackInfo ci) {
+    private void onInit(int containerId, Inventory playerInventory, Container horseInventory, AbstractHorse horse, int inventoryColumns, CallbackInfo ci) {
         if (!(horse instanceof HitchableHorse hitchableHorse)) return;
         if (!HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) return;
 

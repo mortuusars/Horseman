@@ -34,12 +34,12 @@ public abstract class AbstractMountInventoryMenuMixin extends AbstractContainerM
      * Fabric does not check slot limits when inserting.
      */
     @Inject(method = "quickMoveStack", at = @At(value = "HEAD"), cancellable = true)
-    private void onQuickMoveStack(Player player, int index, CallbackInfoReturnable<ItemStack> cir) {
+    private void onQuickMoveStack(Player player, int slotIndex, CallbackInfoReturnable<ItemStack> cir) {
         if (!(this.mount instanceof HitchableHorse hitchableHorse)) return;
         if (!HitchableHorse.shouldHaveLeadSlot(hitchableHorse)) return;
-        if (index < this.mountContainer.getContainerSize() + 1) return;
+        if (slotIndex < this.mountContainer.getContainerSize() + 1) return;
 
-        Slot slot = this.slots.get(index);
+        Slot slot = this.slots.get(slotIndex);
         if (!slot.hasItem()) {
             return;
         }

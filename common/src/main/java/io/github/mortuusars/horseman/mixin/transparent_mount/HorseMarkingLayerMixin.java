@@ -22,38 +22,6 @@ public abstract class HorseMarkingLayerMixin extends RenderLayer<HorseRenderStat
         super(renderer);
     }
 
-//    @Inject(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/HorseRenderState;FF)V",
-//      at = @At("HEAD"), cancellable = true)
-//    private void onSubmit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, HorseRenderState state, float yRot, float xRot, CallbackInfo ci) {
-//        if (TransparentMount.storedOpacity <= 0f || TransparentMount.storedOpacity >= 1f) {
-//            return;
-//        }
-//
-//        HorseMarkingLayer.HorseMarkingTextures variant = (HorseMarkingLayer.HorseMarkingTextures)LOCATION_BY_MARKINGS.get(state.markings);
-//        Identifier texture = state.isBaby ? variant.baby : variant.adult;
-//        if (texture != INVISIBLE_TEXTURE && !state.isInvisible) {
-//            submitNodeCollector.order(1)
-//                  .submitModel(
-//                        this.getParentModel(),
-//                        state,
-//                        poseStack,
-//                        RenderTypes.entityTranslucent(texture),
-//                        lightCoords,
-//                        LivingEntityRenderer.getOverlayCoords(state, 0.0F),
-//                        state.outlineColor,
-//                        null
-//                  );
-//        }
-//    }
-//
-//    @ModifyArg(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/HorseRenderState;FF)V",
-//          at = @At(value = "INVOKE",
-//          target = "Lnet/minecraft/client/renderer/OrderedSubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/rendertype/RenderType;IIILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"),
-//          index = 6)
-//    private int modifyColor(int colorArgb) {
-//        return TransparentMount.applyOpacity(colorArgb, TransparentMount.storedOpacity);
-//    }
-
     @WrapOperation(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/HorseRenderState;FF)V",
           at = @At(value = "INVOKE",
                 target = "Lnet/minecraft/client/renderer/OrderedSubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/rendertype/RenderType;IIILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))

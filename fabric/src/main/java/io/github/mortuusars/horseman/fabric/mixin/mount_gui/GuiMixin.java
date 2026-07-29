@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.mortuusars.horseman.Config;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import org.jspecify.annotations.Nullable;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(value = Gui.class)
+@Mixin(value = Hud.class)
 public abstract class GuiMixin {
     @Shadow
     @Final
@@ -25,7 +25,7 @@ public abstract class GuiMixin {
     protected abstract boolean willPrioritizeJumpInfo();
 
     @Shadow
-    protected abstract int getVisibleVehicleHeartRows(int vehicleHealth);
+    protected abstract int getVisibleVehicleHeartRows(int hearts);
 
     @Shadow
     protected abstract int getVehicleMaxHearts(@Nullable LivingEntity vehicle);
@@ -37,37 +37,37 @@ public abstract class GuiMixin {
     @Unique
     private long horseman$lastTickHorseInWater = -1;
 
-    @WrapOperation(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
-    private int renderPlayerHealth_getVehicleMaxHearts(Gui instance, LivingEntity vehicle, Operation<Integer> original) {
+    @WrapOperation(method = "extractPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;getVehicleMaxHearts(Lnet/minecraft/world/entity/LivingEntity;)I"))
+    private int renderPlayerHealth_getVehicleMaxHearts(Hud instance, LivingEntity vehicle, Operation<Integer> original) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get()) return original.call(instance, vehicle);
         return 0; // Forces hunger bar rendering, because it is not rendered when vehicle hearts is not 0.
     }
 
-    @ModifyVariable(method = "extractVehicleHealth", at = @At(value = "STORE"), ordinal = 2)
-    private int renderVehicleHealth(int y) {
+    @ModifyVariable(method = "extractVehicleHealth", at = @At(value = "STORE"), name = "yLine1")
+    private int renderVehicleHealth(int yLine1) {
         if (Config.Client.IMPROVED_MOUNT_GUI.get()
               && Minecraft.getInstance().gameMode != null
               && Minecraft.getInstance().gameMode.canHurtPlayer()) {
-            y -= 10; // Make room for hunger bar
+            yLine1 -= 10; // Make room for hunger bar
         }
-        return y;
+        return yLine1;
     }
 
-    @WrapOperation(method = "getAirBubbleYLine", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;getVisibleVehicleHeartRows(I)I"))
-    private int getAirYLine(Gui instance, int vehicleHealth, Operation<Integer> original) {
+    @WrapOperation(method = "getAirBubbleYLine", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;getVisibleVehicleHeartRows(I)I"))
+    private int getAirYLine(Hud instance, int hearts, Operation<Integer> original) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get()
               || minecraft.player == null
               || minecraft.player.jumpableVehicle() == null) {
-            return original.call(instance, vehicleHealth);
+            return original.call(instance, hearts);
         }
 
         return getVisibleVehicleHeartRows(getVehicleMaxHearts(getPlayerVehicleWithHealth()));
     }
 
-    @ModifyVariable(method = "nextContextualInfoState", at = @At(value = "STORE"), ordinal = 1)
-    private boolean shouldChooseJumpBar(boolean willChooseJumpBar) {
+    @ModifyVariable(method = "nextContextualInfoState", at = @At(value = "STORE"), name = "canShowVehicleJumpInfo")
+    private boolean shouldChooseJumpBar(boolean canShowVehicleJumpInfo) {
         if (!Config.Client.IMPROVED_MOUNT_GUI.get() || (minecraft.player != null && minecraft.player.isCreative())) {
-            return willChooseJumpBar;
+            return canShowVehicleJumpInfo;
         }
 
         if (minecraft.player != null && minecraft.player.jumpableVehicle() instanceof AbstractHorse horse) {
@@ -80,6 +80,6 @@ public abstract class GuiMixin {
             }
         }
 
-        return willChooseJumpBar && willPrioritizeJumpInfo();
+        return canShowVehicleJumpInfo && willPrioritizeJumpInfo();
     }
 }

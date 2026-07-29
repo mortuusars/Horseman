@@ -44,7 +44,7 @@
     "momentum.LivingEntityMixin",
     "ride_though_leaves.BlockBehaviourMixin",
     "rotate_horse_when_mounting.AbstractHorseMixin",
-    "shears_remove_chest.EntityMixin",
+    "shears_remove_chest.MobMixin",
     "summoning.AbstractHorseMixin",
     "summoning.CamelMixin",
     "tame_with_item.HorseMixin"

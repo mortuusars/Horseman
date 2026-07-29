@@ -33,7 +33,7 @@
     "minecraft": "${fabric_supported_minecraft_versions}",
     "fabric-api": "*",
     "fabricloader": ">=0.16.0",
-    "forgeconfigapiport": ">=26.1"
+    "forgeconfigapiport": ">=${required_forge_config_api_port_version}"
   },
   "conflicts": {
     "horsebuff": "*"

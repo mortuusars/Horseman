@@ -19,6 +19,7 @@ public abstract class BoatMixin extends VehicleEntity {
         super(entityType, level);
     }
 
+    @SuppressWarnings("LocalMayUseName")
     @ModifyReturnValue(method = "hasEnoughSpaceFor", at = @At("RETURN"))
     private boolean hasEnoughSpaceFor(boolean original, @Local(argsOnly = true) Entity entity) {
         return (Config.Server.HORSE_IN_BOAT.get()

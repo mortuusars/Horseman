@@ -40,7 +40,7 @@ public abstract class AbstractContainerScreenMixin extends Screen {
             ImageButton switchButton = new ImageButton(leftPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_X.get(),
                   topPos + Config.Client.INVENTORY_SWITCH_HORSE_BUTTON_Y.get(), 14, 15,
                   SwitchInventory.SWITCH_BUTTON_LEFT_SPRITES,
-                  b -> SwitchInventory.switchToInventory(((AbstractContainerScreen<?>)(Object) this)));
+                  _ -> SwitchInventory.switchToInventory(((AbstractContainerScreen<?>)(Object) this)));
 
             switchButton.setTooltip(Tooltip.create(Component.translatable("gui.horseman.switch_inventory.button.to_inventory.tooltip",
                   Component.literal(Minecraft.getInstance().options.keyInventory.getTranslatedKeyMessage().getString()).withStyle(ChatFormatting.GRAY)

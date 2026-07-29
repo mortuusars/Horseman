@@ -19,11 +19,11 @@ public class HorseStatsTooltip {
     public static boolean extract(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
         if (!Config.Common.HORSE_STATS_TOOLTIP.get()) return false;
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.options.hideGui
+        if (minecraft.gui.hud.isHidden()
                 || minecraft.level == null
                 || minecraft.player == null
                 || minecraft.player.isSpectator()
-                || minecraft.screen != null
+                || minecraft.gui.screen() != null
                 || !(minecraft.hitResult instanceof EntityHitResult entityHitResult)
                 || !(entityHitResult.getEntity() instanceof Horse horse)
                 || (!minecraft.player.getMainHandItem().is(ItemTags.HORSE_FOOD)

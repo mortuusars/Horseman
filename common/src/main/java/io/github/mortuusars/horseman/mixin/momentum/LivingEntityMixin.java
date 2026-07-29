@@ -40,7 +40,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "travelRidden", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;travel(Lnet/minecraft/world/phys/Vec3;)V"))
-    private void onTravelRidden(Player player, Vec3 travelVector, CallbackInfo ci) {
+    private void onTravelRidden(Player controller, Vec3 selfInput, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity instanceof AbstractHorse horse && HorseStepDown.shouldHorseStepDown(horse)) {
             // Applies downward momentum to connect with the ground faster and regain running speed.

@@ -16,18 +16,19 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@SuppressWarnings("LocalMayUseName")
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin {
     @Inject(method = "getRenderType",
           at = @At(value = "INVOKE",
                 target = "Lnet/minecraft/client/model/EntityModel;renderType(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/rendertype/RenderType;"),
           cancellable = true)
-    private void getRenderType(LivingEntityRenderState renderState, boolean visible, boolean translucent, boolean glowing,
-                                 CallbackInfoReturnable<RenderType> cir, @Local Identifier identifier) {
-        if (renderState instanceof TransparentMount.RenderState state) {
-            float opacity = state.horseman$getOpacity();
+    private void getRenderType(LivingEntityRenderState state, boolean isBodyVisible, boolean forceTransparent, boolean appearGlowing,
+                               CallbackInfoReturnable<RenderType> cir, @Local Identifier texture) {
+        if (state instanceof TransparentMount.RenderState mountState) {
+            float opacity = mountState.horseman$getOpacity();
             if (opacity > 0f || opacity < 1f) {
-                cir.setReturnValue(RenderTypes.entityTranslucent(identifier));
+                cir.setReturnValue(RenderTypes.entityTranslucent(texture));
             }
         }
     }
@@ -36,9 +37,9 @@ public class LivingEntityRendererMixin {
           at = @At(value = "INVOKE",
                 target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/rendertype/RenderType;IIILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"),
           index = 6)
-    private int modifyColor(int colorArgb, @Local(argsOnly = true) LivingEntityRenderState renderState) {
-        if (renderState instanceof TransparentMount.RenderState state) {
-            return TransparentMount.applyOpacity(colorArgb, state.horseman$getOpacity());
+    private int modifyColor(int colorArgb, @Local(argsOnly = true) LivingEntityRenderState state) {
+        if (state instanceof TransparentMount.RenderState mountState) {
+            return TransparentMount.applyOpacity(colorArgb, mountState.horseman$getOpacity());
         }
         return colorArgb;
     }
@@ -46,9 +47,9 @@ public class LivingEntityRendererMixin {
     @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V",
           at = @At("HEAD"),
           cancellable = true)
-    private void stopRendering(LivingEntityRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
-                               net.minecraft.client.renderer.state.level.CameraRenderState cameraRenderState, CallbackInfo ci) {
-        if (renderState instanceof TransparentMount.RenderState state && state.horseman$getOpacity() <= 0f) {
+    private void stopRendering(LivingEntityRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                               net.minecraft.client.renderer.state.level.CameraRenderState camera, CallbackInfo ci) {
+        if (state instanceof TransparentMount.RenderState mountState && mountState.horseman$getOpacity() <= 0f) {
             ci.cancel();
         }
     }

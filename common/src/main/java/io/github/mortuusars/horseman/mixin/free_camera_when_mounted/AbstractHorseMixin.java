@@ -21,9 +21,9 @@ public abstract class AbstractHorseMixin extends Animal {
     }
 
     @Inject(method = "getRiddenRotation", at = @At(value = "HEAD"), cancellable = true)
-    private void onGetRiddenRotation(LivingEntity entity, CallbackInfoReturnable<Vec2> cir) {
+    private void onGetRiddenRotation(LivingEntity controller, CallbackInfoReturnable<Vec2> cir) {
         AbstractHorse horse = (AbstractHorse)(Object)this;
-        if (!Config.Server.HORSE_FREE_CAMERA.get() || !(entity instanceof Player player) || player.xxa != 0 || player.zza != 0) {
+        if (!Config.Server.HORSE_FREE_CAMERA.get() || !(controller instanceof Player player) || player.xxa != 0 || player.zza != 0) {
             return;
         }
 

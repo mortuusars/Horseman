@@ -16,11 +16,11 @@ public class EquipmentLayerRendererMixin {
     @WrapOperation(method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/resources/Identifier;II)V",
           at = @At(value = "INVOKE",
                 target = "Lnet/minecraft/client/renderer/rendertype/RenderTypes;armorCutoutNoCull(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/rendertype/RenderType;"))
-    private RenderType equipmentOpacity(Identifier identifier, Operation<RenderType> original) {
+    private RenderType equipmentOpacity(Identifier texture, Operation<RenderType> original) {
         if (TransparentMount.storedOpacity > 0f && TransparentMount.storedOpacity < 1f) {
-            return RenderTypes.armorTranslucent(identifier);
+            return RenderTypes.armorTranslucent(texture);
         }
-        return original.call(identifier);
+        return original.call(texture);
     }
 
     @ModifyArg(method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/resources/Identifier;II)V",

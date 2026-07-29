@@ -50,7 +50,7 @@ public abstract class AbstractRecipeBookScreenMixin<T extends RecipeBookMenu> ex
                   14,
                   15,
                   SwitchInventory.SWITCH_BUTTON_RIGHT_SPRITES,
-                  b -> SwitchInventory.switchToMount(inventoryScreen));
+                  _ -> SwitchInventory.switchToMount(inventoryScreen));
 
             Component vehicleName = Minecraft.getInstance().player != null
                   && Minecraft.getInstance().player.getVehicle() instanceof Entity entity

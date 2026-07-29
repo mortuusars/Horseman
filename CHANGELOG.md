@@ -1,13 +1,14 @@
 # Changelog
 
-## UNRELEASED
+## 1.7.4 - 26.2 - 2026-07-29 
+- Ported to 26.2.
 - Fixed required minecraft versions not being defined correctly.
 
 ## 1.7.3 - 2026-04-22
 - Fixed Villagers being half-naked 🤨
 
 ## 1.7.2 - 2026-04-21
-- Port to 26.1.
+- Ported to 26.1.
 
 ## 1.7.2 - 2026-01-20
 - Removed `prevent rearing when riding` feature for the time being, as it's usefulness is questionable. 

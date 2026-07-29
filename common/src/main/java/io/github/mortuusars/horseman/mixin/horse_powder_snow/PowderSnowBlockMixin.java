@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(PowderSnowBlock.class)
 public abstract class PowderSnowBlockMixin {
+    @SuppressWarnings("LocalMayUseName")
     @ModifyReturnValue(method = "canEntityWalkOnPowderSnow", at = @At("RETURN"))
     private static boolean canEntityWalkOnPowderSnow(boolean original, @Local(argsOnly = true) Entity entity) {
         return original ||

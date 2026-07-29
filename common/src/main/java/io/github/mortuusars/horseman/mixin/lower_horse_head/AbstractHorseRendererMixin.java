@@ -24,11 +24,11 @@ public abstract class AbstractHorseRendererMixin <T extends AbstractHorse, S ext
 
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/animal/equine/AbstractHorse;Lnet/minecraft/client/renderer/entity/state/EquineRenderState;F)V",
             at = @At("RETURN"))
-    private void extractRenderState(T abstractHorse, S equineRenderState, float f, CallbackInfo ci) {
-        if (equineRenderState instanceof RiddenEquineRenderState state) {
+    private void extractRenderState(T entity, S state, float partialTicks, CallbackInfo ci) {
+        if (state instanceof RiddenEquineRenderState riddenState) {
             boolean riddenByPlayerInFirstPerson = Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON
-                    && Minecraft.getInstance().player != null && abstractHorse.hasPassenger(Minecraft.getInstance().player);
-            state.horseman$setRiddenByPlayerInFirstPerson(riddenByPlayerInFirstPerson);
+                    && Minecraft.getInstance().player != null && entity.hasPassenger(Minecraft.getInstance().player);
+            riddenState.horseman$setRiddenByPlayerInFirstPerson(riddenByPlayerInFirstPerson);
         }
     }
 }

@@ -35,7 +35,7 @@ public class SwitchInventory {
         double cursorY = Minecraft.getInstance().mouseHandler.ypos();
 
         screen.onClose();
-        Minecraft.getInstance().setScreen(new InventoryScreen(Minecraft.getInstance().player));
+        Minecraft.getInstance().gui.setScreen(new InventoryScreen(Minecraft.getInstance().player));
 
         // Move cursor to previous position, as setScreen resets it to center every time:
         Minecraft.getInstance().execute(() -> {

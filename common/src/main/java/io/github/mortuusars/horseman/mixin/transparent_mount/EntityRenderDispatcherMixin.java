@@ -13,10 +13,11 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
     @WrapMethod(method = "submit")
-    public void onSubmit(EntityRenderState renderState, CameraRenderState cameraRenderState, double camX, double camY, double camZ, PoseStack poseStack, SubmitNodeCollector nodeCollector, Operation<Void> original) {
+    public void onSubmit(EntityRenderState renderState, CameraRenderState camera, double x, double y, double z,
+                         PoseStack poseStack, SubmitNodeCollector submitNodeCollector, Operation<Void> original) {
         // Store opacity to use later in layers, where render state is not available.
         TransparentMount.storedOpacity = renderState instanceof TransparentMount.RenderState state ? state.horseman$getOpacity() : 1f;
-        original.call(renderState, cameraRenderState, camX, camY, camZ, poseStack, nodeCollector);
+        original.call(renderState, camera, x, y, z, poseStack, submitNodeCollector);
         TransparentMount.storedOpacity = 1f;
     }
 }
