@@ -17,6 +17,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
@@ -29,6 +30,11 @@ import java.util.function.Consumer;
 public class CopperHornItem extends Item {
     public CopperHornItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public boolean isEnabled(@NonNull FeatureFlagSet enabledFeatures) {
+        return Config.Server.COPPER_HORN_ENABLED.get() && super.isEnabled(enabledFeatures);
     }
 
     @SuppressWarnings("deprecation")

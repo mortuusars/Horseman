@@ -18,6 +18,7 @@
   "gui.horseman.switch_inventory.button.to_mount.tooltip.mount": "Транспорт",
   "horseman.configuration.allow_taming_horse_with_item_in_hand": "Приборкання коня з предметом у руці",
   "horseman.configuration.angle_threshold": "Поріг кута",
+  "horseman.configuration.copper_horn_enabled": "Мідний ріг увімкнено",
   "horseman.configuration.copper_horn_cooldown": "Кулдаун Мідного рогу",
   "horseman.configuration.copper_horn_details_tooltip": "Інформація у підказці Мідного рогу",
   "horseman.configuration.copper_horn_error_messages": "Показувати помилки Мідного рогу",

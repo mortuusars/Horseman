@@ -18,6 +18,7 @@
   "gui.horseman.switch_inventory.button.to_mount.tooltip.mount": "Mount",
   "horseman.configuration.allow_taming_horse_with_item_in_hand": "Taming horse with item in hand",
   "horseman.configuration.angle_threshold": "Angle threshold",
+  "horseman.configuration.copper_horn_enabled": "Copper Horn Enabled",
   "horseman.configuration.copper_horn_cooldown": "Copper Horn Cooldown",
   "horseman.configuration.copper_horn_details_tooltip": "Copper Horn Details Tooltip",
   "horseman.configuration.copper_horn_error_messages": "Copper Horn Error Messages",
