@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.13
+- Updated localization files
+
 ## 1.5.12 - 2026-07-29
 - Only apply 'prevent jumping in water' fix to abstract horses.
   - Fixes not being able to jump in water when riding other mobs.
