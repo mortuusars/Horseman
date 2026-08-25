@@ -33,6 +33,7 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
         // Summoning
+        public static final ModConfigSpec.BooleanValue COPPER_HORN_ENABLED;
         public static final ModConfigSpec.IntValue COPPER_HORN_SOUND_RANGE;
         public static final ModConfigSpec.IntValue COPPER_HORN_COOLDOWN;
         public static final ModConfigSpec.IntValue HORSE_SUMMONING_MAX_DISTANCE;
@@ -134,6 +135,10 @@ public class Config {
 
             {
                 builder.push("summoning");
+
+                COPPER_HORN_ENABLED = builder
+                      .comment("Copper Horn item is enabled. If set to false, item will not be craftable and usable.", "Default: true")
+                      .define("copper_horn_enabled", true);
 
                 COPPER_HORN_SOUND_RANGE = builder
                         .comment("Range in blocks where Copper Horn tooting sound can be heard by other players. Goat Horn has range of 256.")

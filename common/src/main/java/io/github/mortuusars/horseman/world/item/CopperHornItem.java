@@ -25,6 +25,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -41,6 +42,11 @@ public class CopperHornItem extends InstrumentItem {
     public CopperHornItem(Properties properties, TagKey<Instrument> instruments) {
         super(properties, instruments);
         this.instruments = instruments;
+    }
+
+    @Override
+    public boolean isEnabled(FeatureFlagSet enabledFeatures) {
+        return Config.Server.COPPER_HORN_ENABLED.get() && super.isEnabled(enabledFeatures);
     }
 
     public static ItemStack create(Item item, Holder<Instrument> instrument) {
