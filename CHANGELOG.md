@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.5
+- Updated localization files
+
 ## 1.7.4 - 26.2 - 2026-07-29 
 - Ported to 26.2.
 - Fixed required minecraft versions not being defined correctly.
