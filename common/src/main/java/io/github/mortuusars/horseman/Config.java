@@ -31,7 +31,6 @@ public class Config {
         public static final ModConfigSpec.BooleanValue HORSE_HITCH_INVENTORY_SLOT;
 
         // Summoning
-        public static final ModConfigSpec.BooleanValue COPPER_HORN_ENABLED;
         public static final ModConfigSpec.IntValue COPPER_HORN_SOUND_RANGE;
         public static final ModConfigSpec.IntValue COPPER_HORN_COOLDOWN;
         public static final ModConfigSpec.BooleanValue COPPER_HORN_FAIL_SOUND;
@@ -126,10 +125,6 @@ public class Config {
 
             {
                 builder.push("summoning");
-
-                COPPER_HORN_ENABLED = builder
-                      .comment("Copper Horn item is enabled. If set to false, item will not be craftable and usable.", "Default: true")
-                      .define("copper_horn_enabled", true);
 
                 COPPER_HORN_SOUND_RANGE = builder
                       .comment("Range in blocks where Copper Horn tooting sound can be heard by other players. Goat Horn has range of 256.")
@@ -257,6 +252,7 @@ public class Config {
         public static final ModConfigSpec SPEC;
 
         public static final ModConfigSpec.BooleanValue HORSE_STATS_TOOLTIP;
+        public static final ModConfigSpec.BooleanValue COPPER_HORN_ENABLED;
 
         static {
             ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -264,6 +260,10 @@ public class Config {
             HORSE_STATS_TOOLTIP = builder
                   .comment("Tooltip with horse stats will be shown when looking at a horse when holding a food item that animal likes.")
                   .define("horse_stats_tooltip", true);
+
+            COPPER_HORN_ENABLED = builder
+                  .comment("Copper Horn item is enabled. If set to false, item will not be craftable and usable.", "Default: true")
+                  .define("copper_horn_enabled", true);
 
             SPEC = builder.build();
         }

@@ -34,7 +34,7 @@ public class CopperHornItem extends Item {
 
     @Override
     public boolean isEnabled(@NonNull FeatureFlagSet enabledFeatures) {
-        return Config.Server.COPPER_HORN_ENABLED.get() && super.isEnabled(enabledFeatures);
+        return Config.Common.COPPER_HORN_ENABLED.get() && super.isEnabled(enabledFeatures);
     }
 
     @SuppressWarnings("deprecation")
