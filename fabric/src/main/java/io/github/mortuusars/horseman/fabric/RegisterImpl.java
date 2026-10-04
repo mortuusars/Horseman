@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.fabric;
 
 import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.serialization.MapCodec;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.Register;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
@@ -27,7 +28,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -101,9 +101,9 @@ public class RegisterImpl {
         return () -> argumentTypeInfo;
     }
 
-    public static <T extends FeatureConfiguration> Supplier<Feature<?>> worldGenFeature(String name, Supplier<Feature<T>> featureSupplier) {
-        Feature<T> feature = Registry.register(BuiltInRegistries.FEATURE, name, featureSupplier.get());
-        return () -> feature;
+    public static <T extends Feature> Supplier<MapCodec<? extends Feature>> worldGenFeature(String name, Supplier<MapCodec<T>> featureSupplier) {
+        MapCodec<T> codec = Registry.register(BuiltInRegistries.FEATURE_TYPE, name, featureSupplier.get());
+        return () -> codec;
     }
 
     public static <T> DataComponentType<T> dataComponentType(String name, Consumer<DataComponentType.Builder<T>> builderConsumer) {

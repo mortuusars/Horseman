@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman.neoforge;
 
 import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.serialization.MapCodec;
 import io.github.mortuusars.horseman.Horseman;
 import io.github.mortuusars.horseman.Register;
 import net.minecraft.advancements.triggers.CriterionTrigger;
@@ -26,8 +27,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Consumer;
@@ -45,7 +46,7 @@ public class RegisterImpl {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, Horseman.ID);
     public static final DeferredRegister<CriterionTrigger<?>> CRITERION_TRIGGERS = DeferredRegister.create(Registries.TRIGGER_TYPE, Horseman.ID);
     public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, Horseman.ID);
-    public static final DeferredRegister<Feature<?>> WORLD_GEN_FEATURES = DeferredRegister.create(Registries.FEATURE, Horseman.ID);
+    public static final DeferredRegister<MapCodec<? extends Feature>> WORLD_GEN_FEATURES = DeferredRegister.create(Registries.FEATURE_TYPE, Horseman.ID);
     public static final DeferredRegister.DataComponents DATA_COMPONENT_TYPES = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Horseman.ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(Registries.PARTICLE_TYPE, Horseman.ID);
     public static final DeferredRegister<Identifier> CUSTOM_STATS = DeferredRegister.create(Registries.CUSTOM_STAT, Horseman.ID);
@@ -111,7 +112,7 @@ public class RegisterImpl {
                 () -> ArgumentTypeInfos.registerByClass(infoClass, argumentTypeInfo));
     }
 
-    public static <T extends FeatureConfiguration> Supplier<Feature<?>> worldGenFeature(String name, Supplier<Feature<T>> featureSupplier) {
+    public static <T extends Feature> DeferredHolder<MapCodec<? extends Feature>, MapCodec<T>> worldGenFeature(String name, Supplier<MapCodec<T>> featureSupplier) {
         return WORLD_GEN_FEATURES.register(name, featureSupplier);
     }
 
