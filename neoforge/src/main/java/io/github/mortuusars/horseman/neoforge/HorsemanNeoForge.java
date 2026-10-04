@@ -16,8 +16,8 @@ public class HorsemanNeoForge {
     public HorsemanNeoForge(ModContainer container) {
         Horseman.init();
 
-        container.registerConfig(ModConfig.Type.SERVER, Config.Server.SPEC);
-        container.registerConfig(ModConfig.Type.COMMON, Config.Common.SPEC);
+        container.registerConfig(ModConfig.Type.SYNCED, Config.Server.SPEC);
+        container.registerConfig(ModConfig.Type.LOCAL, Config.Common.SPEC);
         container.registerConfig(ModConfig.Type.CLIENT, Config.Client.SPEC);
 
         @Nullable IEventBus modEventBus = container.getEventBus();

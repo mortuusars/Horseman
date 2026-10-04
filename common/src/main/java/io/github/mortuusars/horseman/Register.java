@@ -1,6 +1,7 @@
 package io.github.mortuusars.horseman;
 
 import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.advancements.triggers.CriterionTrigger;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
@@ -23,7 +24,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -102,7 +102,7 @@ public class Register {
     }
 
     @ExpectPlatform
-    public static <T extends FeatureConfiguration> Supplier<Feature<?>> worldGenFeature(String name, Supplier<Feature<T>> featureSupplier) {
+    public static <T extends Feature> Supplier<MapCodec<? extends Feature>> worldGenFeature(String name, Supplier<MapCodec<T>> featureSupplier) {
         throw new AssertionError();
     }
 

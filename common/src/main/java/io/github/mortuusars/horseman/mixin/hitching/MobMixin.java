@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.LeadItem;
 import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -56,10 +57,9 @@ public abstract class MobMixin extends LivingEntity {
                 && HitchableHorse.isHitchable(horse) && !HitchableHorse.hasLead(horse)) {
             ItemStack leadStack = itemInHand.split(1);
             HitchableHorse.setLead(horse, leadStack);
-            player.swing(hand);
+            player.swing(hand, SwingAnimation.DEFAULT, false);
             cir.setReturnValue(InteractionResult.SUCCESS_SERVER);
             level().playSound(player, player, SoundEvents.LEAD_TIED, SoundSource.PLAYERS, 0.8f, 1f);
-            return;
         }
     }
 }
