@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.5 - 26.3 - 2026-10-05
+- Ported to 26.3. Thanks to _pajicadvance_.
+
 ## 1.7.5 - 2026-08-26
 - Added `summoning.copper_horn_enabled` server config option to allow disabling Copper Horns.
     - Uses vanilla feature disabling system (item becomes uncraftable, unusable and "Disabled Item" is shown in the tooltip)
