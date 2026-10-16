@@ -8,7 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.equine.Horse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 
 import java.text.DecimalFormat;
@@ -25,9 +26,9 @@ public class HorseStatsTooltip {
                 || minecraft.player.isSpectator()
                 || minecraft.gui.screen() != null
                 || !(minecraft.hitResult instanceof EntityHitResult entityHitResult)
-                || !(entityHitResult.getEntity() instanceof Horse horse)
-                || (!minecraft.player.getMainHandItem().is(ItemTags.HORSE_FOOD)
-                    && !minecraft.player.getOffhandItem().is(ItemTags.HORSE_FOOD))) {
+                || !(entityHitResult.getEntity() instanceof AbstractHorse horse)
+                || (!isStatsFood(minecraft.player.getMainHandItem())
+                    && !isStatsFood(minecraft.player.getOffhandItem()))) {
             return false;
         }
 
@@ -58,6 +59,10 @@ public class HorseStatsTooltip {
         guiGraphics.extractDeferredElements(0, 0, 0); // Renders the tooltip
 
         return true;
+    }
+
+    private static boolean isStatsFood(ItemStack stack) {
+        return stack.is(ItemTags.HORSE_FOOD) || stack.is(ItemTags.ZOMBIE_HORSE_FOOD);
     }
 
     private static double getJumpHeight(double jumpStrength) {
