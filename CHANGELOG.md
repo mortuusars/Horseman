@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.6 - 2026-11-22
+- Stats tooltip while holding food now shows for all horse-like mobs
+- Fixed stats not being correct 
+
 ## 1.7.5 - 2026-08-26
 - Added `summoning.copper_horn_enabled` server config option to allow disabling Copper Horns.
     - Uses vanilla feature disabling system (item becomes uncraftable, unusable and "Disabled Item" is shown in the tooltip)
