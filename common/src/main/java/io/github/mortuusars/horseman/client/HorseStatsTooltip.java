@@ -21,14 +21,14 @@ public class HorseStatsTooltip {
         if (!Config.Common.HORSE_STATS_TOOLTIP.get()) return false;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.gui.hud.isHidden()
-                || minecraft.level == null
-                || minecraft.player == null
-                || minecraft.player.isSpectator()
-                || minecraft.gui.screen() != null
-                || !(minecraft.hitResult instanceof EntityHitResult entityHitResult)
-                || !(entityHitResult.getEntity() instanceof AbstractHorse horse)
-                || (!isStatsFood(minecraft.player.getMainHandItem())
-                    && !isStatsFood(minecraft.player.getOffhandItem()))) {
+              || minecraft.level == null
+              || minecraft.player == null
+              || minecraft.player.isSpectator()
+              || minecraft.gui.screen() != null
+              || !(minecraft.hitResult instanceof EntityHitResult entityHitResult)
+              || !(entityHitResult.getEntity() instanceof AbstractHorse abstractHorse)
+              || (!abstractHorse.isFood(minecraft.player.getMainHandItem())
+                    && !abstractHorse.isFood(minecraft.player.getOffhandItem()))) {
             return false;
         }
 
@@ -39,21 +39,21 @@ public class HorseStatsTooltip {
         ArrayList<FormattedCharSequence> lines = new ArrayList<>();
         lines.add(Component.translatable("gui.horseman.horse_stats_tooltip.stats").getVisualOrderText());
 
-        float health = horse.getMaxHealth();
+        float health = abstractHorse.getMaxHealth();
         lines.add(Component.translatable("gui.horseman.horse_stats_tooltip.health", numberFormat.format(health)).getVisualOrderText());
 
-        if (horse.getAttributes().hasAttribute(Attributes.JUMP_STRENGTH)) {
-            double jumpHeight = getJumpHeight(horse.getAttributeBaseValue(Attributes.JUMP_STRENGTH));
+        if (abstractHorse.getAttributes().hasAttribute(Attributes.JUMP_STRENGTH)) {
+            double jumpHeight = getJumpHeight(abstractHorse.getAttributeBaseValue(Attributes.JUMP_STRENGTH));
             lines.add(Component.translatable("gui.horseman.horse_stats_tooltip.jump_height", numberFormat.format(jumpHeight)).getVisualOrderText());
         }
 
-        if (horse.getAttributes().hasAttribute(Attributes.MOVEMENT_SPEED)) {
-            double blocksPerSecond = horse.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) * 42.16;
+        if (abstractHorse.getAttributes().hasAttribute(Attributes.MOVEMENT_SPEED)) {
+            double blocksPerSecond = abstractHorse.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) * 42.16;
             lines.add(Component.translatable("gui.horseman.horse_stats_tooltip.speed", numberFormat.format(blocksPerSecond)).getVisualOrderText());
         }
 
         int x = minecraft.getWindow().getGuiScaledWidth() / 2 + 8;
-        int y = minecraft.getWindow().getGuiScaledHeight() / 2 - (int)(lines.size() / 2f * 9f);
+        int y = minecraft.getWindow().getGuiScaledHeight() / 2 - (int) (lines.size() / 2f * 9f);
 
         guiGraphics.setTooltipForNextFrame(minecraft.font, lines, x, y + 10);
         guiGraphics.extractDeferredElements(0, 0, 0); // Renders the tooltip
@@ -61,12 +61,8 @@ public class HorseStatsTooltip {
         return true;
     }
 
-    private static boolean isStatsFood(ItemStack stack) {
-        return stack.is(ItemTags.HORSE_FOOD) || stack.is(ItemTags.ZOMBIE_HORSE_FOOD);
-    }
-
     private static double getJumpHeight(double jumpStrength) {
         return -0.1817584952 * jumpStrength * jumpStrength * jumpStrength + 3.689713992 * jumpStrength * jumpStrength +
-                2.128599134 * jumpStrength - 0.343930367;
+              2.128599134 * jumpStrength - 0.343930367;
     }
 }
