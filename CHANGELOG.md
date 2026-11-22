@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.6 - 2026-11-22
+- Stats tooltip while holding food now shows for all horse-like mobs
+- Fixed stats not being correct
+
 ## 1.7.5 - 26.3 - 2026-10-05
 - Ported to 26.3. Thanks to _pajicadvance_.
 

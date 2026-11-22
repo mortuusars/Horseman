@@ -5,11 +5,9 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 
 import java.text.DecimalFormat;
@@ -48,7 +46,7 @@ public class HorseStatsTooltip {
         }
 
         if (abstractHorse.getAttributes().hasAttribute(Attributes.MOVEMENT_SPEED)) {
-            double blocksPerSecond = abstractHorse.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) * 42.16;
+            double blocksPerSecond = getSpeed(abstractHorse.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
             lines.add(Component.translatable("gui.horseman.horse_stats_tooltip.speed", numberFormat.format(blocksPerSecond)).getVisualOrderText());
         }
 
@@ -61,8 +59,25 @@ public class HorseStatsTooltip {
         return true;
     }
 
+    /**
+     * Simulates the jump basically, to give the most accurate result.
+     */
     private static double getJumpHeight(double jumpStrength) {
-        return -0.1817584952 * jumpStrength * jumpStrength * jumpStrength + 3.689713992 * jumpStrength * jumpStrength +
-              2.128599134 * jumpStrength - 0.343930367;
+        double velocity = jumpStrength;
+        double jumpHeight = 0.0;
+
+        while (velocity > 0.0) {
+            jumpHeight += velocity;
+            velocity = (velocity - 0.08) * 0.98;
+        }
+
+        return Math.max(0, jumpHeight);
+    }
+
+    /**
+     * Copied from Jade.
+     */
+    private static double getSpeed(double speed) {
+        return speed * 43.17181546666666 - 3.39999999E-7;
     }
 }
