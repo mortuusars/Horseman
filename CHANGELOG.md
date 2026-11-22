@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.7 - 2026-11-22
+- [Fabric] Fixed accesswidener not being applied causing crashes in some places 
+
 ## 1.7.6 - 2026-11-22
 - Stats tooltip while holding food now shows for all horse-like mobs
 - Fixed stats not being correct

@@ -25,9 +25,10 @@
       "io.github.mortuusars.horseman.integration.jei.HorsemanJeiPlugin"
     ]
   },
+  "accessWidener": "${mod_id}.accesswidener",
   "mixins": [
-    "horseman-common.mixins.json",
-    "horseman-fabric.mixins.json"
+    "${mod_id}-common.mixins.json",
+    "${mod_id}-fabric.mixins.json"
   ],
   "depends": {
     "minecraft": "${fabric_supported_minecraft_versions}",
